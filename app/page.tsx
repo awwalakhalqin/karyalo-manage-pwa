@@ -3,7 +3,6 @@ import { ShoppingBag } from "lucide-react";
 import { OrderPipelineProgress } from "@/components/dashboard/OrderPipelineProgress";
 import { ActionRequiredCard } from "@/components/dashboard/ActionRequiredCard";
 import { QuickActions } from "@/components/dashboard/QuickActions";
-import { ActiveRoleBanner } from "@/components/dashboard/ActiveRoleBanner";
 import { FeatureModulesGrid } from "@/components/dashboard/FeatureModulesGrid";
 import { SalesSummarySection } from "@/components/dashboard/SalesSummarySection";
 
@@ -31,9 +30,6 @@ export default function DashboardPage() {
           </span>
         </div>
       </header>
-
-      {/* Role Context & Permission Indicator */}
-      <ActiveRoleBanner />
 
       {/* 1. Ringkasan Metrik Penjualan Aktif & Sinkronisasi Order */}
       <SalesSummarySection />
