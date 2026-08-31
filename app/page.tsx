@@ -20,6 +20,7 @@ import { MetricCard } from "@/components/dashboard/MetricCard";
 import { OrderPipelineProgress } from "@/components/dashboard/OrderPipelineProgress";
 import { ActionRequiredCard } from "@/components/dashboard/ActionRequiredCard";
 import { QuickActions } from "@/components/dashboard/QuickActions";
+import { ActiveRoleBanner } from "@/components/dashboard/ActiveRoleBanner";
 
 export default function DashboardPage() {
   const FEATURE_MODULES = [
@@ -152,6 +153,9 @@ export default function DashboardPage() {
           </span>
         </div>
       </header>
+
+      {/* Role Context & Permission Indicator */}
+      <ActiveRoleBanner />
 
       {/* 1. Ringkasan Metrik Utama */}
       <section aria-labelledby="heading-sales-summary" className="flex flex-col gap-3 min-w-0">
