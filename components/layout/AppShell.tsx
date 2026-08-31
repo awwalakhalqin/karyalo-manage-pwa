@@ -77,7 +77,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <DesktopSideNavigation />
         <main
           id="main-content"
-          className="min-h-[calc(100vh-3.5rem)] w-full min-w-0 max-w-full flex-1 overflow-x-hidden pb-20 md:pb-0"
+          className="pwa-main-content min-h-[calc(100vh-3.5rem)] w-full min-w-0 max-w-full flex-1 overflow-x-hidden pb-20 xl:pb-0"
         >
           {isDenied ? (
             <div className="mx-auto flex max-w-lg flex-col items-center justify-center gap-4 px-4 py-20 text-center">

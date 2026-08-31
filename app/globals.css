@@ -87,3 +87,21 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+/* PWA Standalone Mode & Tablet/iPad Rules:
+   Sembunyikan sidebar desktop ketika aplikasi berjalan dalam mode PWA Standalone,
+   dan pastikan bottom nav serta drawer mobile yang aktif. */
+@media all and (display-mode: standalone) {
+  .desktop-sidebar {
+    display: none !important;
+  }
+  .mobile-bottom-nav {
+    display: flex !important;
+  }
+  .mobile-drawer-btn {
+    display: flex !important;
+  }
+  .pwa-main-content {
+    padding-bottom: 5rem !important;
+  }
+}

@@ -23,13 +23,13 @@ export function MobileDrawerMenu() {
         type="button"
         onClick={() => setIsOpen(true)}
         aria-label="Buka Semua Menu"
-        className="tap-target flex size-9 items-center justify-center rounded-xl border border-border bg-soft-sand text-ink hover:bg-soft-sage hover:text-karyalo-green md:hidden"
+        className="mobile-drawer-btn tap-target flex size-9 items-center justify-center rounded-xl border border-border bg-soft-sand text-ink hover:bg-soft-sage hover:text-karyalo-green xl:hidden"
       >
         <Menu size={18} aria-hidden="true" />
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex md:hidden">
+        <div className="fixed inset-0 z-50 flex xl:hidden">
           {/* Backdrop */}
           <div
             onClick={() => setIsOpen(false)}

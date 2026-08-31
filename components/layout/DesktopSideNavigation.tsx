@@ -27,7 +27,7 @@ export function DesktopSideNavigation() {
   return (
     <aside
       aria-label="Navigasi Utama Admin"
-      className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-60 shrink-0 flex-col justify-between overflow-y-auto border-r border-border bg-warm-white p-3.5 md:flex"
+      className="desktop-sidebar sticky top-14 hidden h-[calc(100vh-3.5rem)] w-60 shrink-0 flex-col justify-between overflow-y-auto border-r border-border bg-warm-white p-3.5 xl:flex"
     >
       <div className="flex flex-col gap-5">
         {/* Kelompok Modul Utama */}
