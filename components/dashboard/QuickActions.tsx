@@ -3,8 +3,7 @@ import { PackagePlus, Megaphone, LayoutTemplate, ShoppingBag, ImagePlus, ArrowUp
 import { PermissionGate } from "@/components/system/PermissionGate";
 
 /**
- * PRD §10.3 Quick Actions — Pintasan cepat aksi operasional harian.
- * Hardened dengan dukungan tap-target yang stabil, accessible labels, dan text truncation safety.
+ * PRD §10.3 Quick Actions — Pintasan Cepat Aksi Harian.
  */
 const ACTIONS = [
   {
@@ -51,7 +50,7 @@ export function QuickActions() {
         <PermissionGate key={action.href} capability={action.capability}>
           <Link
             href={action.href}
-            className="group tap-target flex min-w-0 flex-col justify-between rounded-(--radius-card) border border-border bg-warm-white p-4 transition-all duration-150 motion-reduce:transition-none hover:border-karyalo-green/40 hover:bg-soft-sage/20 hover:shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-karyalo-green focus-visible:ring-offset-2"
+            className="group tap-target flex min-w-0 flex-col justify-between rounded-2xl border border-border bg-warm-white p-4 shadow-xs transition-all duration-150 motion-reduce:transition-none hover:border-karyalo-green/40 hover:bg-soft-sage/20 hover:shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-karyalo-green focus-visible:ring-offset-2 active:scale-[0.98]"
             aria-label={`Pintasan Cepat: ${action.label} — ${action.description}`}
           >
             <div className="flex items-center justify-between">
@@ -68,7 +67,7 @@ export function QuickActions() {
               />
             </div>
             <div className="mt-3 min-w-0 text-left">
-              <span className="block truncate text-xs font-semibold text-ink transition-colors group-hover:text-karyalo-green">
+              <span className="block truncate text-xs font-bold text-ink transition-colors group-hover:text-karyalo-green">
                 {action.label}
               </span>
               <span className="mt-0.5 block truncate text-[11px] text-muted">

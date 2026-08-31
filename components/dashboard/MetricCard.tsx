@@ -15,12 +15,8 @@ export interface MetricCardProps {
 }
 
 /**
- * MetricCard — Hardened & Accessible.
- * Menampilkan ringkasan metrik secara jelas dan tangguh terhadap berbagai kondisi data:
- * - Format angka numerik otomatis (Intl.NumberFormat id-ID).
- * - Penanganan nilai kosong/belum aktif, loading skeleton, dan error state.
- * - Ketahanan layout (min-w-0, text overflow protection).
- * - Aksesibilitas WCAG AA (label navigasi keyboard, high contrast, focus-visible).
+ * MetricCard — Impeccably Polished & Distilled.
+ * Desain kartu metrik elegan, lega, dan bebas kepadatan visual.
  */
 export function MetricCard({
   label,
@@ -44,39 +40,39 @@ export function MetricCard({
 
   const Content = (
     <div
-      className={`group relative flex min-w-0 flex-col justify-between rounded-(--radius-card) border border-border bg-warm-white transition-all duration-150 motion-reduce:transition-none ${
+      className={`group relative flex min-w-0 flex-col justify-between rounded-2xl border transition-all duration-150 motion-reduce:transition-none ${
         href
-          ? "cursor-pointer hover:border-karyalo-green/40 hover:shadow-xs focus-within:ring-2 focus-within:ring-karyalo-green focus-within:ring-offset-2"
+          ? "cursor-pointer hover:border-karyalo-green/40 hover:shadow-xs focus-within:ring-2 focus-within:ring-karyalo-green focus-within:ring-offset-2 active:scale-[0.99]"
           : ""
       } ${
         variant === "primary"
-          ? "border-border/80 bg-gradient-to-b from-warm-white to-soft-sage/30 p-4 sm:p-5"
+          ? "border-border/80 bg-gradient-to-b from-warm-white to-soft-sage/30 p-4 sm:p-5 shadow-xs"
           : variant === "warning"
-          ? "p-4 hover:border-status-warning/40"
+          ? "border-border bg-warm-white p-4 sm:p-5 hover:border-status-warning/40 shadow-xs"
           : variant === "compact"
-          ? "p-3.5"
-          : "p-4"
+          ? "border-border bg-warm-white p-3.5"
+          : "border-border bg-warm-white p-4 sm:p-5 shadow-xs"
       }`}
     >
       <div className="flex items-start justify-between gap-2">
-        <span className="min-w-0 truncate text-xs font-medium text-muted" title={label}>
+        <span className="min-w-0 truncate text-xs font-semibold text-muted" title={label}>
           {label}
         </span>
         {Icon && (
           <div
-            className={`flex size-7 shrink-0 items-center justify-center rounded-lg transition-colors ${
+            className={`flex size-8 shrink-0 items-center justify-center rounded-xl transition-colors ${
               variant === "warning"
-                ? "bg-terracotta-soft/50 text-status-warning group-hover:bg-terracotta-soft"
+                ? "bg-terracotta-soft/60 text-status-warning group-hover:bg-terracotta-soft"
                 : "bg-soft-sand text-muted group-hover:bg-soft-sage group-hover:text-karyalo-green"
             }`}
             aria-hidden="true"
           >
-            <Icon size={15} />
+            <Icon size={16} />
           </div>
         )}
       </div>
 
-      <div className="mt-2.5 flex items-baseline justify-between gap-2">
+      <div className="mt-3 flex items-baseline justify-between gap-2">
         <div className="flex min-w-0 items-baseline gap-1.5 overflow-hidden">
           {isLoading ? (
             <div className="flex items-center gap-1.5 text-muted">
@@ -93,15 +89,15 @@ export function MetricCard({
           ) : (
             <>
               <span
-                className={`truncate font-semibold tracking-tight text-ink ${
-                  variant === "primary" ? "text-2xl" : "text-xl"
+                className={`truncate font-bold tracking-tight text-ink ${
+                  variant === "primary" ? "text-2xl sm:text-3xl" : "text-xl sm:text-2xl"
                 } ${!isAvailable ? "text-ink/40" : ""}`}
                 title={String(formattedValue)}
               >
                 {formattedValue}
               </span>
               {!isAvailable && (
-                <span className="shrink-0 text-[11px] font-normal text-muted/70">
+                <span className="shrink-0 text-xs font-normal text-muted/70">
                   (belum aktif)
                 </span>
               )}
@@ -110,14 +106,14 @@ export function MetricCard({
         </div>
 
         {statusBadge && !isLoading && !isError && (
-          <span className="shrink-0 rounded-md bg-soft-sand px-1.5 py-0.5 text-[10px] font-medium text-muted">
+          <span className="shrink-0 rounded-md bg-soft-sand px-2 py-0.5 text-[10px] font-semibold text-muted">
             {statusBadge}
           </span>
         )}
       </div>
 
       {hint && (
-        <p className="mt-1.5 line-clamp-2 text-[11px] leading-tight text-muted/80" title={hint}>
+        <p className="mt-1.5 text-xs text-muted leading-tight truncate" title={hint}>
           {hint}
         </p>
       )}
@@ -128,7 +124,7 @@ export function MetricCard({
     return (
       <Link
         href={href}
-        className="tap-target block rounded-(--radius-card) focus:outline-none focus-visible:ring-2 focus-visible:ring-karyalo-green focus-visible:ring-offset-2"
+        className="tap-target block rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-karyalo-green focus-visible:ring-offset-2"
         aria-label={`Buka detail ${label}`}
       >
         {Content}
