@@ -126,6 +126,7 @@ export const MENU_NAV: NavItem[] = [
     icon: Settings,
     phaseLabel: "Fase 6-7 — Team, Settings & Hardening",
     children: [
+      { href: "/settings/profile", label: "Profil Akun", phaseLabel: "Fase 6-7 — Team, Settings & Hardening" },
       { href: "/settings/store", label: "Toko", phaseLabel: "Fase 6-7 — Team, Settings & Hardening" },
       { href: "/settings/shipping", label: "Pengiriman", phaseLabel: "Fase 6-7 — Team, Settings & Hardening" },
       { href: "/settings/payments", label: "Pembayaran", phaseLabel: "Fase 6-7 — Team, Settings & Hardening", capability: "teamRoleManage" },

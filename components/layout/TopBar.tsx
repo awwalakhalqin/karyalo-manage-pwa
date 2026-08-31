@@ -44,8 +44,9 @@ export function TopBar() {
         <NotificationBell />
 
         <Link
-          href="/settings/team"
-          aria-label="Akun Staf"
+          href="/settings/profile"
+          aria-label="Profil Pengguna & Akun"
+          title="Profil Pengguna"
           className="tap-target flex items-center gap-1.5 rounded-full p-1 text-ink hover:bg-soft-sand focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-karyalo-green"
         >
           <span className="flex size-7 items-center justify-center rounded-full bg-soft-sage text-deep-pine">
