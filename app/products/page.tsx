@@ -5,24 +5,24 @@ import { SampleDataBanner } from "@/components/system/SampleDataBanner";
 import { PermissionGate } from "@/components/system/PermissionGate";
 import { Plus } from "lucide-react";
 
-/** PRD §12.1 Product List — Responsif Mobile & Desktop. */
+/** PRD §12.1 Product List — Polished, Pixel-Perfect & Mobile First. */
 export default async function ProductsPage() {
   const products = await getAllProducts();
 
   return (
     <div className="mx-auto max-w-(--container-wide) px-3.5 py-5 sm:px-6 sm:py-8">
-      {/* Header Halaman */}
+      {/* Header Halaman dengan alignment presisi */}
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
-          <h1 className="text-lg font-bold text-ink sm:text-2xl">Katalog Produk</h1>
-          <p className="text-xs text-muted sm:text-sm">{products.length} produk terdaftar</p>
+          <h1 className="text-xl font-bold tracking-tight text-ink sm:text-2xl">Katalog Produk</h1>
+          <p className="mt-0.5 text-xs text-muted sm:text-sm">{products.length} produk terdaftar</p>
         </div>
         <PermissionGate capability="catalogWrite">
           <Link
             href="/products/new"
-            className="tap-target inline-flex items-center gap-1.5 rounded-xl bg-karyalo-green px-3.5 py-2 text-xs font-semibold text-warm-white shadow-xs hover:opacity-90 active:scale-95"
+            className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl bg-karyalo-green px-3.5 text-xs font-semibold text-warm-white shadow-xs transition-all hover:bg-deep-pine active:scale-95 sm:px-4"
           >
-            <Plus size={16} aria-hidden="true" />
+            <Plus size={15} className="stroke-[2.5]" aria-hidden="true" />
             <span>Tambah Produk</span>
           </Link>
         </PermissionGate>
@@ -30,29 +30,29 @@ export default async function ProductsPage() {
 
       <SampleDataBanner />
 
-      {/* Filter Tabs Scrollable */}
-      <div className="mb-4 flex items-center gap-1.5 overflow-x-auto pb-1 sm:flex-wrap sm:gap-2 sm:pb-0">
+      {/* Filter Tabs Scrollable dengan tinggi seragam h-8 */}
+      <div className="mb-4 flex items-center gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:pb-0">
         <Link
           href="/products"
-          className="tap-target shrink-0 rounded-full bg-deep-pine px-3.5 py-1.5 text-xs font-medium text-warm-white shadow-xs"
+          className="inline-flex h-8 shrink-0 items-center justify-center rounded-full bg-deep-pine px-4 text-xs font-semibold text-warm-white shadow-xs"
         >
           Semua Produk
         </Link>
         <Link
           href="/products/categories"
-          className="tap-target shrink-0 rounded-full bg-soft-sand px-3.5 py-1.5 text-xs font-medium text-ink hover:bg-soft-sage"
+          className="inline-flex h-8 shrink-0 items-center justify-center rounded-full border border-border bg-warm-white px-4 text-xs font-medium text-ink transition-colors hover:border-karyalo-green hover:bg-soft-sand"
         >
           Kategori
         </Link>
         <Link
           href="/products/collections"
-          className="tap-target shrink-0 rounded-full bg-soft-sand px-3.5 py-1.5 text-xs font-medium text-ink hover:bg-soft-sage"
+          className="inline-flex h-8 shrink-0 items-center justify-center rounded-full border border-border bg-warm-white px-4 text-xs font-medium text-ink transition-colors hover:border-karyalo-green hover:bg-soft-sand"
         >
           Koleksi
         </Link>
         <Link
           href="/products/inventory"
-          className="tap-target shrink-0 rounded-full bg-soft-sand px-3.5 py-1.5 text-xs font-medium text-ink hover:bg-soft-sage"
+          className="inline-flex h-8 shrink-0 items-center justify-center rounded-full border border-border bg-warm-white px-4 text-xs font-medium text-ink transition-colors hover:border-karyalo-green hover:bg-soft-sand"
         >
           Ringkasan Inventori
         </Link>

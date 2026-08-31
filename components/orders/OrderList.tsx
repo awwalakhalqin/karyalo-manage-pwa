@@ -11,7 +11,7 @@ import { ChevronRight, Truck, User, Calendar } from "lucide-react";
 export function OrderList({ orders }: { orders: AdminOrder[] }) {
   if (orders.length === 0) {
     return (
-      <div className="rounded-(--radius-card) border border-dashed border-border bg-soft-sand p-8 text-center text-sm text-muted">
+      <div className="rounded-2xl border border-dashed border-border bg-soft-sand p-8 text-center text-sm text-muted">
         Tidak ada order pada tampilan ini.
       </div>
     );
@@ -25,13 +25,15 @@ export function OrderList({ orders }: { orders: AdminOrder[] }) {
           <Link
             key={order.id}
             href={`/orders/${order.id}`}
-            className="flex flex-col gap-3 rounded-2xl border border-border bg-warm-white p-4 shadow-xs transition-all active:bg-soft-sand"
+            className="group flex flex-col gap-3 rounded-2xl border border-border bg-warm-white p-4 shadow-xs transition-all hover:border-karyalo-green/40 active:scale-[0.99]"
           >
             {/* Row 1: Order ID + Channel Badge & Status Badge */}
             <div className="flex items-start justify-between gap-2">
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-1.5">
-                  <span className="font-bold text-sm text-ink">{order.orderNumber}</span>
+                  <span className="font-bold text-sm text-ink transition-colors group-hover:text-karyalo-green">
+                    {order.orderNumber}
+                  </span>
                   <ChannelBadge channel={order.channel} />
                 </div>
                 {order.channelOrderNumber && (
@@ -78,12 +80,14 @@ export function OrderList({ orders }: { orders: AdminOrder[] }) {
               <div className="flex items-center gap-1 text-xs text-muted">
                 <span>{order.items.length} produk</span>
               </div>
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-2">
                 <span className="text-xs text-muted">Total:</span>
                 <span className="text-base font-bold text-karyalo-green">
                   {formatRupiah(order.total)}
                 </span>
-                <ChevronRight size={16} className="text-muted/60" aria-hidden="true" />
+                <div className="flex size-6 items-center justify-center rounded-full bg-soft-sand text-muted transition-colors group-hover:bg-soft-sage group-hover:text-karyalo-green">
+                  <ChevronRight size={14} aria-hidden="true" />
+                </div>
               </div>
             </div>
           </Link>
@@ -91,16 +95,16 @@ export function OrderList({ orders }: { orders: AdminOrder[] }) {
       </div>
 
       {/* Desktop Table View (hidden md:block) */}
-      <div className="hidden overflow-hidden rounded-(--radius-card) border border-border bg-warm-white shadow-xs md:block">
+      <div className="hidden overflow-hidden rounded-2xl border border-border bg-warm-white shadow-xs md:block">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead className="border-b border-border bg-soft-sand text-xs font-medium text-muted">
               <tr>
-                <th className="px-4 py-3">Order & Channel</th>
-                <th className="px-4 py-3">Pelanggan & Lokasi</th>
-                <th className="px-4 py-3">Status</th>
-                <th className="px-4 py-3">Kurir / Resi</th>
-                <th className="px-4 py-3 text-right">Total</th>
+                <th className="px-4 py-3.5">Order & Channel</th>
+                <th className="px-4 py-3.5">Pelanggan & Lokasi</th>
+                <th className="px-4 py-3.5">Status</th>
+                <th className="px-4 py-3.5">Kurir / Resi</th>
+                <th className="px-4 py-3.5 text-right">Total</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">

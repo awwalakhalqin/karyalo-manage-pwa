@@ -15,17 +15,17 @@ const TABS = [
 export function OrderFilterTabs() {
   const pathname = usePathname();
   return (
-    <div className="mb-4 flex items-center gap-1.5 overflow-x-auto pb-1 sm:flex-wrap sm:gap-2 sm:pb-0">
+    <div className="mb-4 flex items-center gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:pb-0">
       {TABS.map((tab) => {
         const isActive = pathname === tab.href;
         return (
           <Link
             key={tab.href}
             href={tab.href}
-            className={`tap-target shrink-0 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+            className={`inline-flex h-8 shrink-0 items-center justify-center rounded-full px-4 text-xs font-semibold transition-all ${
               isActive
                 ? "bg-deep-pine text-warm-white shadow-xs"
-                : "bg-soft-sand text-ink hover:bg-soft-sage"
+                : "border border-border bg-warm-white text-ink hover:border-karyalo-green hover:bg-soft-sand"
             }`}
           >
             {tab.label}
