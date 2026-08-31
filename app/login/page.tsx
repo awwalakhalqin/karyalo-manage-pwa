@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ShoppingBag, ArrowRight, Lock, Mail, AlertCircle, Eye, EyeOff } from "lucide-react";
+import { ArrowRight, Lock, Mail, AlertCircle, Eye, EyeOff } from "lucide-react";
 import { useSession, BaselineRole } from "@/lib/auth/session-context";
 
 /**
@@ -49,8 +49,8 @@ const VALID_ACCOUNTS: {
 export default function LoginPage() {
   const router = useRouter();
   const { login } = useSession();
-  const [email, setEmail] = useState("shopee.reviewer@karyalo.com");
-  const [password, setPassword] = useState("ShopeeKaryalo2026!");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -73,9 +73,7 @@ export default function LoginPage() {
     if (!matchedAccount) {
       setTimeout(() => {
         setIsLoading(false);
-        setErrorMessage(
-          "Email / username atau kata sandi salah. Silakan periksa kembali atau gunakan akun uji coba Shopee Partner yang tertera pada banner di atas."
-        );
+        setErrorMessage("Email / username atau kata sandi yang Anda masukkan salah. Silakan periksa kembali.");
       }, 350);
       return;
     }
@@ -122,21 +120,6 @@ export default function LoginPage() {
         </p>
       </div>
 
-      {/* Shopee Reviewer Test Account Banner */}
-      <div className="w-full rounded-2xl border border-[#ee4d2d]/30 bg-[#ee4d2d]/10 p-4 text-xs text-[#ee4d2d] shadow-2xs">
-        <div className="flex items-center gap-2 font-bold">
-          <ShoppingBag size={16} aria-hidden="true" />
-          <span>Shopee Open Platform Test Account</span>
-        </div>
-        <p className="mt-1 text-xs text-[#ee4d2d]/80 leading-relaxed">
-          Akun uji coba untuk tim audit Shopee Partner. Kredensial telah terisi otomatis di bawah.
-        </p>
-        <div className="mt-2.5 rounded-xl bg-warm-white/90 p-2.5 font-mono text-xs text-ink border border-[#ee4d2d]/20 space-y-1">
-          <div>Username: <strong>shopee.reviewer@karyalo.com</strong></div>
-          <div>Password: <strong>ShopeeKaryalo2026!</strong></div>
-        </div>
-      </div>
-
       {/* Error Alert Banner */}
       {errorMessage && (
         <div
@@ -169,7 +152,7 @@ export default function LoginPage() {
                 setEmail(e.target.value);
                 if (errorMessage) setErrorMessage(null);
               }}
-              placeholder="shopee.reviewer@karyalo.com"
+              placeholder="nama@toko.com atau username"
               className={`w-full rounded-xl border bg-warm-white py-2.5 pl-9 pr-3 text-xs text-ink placeholder:text-muted transition-colors focus:outline-hidden focus-visible:ring-1 ${
                 errorMessage
                   ? "border-status-critical focus:border-status-critical focus-visible:ring-status-critical"
