@@ -769,7 +769,7 @@ const CONVEX_URL = process.env.NEXT_PUBLIC_CONVEX_URL;
 function mapConvexProduct(doc: Doc<"products">): AdminProduct {
   const match = PRODUCTS.find((p) => p.slug === doc.slug);
   return {
-    id: doc._id,
+    id: match?.id ?? doc._id,
     slug: doc.slug,
     sku: doc.sku,
     name: doc.name,
@@ -829,9 +829,9 @@ export async function getProductById(id: string): Promise<AdminProduct | null> {
   return safeConvex(
     async () => {
       const all = await getAllProducts();
-      return all.find((p) => p.id === id || p.slug === id) ?? null;
+      return all.find((p) => p.id === id || p.slug === id || p.sku.toLowerCase() === id.toLowerCase()) ?? null;
     },
-    PRODUCTS.find((p) => p.id === id || p.slug === id) ?? null,
+    PRODUCTS.find((p) => p.id === id || p.slug === id || p.sku.toLowerCase() === id.toLowerCase()) ?? null,
     "products.getById"
   );
 }
