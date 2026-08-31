@@ -1,15 +1,11 @@
 import Link from "next/link";
-import {
-  TrendingUp,
-  ShoppingBag,
-  AlertTriangle,
-} from "lucide-react";
-import { MetricCard } from "@/components/dashboard/MetricCard";
+import { ShoppingBag } from "lucide-react";
 import { OrderPipelineProgress } from "@/components/dashboard/OrderPipelineProgress";
 import { ActionRequiredCard } from "@/components/dashboard/ActionRequiredCard";
 import { QuickActions } from "@/components/dashboard/QuickActions";
 import { ActiveRoleBanner } from "@/components/dashboard/ActiveRoleBanner";
 import { FeatureModulesGrid } from "@/components/dashboard/FeatureModulesGrid";
+import { SalesSummarySection } from "@/components/dashboard/SalesSummarySection";
 
 export default function DashboardPage() {
   return (
@@ -39,37 +35,8 @@ export default function DashboardPage() {
       {/* Role Context & Permission Indicator */}
       <ActiveRoleBanner />
 
-      {/* 1. Ringkasan Metrik Utama */}
-      <section aria-labelledby="heading-sales-summary" className="flex flex-col gap-3 min-w-0">
-        <div className="flex items-center justify-between">
-          <h2 id="heading-sales-summary" className="text-xs font-semibold uppercase tracking-wider text-muted">
-            Ikhtisar Penjualan Hari Ini
-          </h2>
-          <span className="text-xs text-muted/70">Sinkronisasi Realtime</span>
-        </div>
-        <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-3 min-w-0">
-          <MetricCard
-            label="Total Penjualan Kotor"
-            hint="Omzet kotor Web Store & Shopee hari ini"
-            icon={TrendingUp}
-            variant="primary"
-          />
-          <MetricCard
-            label="Total Pesanan Masuk"
-            hint="Termasuk pesanan Shopee & Storefront"
-            icon={ShoppingBag}
-            variant="primary"
-            href="/orders"
-          />
-          <MetricCard
-            label="Peringatan Inventori"
-            hint="SKU dengan stok menipis di gudang"
-            icon={AlertTriangle}
-            variant="warning"
-            href="/products/inventory"
-          />
-        </div>
-      </section>
+      {/* 1. Ringkasan Metrik Penjualan Aktif & Sinkronisasi Order */}
+      <SalesSummarySection />
 
       {/* 2. Visual Pipeline Pemrosesan Pesanan Multi-Channel */}
       <section aria-labelledby="heading-order-pipeline" className="min-w-0">
