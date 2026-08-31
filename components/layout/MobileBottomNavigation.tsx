@@ -4,23 +4,26 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu as MenuIcon } from "lucide-react";
 import { PRIMARY_NAV } from "@/lib/config/navigation";
+import { useSession } from "@/lib/auth/session-context";
 
 /**
- * PRD §8.2 Mobile Navigation — 5 item P0: Home, Orders, Products,
- * Storefront, Menu. `Menu` di sini navigasi ke /menu (sheet sederhana
- * berisi Marketing/Customers/Analytics/Notifications/Settings), bukan
- * modal — supaya deep-link-able dan konsisten dengan pola routing lain.
+ * Mobile Bottom Navigation — Mengikuti Role & Capability Pengguna.
  */
 export function MobileBottomNavigation() {
   const pathname = usePathname();
+  const { capabilities } = useSession();
+
+  const visiblePrimaryNav = PRIMARY_NAV.filter(
+    (item) => !item.capability || (capabilities && capabilities[item.capability])
+  );
 
   return (
     <nav
       aria-label="Navigasi bawah"
       className="fixed inset-x-0 bottom-0 z-40 flex border-t border-border bg-warm-white pb-[env(safe-area-inset-bottom)] md:hidden"
     >
-      {PRIMARY_NAV.map((item) => {
-        const active = pathname === item.href || pathname.startsWith(item.href + "/");
+      {visiblePrimaryNav.map((item) => {
+        const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
         return (
           <Link
             key={item.href}

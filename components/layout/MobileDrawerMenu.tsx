@@ -3,14 +3,19 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ChevronRight, ShoppingBag, Layers, Settings, Globe, Shield } from "lucide-react";
+import { Menu, X, ChevronRight, ShoppingBag } from "lucide-react";
 import { ALL_NAV } from "@/lib/config/navigation";
 import { useSession } from "@/lib/auth/session-context";
 
 export function MobileDrawerMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-  const { role, storeName } = useSession();
+  const { role, storeName, capabilities } = useSession();
+
+  // Filter menu items berdasarkan permission role aktif
+  const visibleNav = ALL_NAV.filter(
+    (item) => !item.capability || (capabilities && capabilities[item.capability])
+  );
 
   return (
     <>
@@ -38,7 +43,7 @@ export function MobileDrawerMenu() {
             <div className="flex h-14 items-center justify-between border-b border-border bg-soft-sand px-4">
               <div className="flex flex-col">
                 <span className="font-bold text-xs text-ink">{storeName}</span>
-                <span className="text-xs text-karyalo-green font-medium">Role: {role}</span>
+                <span className="text-xs text-karyalo-green font-semibold">Role: {role}</span>
               </div>
               <button
                 type="button"
@@ -52,12 +57,15 @@ export function MobileDrawerMenu() {
             {/* Nav Items List */}
             <div className="flex-1 overflow-y-auto px-3 py-4">
               <span className="mb-2 block px-2 text-xs font-bold uppercase tracking-wider text-muted">
-                Semua Menu & Modul Fitur
+                Menu & Modul Fitur ({visibleNav.length} Modul)
               </span>
 
               <div className="flex flex-col gap-1">
-                {ALL_NAV.map((item) => {
+                {visibleNav.map((item) => {
                   const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+                  const visibleChildren = item.children?.filter(
+                    (child) => !child.capability || (capabilities && capabilities[child.capability])
+                  );
 
                   return (
                     <div key={item.href} className="flex flex-col">
@@ -74,15 +82,15 @@ export function MobileDrawerMenu() {
                           <item.icon size={16} aria-hidden="true" />
                           <span>{item.label}</span>
                         </div>
-                        {item.children && item.children.length > 0 && (
+                        {visibleChildren && visibleChildren.length > 0 && (
                           <ChevronRight size={13} className="opacity-70" aria-hidden="true" />
                         )}
                       </Link>
 
-                      {/* Submenu items if active or parent */}
-                      {item.children && item.children.length > 0 && (
+                      {/* Submenu items */}
+                      {visibleChildren && visibleChildren.length > 0 && (
                         <div className="my-1 ml-6 flex flex-col gap-0.5 border-l border-border/80 pl-3">
-                          {item.children.map((child) => (
+                          {visibleChildren.map((child) => (
                             <Link
                               key={child.href}
                               href={child.href}
@@ -105,16 +113,18 @@ export function MobileDrawerMenu() {
             </div>
 
             {/* Drawer Footer */}
-            <div className="border-t border-border bg-soft-sand p-3 text-center">
-              <Link
-                href="/settings/integrations/shopee"
-                onClick={() => setIsOpen(false)}
-                className="tap-target inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-[#ee4d2d]/30 bg-[#ee4d2d]/10 px-3 py-2 text-xs font-semibold text-[#ee4d2d]"
-              >
-                <ShoppingBag size={14} aria-hidden="true" />
-                <span>Shopee Open Platform Hub</span>
-              </Link>
-            </div>
+            {role === "Owner" && (
+              <div className="border-t border-border bg-soft-sand p-3 text-center">
+                <Link
+                  href="/settings/integrations/shopee"
+                  onClick={() => setIsOpen(false)}
+                  className="tap-target inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-[#ee4d2d]/30 bg-[#ee4d2d]/10 px-3 py-2 text-xs font-semibold text-[#ee4d2d]"
+                >
+                  <ShoppingBag size={14} aria-hidden="true" />
+                  <span>Shopee Open Platform Hub</span>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       )}

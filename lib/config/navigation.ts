@@ -13,17 +13,15 @@ import {
 import type { CapabilitySet } from "@/lib/auth/session-context";
 
 /**
- * Struktur navigasi — PRD §8.1 Global IA (kelompok/label) dipadukan
- * dengan §38 Suggested Routes (path). Bottom navigation mobile P0 (§8.2):
- * Home, Orders, Products, Storefront, Menu — 5 item eksplisit disebut
- * PRD; sisanya (Marketing, Customers, Analytics, Notifications, Settings)
- * masuk "Menu" (sheet/menu halaman terpisah, bukan literal 6+ ikon di
- * bottom nav yang akan melanggar §31 mobile-first/one-hand principle).
- *
- * `phaseLabel` dipakai RouteStub untuk menjelaskan rute ini masuk fase
- * Codex Implementation Phases yang mana (§36) — supaya jelas ini bukan
- * fitur hilang tanpa alasan, tapi memang belum masuk scope Fase 1.
+ * Struktur Navigasi Operasional Toko — Berbasis Role & Capability UMKM.
  */
+
+export interface NavChild {
+  href: string;
+  label: string;
+  phaseLabel: string;
+  capability?: keyof CapabilitySet;
+}
 
 export interface NavItem {
   href: string;
@@ -31,7 +29,7 @@ export interface NavItem {
   icon: LucideIcon;
   phaseLabel: string;
   capability?: keyof CapabilitySet;
-  children?: { href: string; label: string; phaseLabel: string }[];
+  children?: NavChild[];
 }
 
 export const PRIMARY_NAV: NavItem[] = [
@@ -53,8 +51,8 @@ export const PRIMARY_NAV: NavItem[] = [
       { href: "/orders/shopee", label: "Pesanan Shopee", phaseLabel: "Shopee Open Platform API" },
       { href: "/orders/action-required", label: "Perlu Tindakan", phaseLabel: "Fase 4 — OMS Operations" },
       { href: "/orders/payment-issues", label: "Masalah Pembayaran", phaseLabel: "Fase 4 — OMS Operations" },
-      { href: "/orders/fulfillment", label: "Fulfillment & Resi", phaseLabel: "Fase 4 — OMS Operations" },
-      { href: "/orders/returns", label: "Retur / Refund", phaseLabel: "Fase 4 — OMS Operations" },
+      { href: "/orders/fulfillment", label: "Fulfillment & Resi", phaseLabel: "Fase 4 — OMS Operations", capability: "orderProcess" },
+      { href: "/orders/returns", label: "Retur / Refund", phaseLabel: "Fase 4 — OMS Operations", capability: "cancelRefundRequest" },
     ],
   },
   {
@@ -130,13 +128,13 @@ export const MENU_NAV: NavItem[] = [
     children: [
       { href: "/settings/store", label: "Toko", phaseLabel: "Fase 6-7 — Team, Settings & Hardening" },
       { href: "/settings/shipping", label: "Pengiriman", phaseLabel: "Fase 6-7 — Team, Settings & Hardening" },
-      { href: "/settings/payments", label: "Pembayaran", phaseLabel: "Fase 6-7 — Team, Settings & Hardening" },
+      { href: "/settings/payments", label: "Pembayaran", phaseLabel: "Fase 6-7 — Team, Settings & Hardening", capability: "teamRoleManage" },
       { href: "/settings/notifications", label: "Notifikasi", phaseLabel: "Fase 6-7 — Team, Settings & Hardening" },
-      { href: "/settings/team", label: "Tim", phaseLabel: "Fase 6-7 — Team, Settings & Hardening", },
-      { href: "/settings/roles", label: "Role & Permission", phaseLabel: "Fase 6-7 — Team, Settings & Hardening" },
+      { href: "/settings/team", label: "Tim", phaseLabel: "Fase 6-7 — Team, Settings & Hardening", capability: "teamRoleManage" },
+      { href: "/settings/roles", label: "Role & Permission", phaseLabel: "Fase 6-7 — Team, Settings & Hardening", capability: "teamRoleManage" },
       { href: "/settings/audit-log", label: "Audit Log", phaseLabel: "Fase 6-7 — Team, Settings & Hardening" },
-      { href: "/settings/integrations", label: "Integrasi", phaseLabel: "Fase 6-7 — Team, Settings & Hardening" },
-      { href: "/settings/integrations/shopee", label: "Shopee Open Platform", phaseLabel: "Marketplace API" },
+      { href: "/settings/integrations", label: "Integrasi", phaseLabel: "Fase 6-7 — Team, Settings & Hardening", capability: "teamRoleManage" },
+      { href: "/settings/integrations/shopee", label: "Shopee Open Platform", phaseLabel: "Marketplace API", capability: "teamRoleManage" },
     ],
   },
 ];

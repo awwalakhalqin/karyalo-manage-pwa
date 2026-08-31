@@ -1,25 +1,29 @@
+"use client";
+
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { MENU_NAV } from "@/lib/config/navigation";
+import { useSession } from "@/lib/auth/session-context";
 
 /**
- * PRD §8.2 Mobile Navigation — item ke-5 bottom nav ("Menu") membuka
- * Marketing/Customers/Analytics/Notifications/Settings. Ini halaman
- * sungguhan (bukan RouteStub) karena isinya murni navigasi, fungsional
- * sejak Fase 1 — halaman TUJUANnya (Marketing, dst.) yang masih stub.
- * Di desktop, kelima ini sudah muncul langsung di sidebar (§8.3), jadi
- * halaman ini praktis mobile-only meski tetap dapat diakses di desktop.
+ * Menu Page — Tampilan Menu Mobile Berbasis Role & Capability.
  */
 export default function MenuPage() {
+  const { capabilities } = useSession();
+
+  const visibleMenuNav = MENU_NAV.filter(
+    (item) => !item.capability || (capabilities && capabilities[item.capability])
+  );
+
   return (
     <div className="mx-auto max-w-(--container-content) px-4 py-6 md:px-6 md:py-8">
-      <h1 className="mb-6 text-xl font-semibold text-ink">Menu</h1>
-      <div className="flex flex-col divide-y divide-border rounded-(--radius-card) border border-border bg-warm-white">
-        {MENU_NAV.map((item) => (
+      <h1 className="mb-4 text-xl font-semibold text-ink">Menu Layanan</h1>
+      <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-warm-white shadow-2xs">
+        {visibleMenuNav.map((item) => (
           <Link
             key={item.href}
             href={item.href}
-            className="tap-target flex items-center justify-between px-5 py-4 text-sm text-ink hover:bg-soft-sand"
+            className="tap-target flex items-center justify-between px-5 py-4 text-xs font-semibold text-ink hover:bg-soft-sand transition-colors"
           >
             <span className="flex items-center gap-3">
               <item.icon size={18} className="text-deep-pine" aria-hidden="true" />
@@ -30,15 +34,15 @@ export default function MenuPage() {
         ))}
       </div>
 
-      <div className="mt-8 flex flex-col gap-2 rounded-(--radius-card) border border-border bg-warm-white p-4">
+      <div className="mt-8 flex flex-col gap-2 rounded-2xl border border-border bg-warm-white p-4 shadow-2xs">
         <span className="text-xs font-semibold text-muted">Legalitas & Kepatuhan Platform</span>
         <div className="flex items-center gap-4 text-xs">
           <Link href="/privacy" className="font-medium text-karyalo-green hover:underline">
-            Kebijakan Privasi (Privacy Policy)
+            Kebijakan Privasi
           </Link>
           <span className="text-border">•</span>
           <Link href="/terms" className="font-medium text-karyalo-green hover:underline">
-            Ketentuan Layanan (Terms)
+            Ketentuan Layanan
           </Link>
         </div>
       </div>
