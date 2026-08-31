@@ -22,13 +22,13 @@ import {
   RefreshCw,
   ArrowLeft,
   CheckCircle2,
-  ExternalLink,
   Eye,
   Star,
   Package,
   Truck,
   FileText,
-  AlertCircle,
+  AlertTriangle,
+  Info,
 } from "lucide-react";
 
 interface ProductEditorFormProps {
@@ -69,6 +69,7 @@ export function ProductEditorForm({ product, isNew = false }: ProductEditorFormP
         ]
   );
   const [newImageUrl, setNewImageUrl] = useState("");
+  const [imageUploadError, setImageUploadError] = useState<string | null>(null);
 
   // 3. Harga, Stok & Spesifikasi Logistik (Shopee OpenAPI v2 requirement)
   const [basePrice, setBasePrice] = useState<number>(product?.price ?? 189000);
@@ -166,25 +167,73 @@ export function ProductEditorForm({ product, isNew = false }: ProductEditorFormP
     }
   };
 
-  // Upload Gambar File Handler (Data URL)
+  // Upload Gambar File Handler (Harden: validasi < 2 MB, tipe file, & batas 9 foto)
+  const MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024; // 2 MB
+  const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+
   const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    setImageUploadError(null);
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
-    Array.from(files).forEach((file) => {
+    const fileList = Array.from(files);
+    const validFiles: File[] = [];
+
+    for (const file of fileList) {
+      if (!ALLOWED_TYPES.includes(file.type.toLowerCase())) {
+        setImageUploadError(
+          `Format file "${file.name}" tidak didukung. Shopee OpenAPI mewajibkan format JPG, PNG, atau WebP.`
+        );
+        e.target.value = "";
+        return;
+      }
+      if (file.size > MAX_FILE_SIZE_BYTES) {
+        const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
+        setImageUploadError(
+          `File "${file.name}" melebihi batas ukuran maksimal 2 MB (ukuran file saat ini: ${sizeMb} MB). Mohon kompres foto sebelum diupload sesuai standar Shopee OpenAPI.`
+        );
+        e.target.value = "";
+        return;
+      }
+      validFiles.push(file);
+    }
+
+    if (images.length + validFiles.length > 9) {
+      setImageUploadError(
+        `Maksimal 9 foto per listing produk. Hanya ${Math.max(0, 9 - images.length)} foto yang dapat ditambahkan.`
+      );
+    }
+
+    const filesToProcess = validFiles.slice(0, Math.max(0, 9 - images.length));
+    filesToProcess.forEach((file) => {
       const reader = new FileReader();
       reader.onload = (event) => {
         if (event.target?.result) {
-          setImages((prev) => [...prev, event.target!.result as string]);
+          setImages((prev) => (prev.length < 9 ? [...prev, event.target!.result as string] : prev));
         }
       };
       reader.readAsDataURL(file);
     });
+
+    e.target.value = "";
   };
 
   const handleAddImageUrl = () => {
-    if (!newImageUrl.trim()) return;
-    setImages((prev) => [...prev, newImageUrl.trim()]);
+    setImageUploadError(null);
+    const trimmed = newImageUrl.trim();
+    if (!trimmed) return;
+
+    if (!trimmed.startsWith("http://") && !trimmed.startsWith("https://") && !trimmed.startsWith("/")) {
+      setImageUploadError("URL foto produk harus diawali dengan http://, https://, atau /images/.");
+      return;
+    }
+
+    if (images.length >= 9) {
+      setImageUploadError("Maksimal 9 foto per listing produk sesuai standar Shopee OpenAPI.");
+      return;
+    }
+
+    setImages((prev) => [...prev, trimmed]);
     setNewImageUrl("");
   };
 
@@ -198,6 +247,7 @@ export function ProductEditorForm({ product, isNew = false }: ProductEditorFormP
   };
 
   const handleRemoveImage = (index: number) => {
+    setImageUploadError(null);
     setImages((prev) => prev.filter((_, i) => i !== index));
   };
 
@@ -447,19 +497,36 @@ export function ProductEditorForm({ product, isNew = false }: ProductEditorFormP
             </div>
           </div>
 
-          {/* Section 2: Galeri Media & Upload Gambar (Multi-Image 1:1) */}
+          {/* Section 2: Galeri Media & Upload Gambar (Multi-Image 1:1, max 2MB validation) */}
           <div className="rounded-2xl border border-border bg-warm-white p-4 sm:p-6 shadow-xs">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-sm font-semibold text-ink">Galeri Foto Produk</h2>
                 <p className="mt-0.5 text-xs text-muted">
-                  Format persegi (rasio 1:1), disarankan minimal 800x800 px sesuai standar Shopee OpenAPI.
+                  Format 1:1 persegi (min. 800x800 px, maks. 2 MB per file, format JPG/PNG/WebP sesuai standar Shopee OpenAPI).
                 </p>
               </div>
-              <span className="rounded-full bg-soft-sand px-2.5 py-0.5 text-xs font-medium text-muted">
+              <span className="rounded-full bg-soft-sand px-2.5 py-0.5 text-xs font-semibold text-muted">
                 {images.length} / 9 Foto
               </span>
             </div>
+
+            {/* Error / Validation Warning Alert Banner */}
+            {imageUploadError && (
+              <div className="mt-3 flex items-start justify-between gap-2 rounded-xl border border-status-warning/40 bg-status-warning/10 p-3 text-xs text-status-warning">
+                <div className="flex items-start gap-2">
+                  <AlertTriangle size={15} className="mt-0.5 shrink-0" aria-hidden="true" />
+                  <span className="font-medium leading-relaxed">{imageUploadError}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setImageUploadError(null)}
+                  className="shrink-0 font-bold text-status-warning hover:opacity-80 px-1"
+                >
+                  ✕
+                </button>
+              </div>
+            )}
 
             {/* Image List */}
             <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -514,13 +581,13 @@ export function ProductEditorForm({ product, isNew = false }: ProductEditorFormP
 
               {/* Upload Drop Zone Card */}
               {images.length < 9 && (
-                <label className="tap-target flex aspect-square cursor-pointer flex-col items-center justify-center gap-1.5 rounded-2xl border-2 border-dashed border-border bg-soft-sand/40 text-muted transition-colors hover:border-karyalo-green hover:bg-soft-sage/30 hover:text-karyalo-green">
+                <label className="tap-target flex aspect-square cursor-pointer flex-col items-center justify-center gap-1.5 rounded-2xl border-2 border-dashed border-border bg-soft-sand/40 text-muted transition-colors hover:border-karyalo-green hover:bg-soft-sage/30 hover:text-karyalo-green p-2 text-center">
                   <Upload size={20} aria-hidden="true" />
                   <span className="text-xs font-semibold">+ Upload Foto</span>
-                  <span className="text-xs text-muted/80">JPG, PNG, WebP</span>
+                  <span className="text-xs text-muted/80">Maks. 2 MB (JPG/PNG)</span>
                   <input
                     type="file"
-                    accept="image/*"
+                    accept="image/jpeg,image/png,image/webp,image/jpg"
                     multiple
                     onChange={handleFileUpload}
                     className="sr-only"
