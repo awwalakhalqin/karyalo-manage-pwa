@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ShoppingBag, ArrowRight, Lock, Mail, AlertCircle, Eye, EyeOff, CheckCircle2 } from "lucide-react";
+import { ShoppingBag, ArrowRight, Lock, Mail, AlertCircle, Eye, EyeOff } from "lucide-react";
 import { useSession, BaselineRole } from "@/lib/auth/session-context";
 
 /**
@@ -16,25 +16,30 @@ const VALID_ACCOUNTS: {
   displayName: string;
 }[] = [
   {
-    emails: ["shopee.reviewer@karyalo.id", "shopee.reviewer", "reviewer@karyalo.id"],
+    emails: [
+      "shopee.reviewer@karyalo.com",
+      "shopee.reviewer@karyalo.id",
+      "shopee.reviewer",
+      "reviewer@karyalo.com",
+    ],
     passwords: ["ShopeeKaryalo2026!"],
     role: "Owner",
     displayName: "Shopee Reviewer (Owner)",
   },
   {
-    emails: ["budi@karyalo.id", "budi.santoso@karyalo.id", "owner@karyalo.id"],
+    emails: ["budi@karyalo.com", "budi@karyalo.id", "budi.santoso@karyalo.com", "owner@karyalo.com"],
     passwords: ["Owner123!", "ShopeeKaryalo2026!"],
     role: "Owner",
     displayName: "Budi Santoso (Owner)",
   },
   {
-    emails: ["admin@karyalo.id", "siti@karyalo.id", "siti.admin@karyalo.id"],
+    emails: ["admin@karyalo.com", "admin@karyalo.id", "siti@karyalo.com", "siti.admin@karyalo.com"],
     passwords: ["Admin123!", "ShopeeKaryalo2026!"],
     role: "AdminDashboard",
     displayName: "Siti Admin (Admin Toko)",
   },
   {
-    emails: ["gudang@karyalo.id", "joko@karyalo.id", "joko.gudang@karyalo.id"],
+    emails: ["gudang@karyalo.com", "gudang@karyalo.id", "joko@karyalo.com", "joko.gudang@karyalo.com"],
     passwords: ["Gudang123!", "ShopeeKaryalo2026!"],
     role: "AdminWarehouse",
     displayName: "Joko Gudang (Gudang)",
@@ -44,7 +49,7 @@ const VALID_ACCOUNTS: {
 export default function LoginPage() {
   const router = useRouter();
   const { login } = useSession();
-  const [email, setEmail] = useState("shopee.reviewer@karyalo.id");
+  const [email, setEmail] = useState("shopee.reviewer@karyalo.com");
   const [password, setPassword] = useState("ShopeeKaryalo2026!");
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -87,17 +92,17 @@ export default function LoginPage() {
     setIsLoading(true);
 
     if (roleName === "Owner") {
-      setEmail("shopee.reviewer@karyalo.id");
+      setEmail("shopee.reviewer@karyalo.com");
       setPassword("ShopeeKaryalo2026!");
-      login("Owner", "shopee.reviewer@karyalo.id");
+      login("Owner", "shopee.reviewer@karyalo.com");
     } else if (roleName === "AdminDashboard") {
-      setEmail("admin@karyalo.id");
+      setEmail("admin@karyalo.com");
       setPassword("Admin123!");
-      login("AdminDashboard", "admin@karyalo.id");
+      login("AdminDashboard", "admin@karyalo.com");
     } else {
-      setEmail("gudang@karyalo.id");
+      setEmail("gudang@karyalo.com");
       setPassword("Gudang123!");
-      login("AdminWarehouse", "gudang@karyalo.id");
+      login("AdminWarehouse", "gudang@karyalo.com");
     }
 
     setTimeout(() => {
@@ -127,7 +132,7 @@ export default function LoginPage() {
           Akun uji coba untuk tim audit Shopee Partner. Kredensial telah terisi otomatis di bawah.
         </p>
         <div className="mt-2.5 rounded-xl bg-warm-white/90 p-2.5 font-mono text-xs text-ink border border-[#ee4d2d]/20 space-y-1">
-          <div>Username: <strong>shopee.reviewer@karyalo.id</strong></div>
+          <div>Username: <strong>shopee.reviewer@karyalo.com</strong></div>
           <div>Password: <strong>ShopeeKaryalo2026!</strong></div>
         </div>
       </div>
@@ -164,7 +169,7 @@ export default function LoginPage() {
                 setEmail(e.target.value);
                 if (errorMessage) setErrorMessage(null);
               }}
-              placeholder="shopee.reviewer@karyalo.id"
+              placeholder="shopee.reviewer@karyalo.com"
               className={`w-full rounded-xl border bg-warm-white py-2.5 pl-9 pr-3 text-xs text-ink placeholder:text-muted transition-colors focus:outline-hidden focus-visible:ring-1 ${
                 errorMessage
                   ? "border-status-critical focus:border-status-critical focus-visible:ring-status-critical"

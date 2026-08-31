@@ -108,7 +108,7 @@ const SessionContext = createContext<SessionContextValue | null>(null);
 
 export function SessionProvider({ children }: { children: ReactNode }) {
   const [role, setRoleState] = useState<BaselineRole>("Owner");
-  const [userEmail, setUserEmail] = useState("shopee.reviewer@karyalo.id");
+  const [userEmail, setUserEmail] = useState("shopee.reviewer@karyalo.com");
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [hydrated, setHydrated] = useState(false);
 
@@ -147,7 +147,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     }
   }, [userEmail]);
 
-  const login = useCallback((nextRole: BaselineRole = "Owner", email: string = "shopee.reviewer@karyalo.id") => {
+  const login = useCallback((nextRole: BaselineRole = "Owner", email: string = "shopee.reviewer@karyalo.com") => {
     setRoleState(nextRole);
     setUserEmail(email);
     setIsAuthenticated(true);
