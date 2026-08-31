@@ -106,7 +106,7 @@ export function MetricCard({
         </div>
 
         {statusBadge && !isLoading && !isError && (
-          <span className="shrink-0 rounded-md bg-soft-sand px-2 py-0.5 text-[10px] font-semibold text-muted">
+          <span className="shrink-0 rounded-md bg-soft-sand px-2 py-0.5 text-xs font-semibold text-muted">
             {statusBadge}
           </span>
         )}

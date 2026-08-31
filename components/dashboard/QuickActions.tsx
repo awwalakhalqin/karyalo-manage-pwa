@@ -70,7 +70,7 @@ export function QuickActions() {
               <span className="block truncate text-xs font-bold text-ink transition-colors group-hover:text-karyalo-green">
                 {action.label}
               </span>
-              <span className="mt-0.5 block truncate text-[11px] text-muted">
+              <span className="mt-0.5 block truncate text-xs text-muted">
                 {action.description}
               </span>
             </div>

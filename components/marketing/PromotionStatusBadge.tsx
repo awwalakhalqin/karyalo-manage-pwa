@@ -16,7 +16,7 @@ const STYLES: Record<PromotionStatus, string> = {
 
 export function PromotionStatusBadge({ status }: { status: PromotionStatus }) {
   return (
-    <span className={`inline-flex w-fit items-center rounded-full px-2.5 py-1 text-[11px] font-medium ${STYLES[status]}`}>
+    <span className={`inline-flex w-fit items-center rounded-full px-2.5 py-1 text-xs font-medium ${STYLES[status]}`}>
       {LABEL[status]}
     </span>
   );

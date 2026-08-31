@@ -26,7 +26,7 @@ export function MobileBottomNavigation() {
             key={item.href}
             href={item.href}
             aria-current={active ? "page" : undefined}
-            className={`tap-target flex flex-1 flex-col items-center justify-center gap-0.5 py-2 text-[11px] font-medium ${
+            className={`tap-target flex flex-1 flex-col items-center justify-center gap-0.5 py-2 text-xs font-medium ${
               active ? "text-karyalo-green" : "text-muted"
             }`}
           >
@@ -38,7 +38,7 @@ export function MobileBottomNavigation() {
       <Link
         href="/menu"
         aria-current={pathname.startsWith("/menu") ? "page" : undefined}
-        className={`tap-target flex flex-1 flex-col items-center justify-center gap-0.5 py-2 text-[11px] font-medium ${
+        className={`tap-target flex flex-1 flex-col items-center justify-center gap-0.5 py-2 text-xs font-medium ${
           pathname.startsWith("/menu") ? "text-karyalo-green" : "text-muted"
         }`}
       >

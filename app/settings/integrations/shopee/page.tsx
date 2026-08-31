@@ -57,10 +57,10 @@ export default function ShopeeIntegrationPage() {
           <div>
             <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
               <h1 className="text-lg font-bold text-ink sm:text-2xl">Shopee Open Platform API</h1>
-              <span className="rounded-full bg-[#ee4d2d]/10 px-2 py-0.5 text-[11px] font-semibold text-[#ee4d2d]">
+              <span className="rounded-full bg-[#ee4d2d]/10 px-2 py-0.5 text-xs font-semibold text-[#ee4d2d]">
                 v2.0
               </span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-soft-sand px-2 py-0.5 text-[11px] font-medium text-status-success">
+              <span className="inline-flex items-center gap-1 rounded-full bg-soft-sand px-2 py-0.5 text-xs font-medium text-status-success">
                 <CheckCircle2 size={12} aria-hidden="true" />
                 Terhubung
               </span>
@@ -190,7 +190,7 @@ export default function ShopeeIntegrationPage() {
                   <div>
                     <h3 className="text-xs font-semibold text-ink">Sinkronisasi Pesanan Otomatis (v2.order)</h3>
                     <p className="mt-0.5 text-xs text-muted leading-relaxed">
-                      Menarik pesanan baru berstatus <code className="rounded bg-soft-sand px-1 font-mono text-[11px]">READY_TO_SHIP</code> secara realtime ke daftar antrean fulfillment Karyalo.
+                      Menarik pesanan baru berstatus <code className="rounded bg-soft-sand px-1 font-mono text-xs">READY_TO_SHIP</code> secara realtime ke daftar antrean fulfillment Karyalo.
                     </p>
                   </div>
                 </div>

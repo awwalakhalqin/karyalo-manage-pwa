@@ -85,7 +85,7 @@ export function OrderPipelineProgress() {
               className="group tap-target flex flex-col justify-between rounded-xl border border-border/80 bg-soft-sand/40 p-3.5 transition-all hover:border-karyalo-green/40 hover:bg-soft-sage/30 hover:shadow-xs active:scale-[0.98]"
             >
               <div className="flex items-center justify-between gap-1.5">
-                <span className="text-[11px] font-semibold text-muted transition-colors group-hover:text-deep-pine truncate">
+                <span className="text-xs font-semibold text-muted transition-colors group-hover:text-deep-pine truncate">
                   {stage.label}
                 </span>
                 <div className="flex size-6 shrink-0 items-center justify-center rounded-md bg-soft-sand text-muted group-hover:bg-soft-sage group-hover:text-karyalo-green">
@@ -97,12 +97,12 @@ export function OrderPipelineProgress() {
                 <span className="text-xl font-bold tracking-tight text-ink sm:text-2xl">
                   {stage.count}
                 </span>
-                <span className="rounded bg-warm-white px-1.5 py-0.5 text-[10px] font-medium text-muted shadow-xs">
+                <span className="rounded bg-warm-white px-1.5 py-0.5 text-xs font-medium text-muted shadow-xs">
                   {stage.badge}
                 </span>
               </div>
 
-              <span className="mt-1 text-[10px] text-muted truncate">
+              <span className="mt-1 text-xs text-muted truncate">
                 {stage.hint}
               </span>
             </Link>

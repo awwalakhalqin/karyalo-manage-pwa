@@ -14,7 +14,7 @@ const STYLES: Record<PublishStatus, string> = {
 
 export function PublishStatusBadge({ status }: { status: PublishStatus }) {
   return (
-    <span className={`inline-flex w-fit items-center rounded-full px-2.5 py-1 text-[11px] font-medium ${STYLES[status]}`}>
+    <span className={`inline-flex w-fit items-center rounded-full px-2.5 py-1 text-xs font-medium ${STYLES[status]}`}>
       {LABEL[status]}
     </span>
   );

@@ -4,8 +4,8 @@
   "private": true,
   "description": "Karyalo Commerce Admin / CMS (PWA) — Fase 1: Foundation. Dibangun dari nol sesuai Karyalo_Commerce_Admin_CMS_PRD_v1.0 (bukan fork admin_dashboard Alina) — keputusan pemilik proyek 16 Agustus 2026, konsisten dengan pendekatan Karyalo_Storefront_PWA.",
   "scripts": {
-    "dev": "next dev -p 3001 --webpack",
-    "dev:turbo": "next dev -p 3001",
+    "dev": "next dev -p 3001",
+    "dev:webpack": "next dev -p 3001 --webpack",
     "build": "next build",
     "start": "next start -p 3001",
     "lint": "eslint"

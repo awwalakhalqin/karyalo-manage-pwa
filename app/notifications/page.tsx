@@ -35,7 +35,7 @@ export default async function NotificationsPage() {
               <p className="text-xs font-medium text-muted">{NOTIFICATION_TYPE_LABEL[n.type]}</p>
               <p className="text-sm font-medium text-ink">{n.title}</p>
               <p className="text-xs text-muted">{n.body}</p>
-              <p className="mt-0.5 text-[11px] text-muted">{n.createdAtLabel}</p>
+              <p className="mt-0.5 text-xs text-muted">{n.createdAtLabel}</p>
             </div>
           </div>
         ))}

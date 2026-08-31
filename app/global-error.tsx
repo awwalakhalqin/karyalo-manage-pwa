@@ -1,9 +1,5 @@
 "use client";
 
-/**
- * Next.js mewajibkan file terpisah untuk error di root layout itu sendiri
- * — lihat catatan identik di Karyalo_Storefront_PWA/app/global-error.tsx.
- */
 export default function GlobalError({
   reset,
 }: {
@@ -13,24 +9,17 @@ export default function GlobalError({
   return (
     <html lang="id">
       <body>
-        <div style={{ padding: "4rem 1.5rem", maxWidth: 640, margin: "0 auto" }}>
-          <h1 style={{ fontSize: "1.5rem", fontWeight: 600 }}>
+        <div className="mx-auto max-w-xl px-6 py-16 text-center">
+          <h1 className="text-xl font-semibold text-ink">
             Ada yang tidak beres
           </h1>
-          <p style={{ color: "#5B6472", marginTop: "0.5rem" }}>
+          <p className="mt-2 text-sm text-muted">
             Aplikasi gagal dimuat. Coba muat ulang halaman ini.
           </p>
           <button
+            type="button"
             onClick={reset}
-            style={{
-              marginTop: "1rem",
-              borderRadius: 9999,
-              background: "#1E5AA8",
-              color: "#FCFBF7",
-              padding: "0.625rem 1.25rem",
-              fontSize: "0.875rem",
-              fontWeight: 500,
-            }}
+            className="mt-4 inline-flex items-center justify-center rounded-full bg-deep-pine px-5 py-2.5 text-sm font-semibold text-warm-white hover:bg-karyalo-green"
           >
             Coba Lagi
           </button>

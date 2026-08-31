@@ -20,7 +20,7 @@ export function RoleSwitcher() {
       <select
         value={hydrated ? role : ""}
         onChange={(e) => setRole(e.target.value as (typeof BASELINE_ROLES)[number])}
-        className="cursor-pointer bg-transparent text-[11px] font-bold text-deep-pine focus:outline-none sm:text-xs"
+        className="cursor-pointer bg-transparent text-xs font-bold text-deep-pine focus:outline-none sm:text-xs"
         aria-label="Ganti role demo untuk meninjau perilaku permission"
       >
         {BASELINE_ROLES.map((r) => (

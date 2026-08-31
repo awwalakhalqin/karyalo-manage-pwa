@@ -37,7 +37,7 @@ export function OrderList({ orders }: { orders: AdminOrder[] }) {
                   <ChannelBadge channel={order.channel} />
                 </div>
                 {order.channelOrderNumber && (
-                  <span className="font-mono text-[11px] text-muted truncate">
+                  <span className="font-mono text-xs text-muted truncate">
                     Shopee: {order.channelOrderNumber}
                   </span>
                 )}
@@ -54,7 +54,7 @@ export function OrderList({ orders }: { orders: AdminOrder[] }) {
                   <span className="text-muted shrink-0">({order.city})</span>
                 </div>
               </div>
-              <div className="flex items-center gap-1.5 text-[11px] text-muted">
+              <div className="flex items-center gap-1.5 text-xs text-muted">
                 <Calendar size={12} className="shrink-0" aria-hidden="true" />
                 <span className="truncate">{order.createdAtLabel}</span>
               </div>
@@ -67,11 +67,11 @@ export function OrderList({ orders }: { orders: AdminOrder[] }) {
                 <span className="font-medium text-ink truncate">{order.shippingLabel}</span>
               </div>
               {order.trackingNumber ? (
-                <code className="rounded bg-soft-sand px-1.5 py-0.5 font-mono text-[11px] text-muted shrink-0">
+                <code className="rounded bg-soft-sand px-1.5 py-0.5 font-mono text-xs text-muted shrink-0">
                   {order.trackingNumber}
                 </code>
               ) : (
-                <span className="text-[11px] text-muted/60 shrink-0">Belum ada resi</span>
+                <span className="text-xs text-muted/60 shrink-0">Belum ada resi</span>
               )}
             </div>
 
@@ -122,11 +122,11 @@ export function OrderList({ orders }: { orders: AdminOrder[] }) {
                         <ChannelBadge channel={order.channel} />
                       </div>
                       {order.channelOrderNumber && (
-                        <span className="text-[11px] font-mono text-muted/80">
+                        <span className="text-xs font-mono text-muted/80">
                           No. Shopee: {order.channelOrderNumber}
                         </span>
                       )}
-                      <span className="text-[11px] text-muted">{order.createdAtLabel}</span>
+                      <span className="text-xs text-muted">{order.createdAtLabel}</span>
                     </div>
                   </td>
 
@@ -142,17 +142,17 @@ export function OrderList({ orders }: { orders: AdminOrder[] }) {
                   <td className="px-4 py-3.5">
                     <p className="text-xs font-medium text-ink">{order.shippingLabel}</p>
                     {order.trackingNumber ? (
-                      <span className="font-mono text-[11px] text-muted">
+                      <span className="font-mono text-xs text-muted">
                         {order.trackingNumber}
                       </span>
                     ) : (
-                      <span className="text-[11px] text-muted/60">Belum ada resi</span>
+                      <span className="text-xs text-muted/60">Belum ada resi</span>
                     )}
                   </td>
 
                   <td className="px-4 py-3.5 text-right">
                     <span className="font-semibold text-ink">{formatRupiah(order.total)}</span>
-                    <p className="text-[11px] text-muted">{order.items.length} produk</p>
+                    <p className="text-xs text-muted">{order.items.length} produk</p>
                   </td>
                 </tr>
               ))}

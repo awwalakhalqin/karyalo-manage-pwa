@@ -15,7 +15,7 @@ export function OrderStatusBadge({ status }: { status: OrderStatus }) {
   const style = STYLES[status] ?? { bg: "bg-soft-sand text-muted", dot: "bg-muted" };
 
   return (
-    <span className={`inline-flex w-fit shrink-0 items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${style.bg}`}>
+    <span className={`inline-flex w-fit shrink-0 items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold ${style.bg}`}>
       <span className={`size-1.5 rounded-full ${style.dot}`} aria-hidden="true" />
       {ORDER_STATUS_LABEL[status]}
     </span>

@@ -40,7 +40,7 @@ export default function RolesSettingsPage() {
         {ROWS.map((row) => (
           <div key={row.key} className="rounded-xl border border-border bg-warm-white p-3.5 shadow-xs">
             <h2 className="font-semibold text-xs text-ink">{row.label}</h2>
-            <p className="mt-0.5 text-[11px] text-muted">{row.desc}</p>
+            <p className="mt-0.5 text-xs text-muted">{row.desc}</p>
             <div className="mt-3 grid grid-cols-3 gap-1.5 border-t border-border/60 pt-2.5">
               {BASELINE_ROLES.map((role) => {
                 const hasAccess = CAPABILITY_MATRIX[role][row.key];
@@ -51,7 +51,7 @@ export default function RolesSettingsPage() {
                       hasAccess ? "bg-soft-sage text-deep-pine" : "bg-soft-sand/60 text-muted/60"
                     }`}
                   >
-                    <span className="text-[10px] font-medium leading-tight">
+                    <span className="text-xs font-medium leading-tight">
                       {role === "Owner" ? "Owner" : role === "AdminDashboard" ? "Admin" : "Gudang"}
                     </span>
                     <span className="mt-0.5">
@@ -88,7 +88,7 @@ export default function RolesSettingsPage() {
                 <tr key={row.key} className="hover:bg-soft-sand/50">
                   <td className="px-4 py-3">
                     <p className="font-semibold text-ink">{row.label}</p>
-                    <p className="text-[11px] text-muted">{row.desc}</p>
+                    <p className="text-xs text-muted">{row.desc}</p>
                   </td>
                   {BASELINE_ROLES.map((role) => {
                     const hasAccess = CAPABILITY_MATRIX[role][row.key];

@@ -103,13 +103,13 @@ export default function IntegrationsSettingsPage() {
                   <div className="flex flex-wrap items-center gap-2">
                     <h2 className="text-sm font-semibold text-ink">{item.name}</h2>
                     {item.connected && (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-soft-sand px-2 py-0.5 text-[10px] font-medium text-status-success">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-soft-sand px-2 py-0.5 text-xs font-medium text-status-success">
                         <CheckCircle2 size={12} className="text-status-success" aria-hidden="true" />
                         {item.status}
                       </span>
                     )}
                     {!item.connected && (
-                      <span className="rounded-full bg-soft-sand px-2 py-0.5 text-[10px] font-medium text-muted">
+                      <span className="rounded-full bg-soft-sand px-2 py-0.5 text-xs font-medium text-muted">
                         {item.status}
                       </span>
                     )}

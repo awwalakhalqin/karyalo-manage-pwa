@@ -20,7 +20,7 @@ export default function ThemePage() {
           <div key={t.hex} className="rounded-(--radius-card) border border-border bg-warm-white p-3">
             <div className="mb-2 h-12 w-full rounded-lg" style={{ backgroundColor: t.hex }} />
             <p className="text-xs font-medium text-ink">{t.name}</p>
-            <p className="text-[11px] text-muted">{t.hex}</p>
+            <p className="text-xs text-muted">{t.hex}</p>
           </div>
         ))}
       </div>

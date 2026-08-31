@@ -28,8 +28,8 @@ export default async function MediaLibraryPage() {
               <Image src="/mock/product-placeholder.svg" alt="" width={40} height={40} />
             </div>
             <p className="truncate text-xs font-medium text-ink">{m.name}</p>
-            <p className="truncate text-[11px] text-muted">{m.usedIn}</p>
-            <p className="text-[11px] text-muted">{m.sizeLabel}</p>
+            <p className="truncate text-xs text-muted">{m.usedIn}</p>
+            <p className="text-xs text-muted">{m.sizeLabel}</p>
           </div>
         ))}
       </div>

@@ -21,7 +21,7 @@ export function ActionRequiredCard() {
         <div className="flex min-w-0 flex-col gap-0.5">
           <div className="flex flex-wrap items-center gap-2">
             <h3 className="text-sm font-semibold text-ink">Semua pesanan & modul terkendali</h3>
-            <span className="rounded-full bg-soft-sand px-2 py-0.5 text-[10px] font-medium text-muted">
+            <span className="rounded-full bg-soft-sand px-2 py-0.5 text-xs font-medium text-muted">
               Sistem Aktif
             </span>
           </div>

@@ -23,7 +23,7 @@ export default function AnalyticsPage() {
           <div key={m.label} className="rounded-(--radius-card) border border-border bg-warm-white p-4">
             <p className="text-xs font-medium text-muted">{m.label}</p>
             <p className="mt-1 text-lg font-semibold text-ink/40">{m.value}</p>
-            <p className="mt-1 text-[11px] text-muted">{m.note}</p>
+            <p className="mt-1 text-xs text-muted">{m.note}</p>
           </div>
         ))}
       </div>

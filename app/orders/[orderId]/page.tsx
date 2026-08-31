@@ -123,7 +123,7 @@ export default async function OrderDetailPage({
             <p className="text-xs font-semibold text-ink">{order.shippingLabel}</p>
             {order.trackingNumber ? (
               <div className="mt-2 rounded-lg bg-soft-sand p-2.5">
-                <span className="text-[11px] text-muted block">Nomor Resi Pelacakan:</span>
+                <span className="text-xs text-muted block">Nomor Resi Pelacakan:</span>
                 <code className="font-mono text-xs font-bold text-karyalo-green select-all">
                   {order.trackingNumber}
                 </code>
