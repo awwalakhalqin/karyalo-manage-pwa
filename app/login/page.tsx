@@ -3,32 +3,103 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ShoppingBag, ArrowRight, Lock, Mail } from "lucide-react";
-import { useSession } from "@/lib/auth/session-context";
+import { ShoppingBag, ArrowRight, Lock, Mail, AlertCircle, Eye, EyeOff, CheckCircle2 } from "lucide-react";
+import { useSession, BaselineRole } from "@/lib/auth/session-context";
 
 /**
- * Halaman Login Karyalo Manage PWA
- * Mendukung autentikasi demo dan akun uji coba Shopee Open Platform Reviewer.
+ * Daftar Akun Uji Coba Terverifikasi
  */
+const VALID_ACCOUNTS: {
+  emails: string[];
+  passwords: string[];
+  role: BaselineRole;
+  displayName: string;
+}[] = [
+  {
+    emails: ["shopee.reviewer@karyalo.id", "shopee.reviewer", "reviewer@karyalo.id"],
+    passwords: ["ShopeeKaryalo2026!"],
+    role: "Owner",
+    displayName: "Shopee Reviewer (Owner)",
+  },
+  {
+    emails: ["budi@karyalo.id", "budi.santoso@karyalo.id", "owner@karyalo.id"],
+    passwords: ["Owner123!", "ShopeeKaryalo2026!"],
+    role: "Owner",
+    displayName: "Budi Santoso (Owner)",
+  },
+  {
+    emails: ["admin@karyalo.id", "siti@karyalo.id", "siti.admin@karyalo.id"],
+    passwords: ["Admin123!", "ShopeeKaryalo2026!"],
+    role: "AdminDashboard",
+    displayName: "Siti Admin (Admin Toko)",
+  },
+  {
+    emails: ["gudang@karyalo.id", "joko@karyalo.id", "joko.gudang@karyalo.id"],
+    passwords: ["Gudang123!", "ShopeeKaryalo2026!"],
+    role: "AdminWarehouse",
+    displayName: "Joko Gudang (Gudang)",
+  },
+];
+
 export default function LoginPage() {
   const router = useRouter();
   const { login } = useSession();
   const [email, setEmail] = useState("shopee.reviewer@karyalo.id");
   const [password, setPassword] = useState("ShopeeKaryalo2026!");
+  const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage(null);
     setIsLoading(true);
-    login("Owner", email); // Set authenticated session with Owner role
+
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanPassword = password.trim();
+
+    // Validasi kredensial
+    const matchedAccount = VALID_ACCOUNTS.find(
+      (acc) =>
+        acc.emails.some((em) => em.toLowerCase() === cleanEmail) &&
+        acc.passwords.includes(cleanPassword)
+    );
+
+    if (!matchedAccount) {
+      setTimeout(() => {
+        setIsLoading(false);
+        setErrorMessage(
+          "Email / username atau kata sandi salah. Silakan periksa kembali atau gunakan akun uji coba Shopee Partner yang tertera pada banner di atas."
+        );
+      }, 350);
+      return;
+    }
+
+    // Kredensial valid -> catat login
+    login(matchedAccount.role, email.trim());
     setTimeout(() => {
       router.push("/");
     }, 300);
   };
 
-  const handleQuickLogin = (roleName: "Owner" | "AdminDashboard" | "AdminWarehouse") => {
+  const handleQuickLogin = (roleName: BaselineRole) => {
+    setErrorMessage(null);
     setIsLoading(true);
-    login(roleName, email); // Set authenticated session with selected role
+
+    if (roleName === "Owner") {
+      setEmail("shopee.reviewer@karyalo.id");
+      setPassword("ShopeeKaryalo2026!");
+      login("Owner", "shopee.reviewer@karyalo.id");
+    } else if (roleName === "AdminDashboard") {
+      setEmail("admin@karyalo.id");
+      setPassword("Admin123!");
+      login("AdminDashboard", "admin@karyalo.id");
+    } else {
+      setEmail("gudang@karyalo.id");
+      setPassword("Gudang123!");
+      login("AdminWarehouse", "gudang@karyalo.id");
+    }
+
     setTimeout(() => {
       router.push("/");
     }, 250);
@@ -61,10 +132,24 @@ export default function LoginPage() {
         </div>
       </div>
 
+      {/* Error Alert Banner */}
+      {errorMessage && (
+        <div
+          role="alert"
+          className="flex w-full items-start gap-2.5 rounded-2xl border border-status-critical/40 bg-terracotta-soft/60 p-3.5 text-xs text-status-critical shadow-2xs animate-in fade-in"
+        >
+          <AlertCircle size={16} className="shrink-0 mt-0.5" aria-hidden="true" />
+          <div className="flex-1">
+            <span className="font-bold block">Gagal Masuk:</span>
+            <span className="mt-0.5 block leading-relaxed">{errorMessage}</span>
+          </div>
+        </div>
+      )}
+
       {/* Form Login */}
       <form onSubmit={handleLogin} className="flex w-full flex-col gap-3.5">
         <div>
-          <label htmlFor="login-email" className="mb-1 block text-xs font-medium text-ink">
+          <label htmlFor="login-email" className="mb-1 block text-xs font-semibold text-ink">
             Email / Username
           </label>
           <div className="relative flex items-center">
@@ -75,29 +160,51 @@ export default function LoginPage() {
               required
               autoComplete="username"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (errorMessage) setErrorMessage(null);
+              }}
               placeholder="shopee.reviewer@karyalo.id"
-              className="w-full rounded-xl border border-border bg-warm-white py-2.5 pl-9 pr-3 text-xs text-ink placeholder:text-muted focus:border-karyalo-green focus:outline-hidden focus-visible:ring-1 focus-visible:ring-karyalo-green"
+              className={`w-full rounded-xl border bg-warm-white py-2.5 pl-9 pr-3 text-xs text-ink placeholder:text-muted transition-colors focus:outline-hidden focus-visible:ring-1 ${
+                errorMessage
+                  ? "border-status-critical focus:border-status-critical focus-visible:ring-status-critical"
+                  : "border-border focus:border-karyalo-green focus-visible:ring-karyalo-green"
+              }`}
             />
           </div>
         </div>
 
         <div>
-          <label htmlFor="login-password" className="mb-1 block text-xs font-medium text-ink">
+          <label htmlFor="login-password" className="mb-1 block text-xs font-semibold text-ink">
             Kata Sandi
           </label>
           <div className="relative flex items-center">
             <Lock size={15} className="absolute left-3 text-muted" aria-hidden="true" />
             <input
               id="login-password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               required
               autoComplete="current-password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (errorMessage) setErrorMessage(null);
+              }}
               placeholder="••••••••"
-              className="w-full rounded-xl border border-border bg-warm-white py-2.5 pl-9 pr-3 text-xs text-ink placeholder:text-muted focus:border-karyalo-green focus:outline-hidden focus-visible:ring-1 focus-visible:ring-karyalo-green"
+              className={`w-full rounded-xl border bg-warm-white py-2.5 pl-9 pr-10 text-xs text-ink placeholder:text-muted transition-colors focus:outline-hidden focus-visible:ring-1 ${
+                errorMessage
+                  ? "border-status-critical focus:border-status-critical focus-visible:ring-status-critical"
+                  : "border-border focus:border-karyalo-green focus-visible:ring-karyalo-green"
+              }`}
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
+              className="tap-target absolute right-2 text-muted hover:text-ink p-1"
+            >
+              {showPassword ? <EyeOff size={15} aria-hidden="true" /> : <Eye size={15} aria-hidden="true" />}
+            </button>
           </div>
         </div>
 
@@ -106,7 +213,7 @@ export default function LoginPage() {
           disabled={isLoading}
           className="tap-target mt-1 inline-flex items-center justify-center gap-2 rounded-xl bg-deep-pine py-3 text-xs font-bold text-warm-white shadow-xs hover:bg-karyalo-green transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-karyalo-green disabled:opacity-50"
         >
-          <span>{isLoading ? "Memproses Masuk..." : "Masuk ke Dashboard"}</span>
+          <span>{isLoading ? "Memverifikasi Kredensial..." : "Masuk ke Dashboard"}</span>
           <ArrowRight size={14} aria-hidden="true" />
         </button>
       </form>
@@ -114,7 +221,7 @@ export default function LoginPage() {
       {/* Quick Role Tester */}
       <div className="w-full border-t border-border pt-4">
         <span className="block text-center text-xs text-muted mb-2.5">
-          Atau langsung masuk cepat sebagai:
+          Atau isi otomatis & masuk cepat sebagai:
         </span>
         <div className="grid grid-cols-3 gap-2">
           <button
