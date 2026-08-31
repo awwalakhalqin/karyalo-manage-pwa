@@ -11,9 +11,8 @@ import {
 } from "react";
 
 /**
- * Session & Role Management — Disesuaikan untuk Skala UMKM & Brand Lokal.
- *
- * Menyederhanakan 9 role enterprise menjadi 3 Role Inti UMKM:
+ * Session & Role Management — UMKM & Shopee Partner Audit
+ * 3 Role Inti UMKM:
  * 1. Owner: Pemilik bisnis dengan akses mutlak (Keuangan, Tim, Pengaturan, Integrasi Marketplace).
  * 2. Admin Dashboard: Pengelola harian toko (Order, Produk/Katalog, CMS Storefront, Promosi, Pelanggan).
  * 3. Admin Warehouse: Staf gudang & fulfillment (Pemrosesan packing pesanan, cetak resi, update stok fisik).
@@ -69,18 +68,18 @@ export const CAPABILITY_MATRIX: Record<BaselineRole, CapabilitySet> = {
     orderProcess: true,
     cancelRefundRequest: true,
     customerPii: true,
-    teamRoleManage: false, // Hanya Owner yang mengelola tim
+    teamRoleManage: false,
     analyticsExport: true,
   },
   AdminWarehouse: {
     dashboardRead: true,
-    cmsWrite: false, // Tidak mengedit CMS storefront
-    catalogWrite: true, // Akses stok inventori & SKU
-    promotionWrite: false, // Tidak mengelola promosi
+    cmsWrite: false,
+    catalogWrite: true,
+    promotionWrite: false,
     orderRead: true,
-    orderProcess: true, // Packing, fulfillment, input resi
+    orderProcess: true,
     cancelRefundRequest: false,
-    customerPii: false, // Data alamat dicetak di resi, data kontak sensitif di-mask
+    customerPii: false,
     teamRoleManage: false,
     analyticsExport: false,
   },
@@ -89,30 +88,45 @@ export const CAPABILITY_MATRIX: Record<BaselineRole, CapabilitySet> = {
 interface SessionState {
   role: BaselineRole;
   userName: string;
+  userEmail: string;
   storeName: string;
+  isAuthenticated: boolean;
   hydrated: boolean;
 }
 
 interface SessionContextValue extends SessionState {
   capabilities: CapabilitySet;
   setRole: (role: BaselineRole) => void;
+  login: (role?: BaselineRole, email?: string) => void;
+  logout: () => void;
 }
 
-const STORAGE_KEY = "karyalo-manage.session.v2";
+const STORAGE_SESSION_KEY = "karyalo-manage.session.v2";
+const STORAGE_AUTH_KEY = "karyalo-manage.auth.v2";
 
 const SessionContext = createContext<SessionContextValue | null>(null);
 
 export function SessionProvider({ children }: { children: ReactNode }) {
   const [role, setRoleState] = useState<BaselineRole>("Owner");
+  const [userEmail, setUserEmail] = useState("shopee.reviewer@karyalo.id");
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     try {
-      const raw = window.localStorage.getItem(STORAGE_KEY);
+      const isAuth = window.localStorage.getItem(STORAGE_AUTH_KEY);
+      if (isAuth === "true") {
+        setIsAuthenticated(true);
+      }
+
+      const raw = window.localStorage.getItem(STORAGE_SESSION_KEY);
       if (raw) {
-        const parsed = JSON.parse(raw) as { role?: BaselineRole };
+        const parsed = JSON.parse(raw) as { role?: BaselineRole; email?: string };
         if (parsed.role && BASELINE_ROLES.includes(parsed.role)) {
           setRoleState(parsed.role);
+        }
+        if (parsed.email) {
+          setUserEmail(parsed.email);
         }
       }
     } catch {
@@ -124,7 +138,34 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const setRole = useCallback((next: BaselineRole) => {
     setRoleState(next);
     try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ role: next }));
+      window.localStorage.setItem(
+        STORAGE_SESSION_KEY,
+        JSON.stringify({ role: next, email: userEmail })
+      );
+    } catch {
+      // no-op
+    }
+  }, [userEmail]);
+
+  const login = useCallback((nextRole: BaselineRole = "Owner", email: string = "shopee.reviewer@karyalo.id") => {
+    setRoleState(nextRole);
+    setUserEmail(email);
+    setIsAuthenticated(true);
+    try {
+      window.localStorage.setItem(STORAGE_AUTH_KEY, "true");
+      window.localStorage.setItem(
+        STORAGE_SESSION_KEY,
+        JSON.stringify({ role: nextRole, email })
+      );
+    } catch {
+      // no-op
+    }
+  }, []);
+
+  const logout = useCallback(() => {
+    setIsAuthenticated(false);
+    try {
+      window.localStorage.removeItem(STORAGE_AUTH_KEY);
     } catch {
       // no-op
     }
@@ -133,13 +174,17 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const value = useMemo<SessionContextValue>(
     () => ({
       role,
-      userName: "Budi Santoso",
+      userName: role === "Owner" ? "Budi Santoso (Owner)" : role === "AdminDashboard" ? "Siti Admin" : "Joko Gudang",
+      userEmail,
       storeName: "Karyalo Store (Demo)",
+      isAuthenticated,
       hydrated,
       capabilities: CAPABILITY_MATRIX[role],
       setRole,
+      login,
+      logout,
     }),
-    [role, hydrated, setRole]
+    [role, userEmail, isAuthenticated, hydrated, setRole, login, logout]
   );
 
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;

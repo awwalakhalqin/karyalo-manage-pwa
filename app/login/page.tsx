@@ -12,7 +12,7 @@ import { useSession } from "@/lib/auth/session-context";
  */
 export default function LoginPage() {
   const router = useRouter();
-  const { setRole } = useSession();
+  const { login } = useSession();
   const [email, setEmail] = useState("shopee.reviewer@karyalo.id");
   const [password, setPassword] = useState("ShopeeKaryalo2026!");
   const [isLoading, setIsLoading] = useState(false);
@@ -20,18 +20,18 @@ export default function LoginPage() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setRole("Owner"); // Default to Owner role for full audit access
+    login("Owner", email); // Set authenticated session with Owner role
     setTimeout(() => {
       router.push("/");
-    }, 400);
+    }, 300);
   };
 
   const handleQuickLogin = (roleName: "Owner" | "AdminDashboard" | "AdminWarehouse") => {
     setIsLoading(true);
-    setRole(roleName);
+    login(roleName, email); // Set authenticated session with selected role
     setTimeout(() => {
       router.push("/");
-    }, 300);
+    }, 250);
   };
 
   return (
