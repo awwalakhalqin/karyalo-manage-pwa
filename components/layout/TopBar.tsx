@@ -8,7 +8,6 @@ import { GlobalAdminSearch } from "./GlobalAdminSearch";
 import { NotificationBell } from "./NotificationBell";
 import { TenantStoreSwitcher } from "./TenantStoreSwitcher";
 import { RoleSwitcher } from "./RoleSwitcher";
-import { MobileDrawerMenu } from "./MobileDrawerMenu";
 import { useSession } from "@/lib/auth/session-context";
 
 /**
@@ -26,9 +25,6 @@ export function TopBar() {
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-2 border-b border-border bg-warm-white px-3 sm:px-4 md:px-6">
       <div className="flex items-center gap-2">
-        {/* Mobile Hamburger Drawer */}
-        <MobileDrawerMenu />
-
         <Link href="/" className="flex shrink-0 items-center gap-2">
           <Image src="/logo.png" alt="Karyalo" width={26} height={26} className="rounded-md" />
           <span className="hidden text-sm font-semibold text-ink sm:inline">Karyalo Manage</span>
