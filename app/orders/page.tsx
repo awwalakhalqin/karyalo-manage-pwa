@@ -8,9 +8,11 @@ export default async function OrdersPage() {
   const orders = await getAllOrders();
 
   return (
-    <div className="mx-auto max-w-(--container-wide) px-4 py-6 md:px-6 md:py-8">
-      <h1 className="mb-1 text-xl font-semibold text-ink md:text-2xl">Orders</h1>
-      <p className="mb-4 text-sm text-muted">{orders.length} order</p>
+    <div className="mx-auto max-w-(--container-wide) px-3.5 py-5 sm:px-6 sm:py-8">
+      <div className="mb-4">
+        <h1 className="text-lg font-bold text-ink sm:text-2xl">Daftar Pesanan</h1>
+        <p className="text-xs text-muted sm:text-sm">{orders.length} total transaksi masuk</p>
+      </div>
       <SampleDataBanner />
       <OrderFilterTabs />
       <OrderList orders={orders} />

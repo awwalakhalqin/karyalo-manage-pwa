@@ -7,9 +7,11 @@ export default async function FulfillmentOrdersPage() {
   const orders = await getOrdersByFilter("fulfillment");
 
   return (
-    <div className="mx-auto max-w-(--container-wide) px-4 py-6 md:px-6 md:py-8">
-      <h1 className="mb-1 text-xl font-semibold text-ink md:text-2xl">Fulfillment</h1>
-      <p className="mb-4 text-sm text-muted">{orders.length} order</p>
+    <div className="mx-auto max-w-(--container-wide) px-3.5 py-5 sm:px-6 sm:py-8">
+      <div className="mb-4">
+        <h1 className="text-lg font-bold text-ink sm:text-2xl">Fulfillment & Pengiriman</h1>
+        <p className="text-xs text-muted sm:text-sm">{orders.length} pesanan siap dipacking & diserahkan kurir</p>
+      </div>
       <SampleDataBanner />
       <OrderFilterTabs />
       <OrderList orders={orders} />

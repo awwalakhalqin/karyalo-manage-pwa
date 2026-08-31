@@ -3,10 +3,10 @@ import { AdminOrder } from "@/lib/data/orders";
 import { OrderStatusBadge } from "./OrderStatusBadge";
 import { ChannelBadge } from "./ChannelBadge";
 import { formatRupiah } from "@/lib/utils/currency";
-import { ChevronRight, Truck } from "lucide-react";
+import { ChevronRight, Truck, User, Calendar } from "lucide-react";
 
 /**
- * PRD §14.2 Order List — Responsif Mobile (Card View) & Desktop (Table View).
+ * PRD §14.2 Order List — Responsif Mobile (Full-width Vertical Cards) & Desktop (Table View).
  */
 export function OrderList({ orders }: { orders: AdminOrder[] }) {
   if (orders.length === 0) {
@@ -18,60 +18,80 @@ export function OrderList({ orders }: { orders: AdminOrder[] }) {
   }
 
   return (
-    <div>
-      {/* Mobile Card List (sm:hidden) */}
-      <div className="flex flex-col gap-3 sm:hidden">
+    <div className="w-full">
+      {/* Mobile Full-width Vertical Card List (md:hidden) */}
+      <div className="flex flex-col gap-3.5 md:hidden">
         {orders.map((order) => (
           <Link
             key={order.id}
             href={`/orders/${order.id}`}
-            className="flex flex-col gap-2.5 rounded-xl border border-border bg-warm-white p-3.5 shadow-xs active:bg-soft-sand"
+            className="flex flex-col gap-3 rounded-2xl border border-border bg-warm-white p-4 shadow-xs transition-all active:bg-soft-sand"
           >
-            {/* Header: Order Number, Channel Badge & Status */}
+            {/* Row 1: Order ID + Channel Badge & Status Badge */}
             <div className="flex items-start justify-between gap-2">
-              <div className="flex flex-col gap-0.5">
+              <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-1.5">
                   <span className="font-bold text-sm text-ink">{order.orderNumber}</span>
                   <ChannelBadge channel={order.channel} />
                 </div>
                 {order.channelOrderNumber && (
-                  <span className="font-mono text-[10px] text-muted">
-                    No. Shopee: {order.channelOrderNumber}
+                  <span className="font-mono text-[11px] text-muted">
+                    Shopee: {order.channelOrderNumber}
                   </span>
                 )}
-                <span className="text-[10px] text-muted">{order.createdAtLabel}</span>
               </div>
               <OrderStatusBadge status={order.status} />
             </div>
 
-            {/* Customer & Location */}
-            <div className="flex items-center justify-between border-t border-border/60 pt-2 text-xs">
-              <div>
-                <span className="font-medium text-ink">{order.customerName}</span>
-                <span className="text-muted text-[11px]"> • {order.city}</span>
+            {/* Row 2: Customer & Date Info */}
+            <div className="flex flex-col gap-1 rounded-xl bg-soft-sand/50 p-2.5 text-xs">
+              <div className="flex items-center justify-between text-ink">
+                <div className="flex items-center gap-1.5 font-medium">
+                  <User size={13} className="text-muted" aria-hidden="true" />
+                  <span>{order.customerName}</span>
+                  <span className="text-muted">({order.city})</span>
+                </div>
               </div>
-              <span className="font-bold text-ink">{formatRupiah(order.total)}</span>
+              <div className="flex items-center gap-1.5 text-[11px] text-muted">
+                <Calendar size={12} aria-hidden="true" />
+                <span>{order.createdAtLabel}</span>
+              </div>
             </div>
 
-            {/* Courier & Items */}
-            <div className="flex items-center justify-between text-[11px] text-muted">
-              <div className="flex items-center gap-1">
-                <Truck size={12} className="text-muted" aria-hidden="true" />
-                <span className="truncate max-w-[180px]">
-                  {order.shippingLabel} {order.trackingNumber ? `(${order.trackingNumber})` : ""}
-                </span>
+            {/* Row 3: Courier & Tracking */}
+            <div className="flex items-center justify-between text-xs">
+              <div className="flex items-center gap-1.5 text-muted">
+                <Truck size={13} className="text-karyalo-green" aria-hidden="true" />
+                <span className="font-medium text-ink">{order.shippingLabel}</span>
               </div>
-              <div className="flex items-center gap-1 text-karyalo-green font-medium">
+              {order.trackingNumber ? (
+                <code className="rounded bg-soft-sand px-1.5 py-0.5 font-mono text-[11px] text-muted">
+                  {order.trackingNumber}
+                </code>
+              ) : (
+                <span className="text-[11px] text-muted/60">Belum ada resi</span>
+              )}
+            </div>
+
+            {/* Row 4: Total & Details Action */}
+            <div className="flex items-center justify-between border-t border-border/60 pt-2.5">
+              <div className="flex items-center gap-1 text-xs text-muted">
                 <span>{order.items.length} produk</span>
-                <ChevronRight size={14} aria-hidden="true" />
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs text-muted">Total:</span>
+                <span className="text-base font-bold text-karyalo-green">
+                  {formatRupiah(order.total)}
+                </span>
+                <ChevronRight size={16} className="text-muted/60" aria-hidden="true" />
               </div>
             </div>
           </Link>
         ))}
       </div>
 
-      {/* Desktop Table View (hidden sm:block) */}
-      <div className="hidden overflow-hidden rounded-(--radius-card) border border-border bg-warm-white shadow-xs sm:block">
+      {/* Desktop Table View (hidden md:block) */}
+      <div className="hidden overflow-hidden rounded-(--radius-card) border border-border bg-warm-white shadow-xs md:block">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead className="border-b border-border bg-soft-sand text-xs font-medium text-muted">
