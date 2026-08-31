@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ShieldCheck, ShoppingBag, ArrowRight, Lock, Mail } from "lucide-react";
+import { ShoppingBag, ArrowRight, Lock, Mail } from "lucide-react";
 import { useSession } from "@/lib/auth/session-context";
 
 /**
@@ -65,31 +64,39 @@ export default function LoginPage() {
       {/* Form Login */}
       <form onSubmit={handleLogin} className="flex w-full flex-col gap-3.5">
         <div>
-          <label className="mb-1 block text-xs font-medium text-ink">Email / Username</label>
+          <label htmlFor="login-email" className="mb-1 block text-xs font-medium text-ink">
+            Email / Username
+          </label>
           <div className="relative flex items-center">
             <Mail size={15} className="absolute left-3 text-muted" aria-hidden="true" />
             <input
+              id="login-email"
               type="text"
               required
+              autoComplete="username"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="shopee.reviewer@karyalo.id"
-              className="w-full rounded-xl border border-border bg-warm-white py-2.5 pl-9 pr-3 text-xs text-ink placeholder:text-muted focus:border-karyalo-green focus:outline-none"
+              className="w-full rounded-xl border border-border bg-warm-white py-2.5 pl-9 pr-3 text-xs text-ink placeholder:text-muted focus:border-karyalo-green focus:outline-hidden focus-visible:ring-1 focus-visible:ring-karyalo-green"
             />
           </div>
         </div>
 
         <div>
-          <label className="mb-1 block text-xs font-medium text-ink">Kata Sandi</label>
+          <label htmlFor="login-password" className="mb-1 block text-xs font-medium text-ink">
+            Kata Sandi
+          </label>
           <div className="relative flex items-center">
             <Lock size={15} className="absolute left-3 text-muted" aria-hidden="true" />
             <input
+              id="login-password"
               type="password"
               required
+              autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full rounded-xl border border-border bg-warm-white py-2.5 pl-9 pr-3 text-xs text-ink placeholder:text-muted focus:border-karyalo-green focus:outline-none"
+              className="w-full rounded-xl border border-border bg-warm-white py-2.5 pl-9 pr-3 text-xs text-ink placeholder:text-muted focus:border-karyalo-green focus:outline-hidden focus-visible:ring-1 focus-visible:ring-karyalo-green"
             />
           </div>
         </div>
@@ -97,7 +104,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={isLoading}
-          className="tap-target mt-1 inline-flex items-center justify-center gap-2 rounded-xl bg-deep-pine py-3 text-xs font-bold text-warm-white shadow-xs hover:bg-karyalo-green transition-colors disabled:opacity-50"
+          className="tap-target mt-1 inline-flex items-center justify-center gap-2 rounded-xl bg-deep-pine py-3 text-xs font-bold text-warm-white shadow-xs hover:bg-karyalo-green transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-karyalo-green disabled:opacity-50"
         >
           <span>{isLoading ? "Memproses Masuk..." : "Masuk ke Dashboard"}</span>
           <ArrowRight size={14} aria-hidden="true" />
@@ -113,21 +120,24 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={() => handleQuickLogin("Owner")}
-            className="tap-target rounded-xl border border-border bg-soft-sand px-2 py-2 text-center text-xs font-semibold text-ink hover:border-karyalo-green hover:bg-soft-sage"
+            aria-label="Masuk cepat sebagai Owner"
+            className="tap-target rounded-xl border border-border bg-soft-sand px-2 py-2 text-center text-xs font-semibold text-ink hover:border-karyalo-green hover:bg-soft-sage transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-karyalo-green"
           >
             👑 Owner (Full)
           </button>
           <button
             type="button"
             onClick={() => handleQuickLogin("AdminDashboard")}
-            className="tap-target rounded-xl border border-border bg-soft-sand px-2 py-2 text-center text-xs font-semibold text-ink hover:border-karyalo-green hover:bg-soft-sage"
+            aria-label="Masuk cepat sebagai Admin Toko"
+            className="tap-target rounded-xl border border-border bg-soft-sand px-2 py-2 text-center text-xs font-semibold text-ink hover:border-karyalo-green hover:bg-soft-sage transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-karyalo-green"
           >
             💻 Admin Toko
           </button>
           <button
             type="button"
             onClick={() => handleQuickLogin("AdminWarehouse")}
-            className="tap-target rounded-xl border border-border bg-soft-sand px-2 py-2 text-center text-xs font-semibold text-ink hover:border-karyalo-green hover:bg-soft-sage"
+            aria-label="Masuk cepat sebagai Gudang"
+            className="tap-target rounded-xl border border-border bg-soft-sand px-2 py-2 text-center text-xs font-semibold text-ink hover:border-karyalo-green hover:bg-soft-sage transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-karyalo-green"
           >
             📦 Gudang
           </button>
