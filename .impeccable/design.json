@@ -1,0 +1,172 @@
+﻿{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-31T21:58:00.000Z",
+  "title": "Design System: Karyalo Manage PWA",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Brand Royal Blue",
+        "canonical": "#1e5aa8",
+        "tonalRamp": ["#0d2546", "#153d70", "#1e5aa8", "#3676c8", "#6397db", "#9abded", "#cce0f7", "#e8f1fa"]
+      },
+      "primary-deep": {
+        "role": "primary",
+        "displayName": "Deep Pine / Brand Navy",
+        "canonical": "#1e2f5c",
+        "tonalRamp": ["#0a1020", "#121c38", "#1e2f5c", "#2e4785", "#4565b3", "#708ed4", "#a8bced", "#e2e8f8"]
+      },
+      "accent-cyan": {
+        "role": "secondary",
+        "displayName": "Accent Cyan",
+        "canonical": "#2fc1d6",
+        "tonalRamp": ["#093c44", "#125e6a", "#1e92a4", "#2fc1d6", "#5ed3e3", "#8ee3ee", "#c2f2f7", "#e6fafc"]
+      },
+      "neutral-ink": {
+        "role": "neutral",
+        "displayName": "Body Ink",
+        "canonical": "#1c2430",
+        "tonalRamp": ["#0b0e13", "#141a23", "#1c2430", "#303d50", "#4b5c75", "#73859f", "#a8b5c8", "#e4e8ef"]
+      },
+      "neutral-muted": {
+        "role": "neutral",
+        "displayName": "Muted Slate",
+        "canonical": "#5b6472",
+        "tonalRamp": ["#1f2227", "#343941", "#4c535f", "#5b6472", "#798393", "#9fa7b4", "#c7ccd5", "#edf0f4"]
+      },
+      "neutral-bg": {
+        "role": "neutral",
+        "displayName": "Warm White",
+        "canonical": "#fcfbf7",
+        "tonalRamp": ["#54524c", "#7f7d75", "#a9a69d", "#c7c4bb", "#dedcd4", "#eeede7", "#f7f6f2", "#fcfbf7"]
+      },
+      "canvas-bg": {
+        "role": "neutral",
+        "displayName": "Soft Sand",
+        "canonical": "#f4f1ea",
+        "tonalRamp": ["#4c4943", "#736f66", "#99948a", "#b8b2a7", "#d1cdc4", "#e4e1d9", "#edeae3", "#f4f1ea"]
+      },
+      "surface-sage": {
+        "role": "neutral",
+        "displayName": "Ice Blue Tint / Soft Sage",
+        "canonical": "#e8f1fa",
+        "tonalRamp": ["#32465a", "#4e6b8a", "#7395ba", "#9bbadb", "#bdd4ed", "#d5e4f5", "#e8f1fa", "#f4f8fd"]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Border Gray",
+        "canonical": "#dce2ea",
+        "tonalRamp": ["#3f464f", "#606a77", "#8894a3", "#abb6c3", "#c5ced8", "#dce2ea", "#ecf0f5", "#f7f9fb"]
+      },
+      "status-critical": {
+        "role": "tertiary",
+        "displayName": "Status Critical",
+        "canonical": "#b3261e",
+        "tonalRamp": ["#400d0a", "#681611", "#901e18", "#b3261e", "#d14740", "#e37872", "#f1aba7", "#fae2e1"]
+      },
+      "status-warning": {
+        "role": "tertiary",
+        "displayName": "Terracotta / Warning",
+        "canonical": "#a5482d",
+        "tonalRamp": ["#3b190f", "#602919", "#833822", "#a5482d", "#c5664a", "#d88c75", "#e8b4a5", "#f6e1db"]
+      },
+      "status-success": {
+        "role": "tertiary",
+        "displayName": "Status Success",
+        "canonical": "#1c7a4d",
+        "tonalRamp": ["#092b1b", "#10462c", "#16603d", "#1c7a4d", "#29a369", "#4ec28b", "#82dab1", "#cbf2df"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero numbers on summary metric cards." },
+      "headline": { "displayName": "Headline", "purpose": "Page titles and primary section titles." },
+      "title": { "displayName": "Title", "purpose": "Card titles, table headers, and form groupings." },
+      "body": { "displayName": "Body", "purpose": "Operational data, table rows, and descriptions." },
+      "label": { "displayName": "Label", "purpose": "Status badges, metadata chips, and counters." }
+    },
+    "shadows": [
+      { "name": "ambient-card", "value": "0 1px 2px 0 rgba(28, 36, 48, 0.05)", "purpose": "Subtle separation of cards from canvas." },
+      { "name": "floating-overlay", "value": "0 4px 16px -2px rgba(28, 36, 48, 0.10)", "purpose": "Dropdowns, modals, and floating panels." }
+    ],
+    "motion": [
+      { "name": "ease-fast", "value": "cubic-bezier(0.4, 0, 0.2, 1)", "duration": "150ms", "purpose": "Default micro-transitions on button hover and tab switch." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" },
+      { "name": "2xl", "value": "1536px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Tombol aksi utama halaman dengan target sentuh ramah mobile.",
+      "html": "<button class=\"ds-btn-primary\">Simpan Perubahan</button>",
+      "css": ".ds-btn-primary { background: #1e5aa8; color: #fcfbf7; padding: 10px 20px; font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; transition: background 0.15s, transform 0.15s; } .ds-btn-primary:hover { background: #1e2f5c; } .ds-btn-primary:focus-visible { outline: 2px solid #1e5aa8; outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Outlined Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Tombol aksi alternatif dengan batas hairline halus.",
+      "html": "<button class=\"ds-btn-secondary\">Tarik Data Sekarang</button>",
+      "css": ".ds-btn-secondary { background: #fcfbf7; color: #1c2430; padding: 10px 18px; font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; border: 1px solid #dce2ea; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; transition: all 0.15s; } .ds-btn-secondary:hover { background: #e8f1fa; border-color: #1e5aa8; color: #1e5aa8; } .ds-btn-secondary:focus-visible { outline: 2px solid #1e5aa8; outline-offset: 2px; }"
+    },
+    {
+      "name": "Metric Summary Card",
+      "kind": "card",
+      "refersTo": "card-standard",
+      "description": "Kartu ringkasan metrik dashboard dengan tampilan angka display dan status.",
+      "html": "<div class=\"ds-card-metric\"><div class=\"ds-card-header\"><span>Pesanan Siap Kirim</span><span class=\"ds-chip-accent\">Shopee</span></div><div class=\"ds-metric-val\">24</div><div class=\"ds-metric-hint\">Perlu fulfillment hari ini</div></div>",
+      "css": ".ds-card-metric { background: #fcfbf7; border: 1px solid #dce2ea; border-radius: 18px; padding: 18px 20px; font-family: Inter, sans-serif; box-shadow: 0 1px 2px rgba(28,36,48,0.05); } .ds-card-header { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; color: #5b6472; margin-bottom: 12px; } .ds-metric-val { font-size: 28px; font-weight: 700; color: #1c2430; line-height: 1.2; } .ds-metric-hint { font-size: 12px; color: #5b6472; margin-top: 6px; } .ds-chip-accent { background: rgba(238,77,45,0.1); color: #ee4d2d; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }"
+    },
+    {
+      "name": "Shopee Channel Badge",
+      "kind": "chip",
+      "refersTo": "chip-shopee",
+      "description": "Badge penanda kanal pesanan Shopee.",
+      "html": "<span class=\"ds-badge-shopee\"><span class=\"ds-dot-shopee\"></span>Shopee</span>",
+      "css": ".ds-badge-shopee { display: inline-flex; align-items: center; gap: 6px; background: rgba(238,77,45,0.1); color: #ee4d2d; padding: 4px 8px; border-radius: 6px; font-family: Inter, sans-serif; font-size: 11px; font-weight: 600; } .ds-dot-shopee { width: 6px; height: 6px; border-radius: 9999px; background: #ee4d2d; }"
+    },
+    {
+      "name": "Text Field Input",
+      "kind": "input",
+      "refersTo": "input-text",
+      "description": "Field input form dengan label dan batas tegas.",
+      "html": "<input type=\"text\" class=\"ds-input\" placeholder=\"Cari pesanan atau nomor resi...\" />",
+      "css": ".ds-input { background: #fcfbf7; border: 1px solid #dce2ea; border-radius: 8px; padding: 10px 14px; font-family: Inter, sans-serif; font-size: 14px; color: #1c2430; width: 100%; box-sizing: border-box; } .ds-input:focus { outline: 2px solid #1e5aa8; outline-offset: 2px; border-color: #1e5aa8; } .ds-input::placeholder { color: #5b6472; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Focused Merchant Cockpit",
+    "overview": "Karyalo Manage PWA dirancang sebagai pusat kendali operasional toko yang tenang, presisi, dan bebas friksi bagi pengusaha UMKM dan brand lokal Indonesia. Antarmuka mengutamakan kejelasan hierarki data, kemudahan pemindaian informasi pesanan secara cepat (high scanability), dan keterbacaan tinggi di berbagai kondisi kerja.",
+    "keyCharacteristics": [
+      "Tenang & Bertujuan: Menghindari elemen visual dekoratif berlebihan; setiap warna dan batas memiliki arti fungsional.",
+      "Tinggi Keterbacaan: Menggunakan tipografi Inter dengan skala ritme matematis dan rasio kontras WCAG AA.",
+      "Adaptif Antar-Perangkat: Tata letak responsif mulus dari smartphone (360px) hingga desktop ultrawide (1440px+)."
+    ],
+    "rules": [
+      { "name": "The Single Focus Accent Rule", "body": "Warna Brand Royal Blue (#1e5aa8) hanya boleh menjadi fokus utama pada satu aksi terpenting per layar/viewport. Jangan membuat banyak tombol primer yang saling bersaing.", "section": "colors" },
+      { "name": "The No-Pure-Black Rule", "body": "Dilarang menggunakan hitam murni (#000000) untuk teks atau latar belakang. Gunakan Body Ink (#1c2430) dan Deep Pine (#1e2f5c) untuk menjaga kelembutan visual.", "section": "colors" },
+      { "name": "The Tabular Number Rule", "body": "Seluruh angka nominal uang (Rp), jumlah stok, dan nomor resi kurir wajib menggunakan angka seragam (tabular figures / mono-spaced font) agar mudah disejajarkan secara vertikal.", "section": "typography" },
+      { "name": "The Border-First Elevation Rule", "body": "Jangan gunakan drop shadow tebal untuk membedakan kartu. Gunakan border 1px Border Gray (#dce2ea) dan perubahan warna permukaan saat hover (Soft Sage #e8f1fa).", "section": "elevation" }
+    ],
+    "dos": [
+      "Do pertahankan target sentuh minimal 44x44px di seluruh komponen interaktif mobile.",
+      "Do gunakan token warna semantik (var(--color-...)) dan hindari hardcoded arbitrary color class.",
+      "Do tampilkan status 'Data belum tersedia' atau '—' secara transparan bila data belum aktif, bukan angka fiktif 0 atau data palsu.",
+      "Do gunakan PIIMaskedField untuk menjaga privasi data pelanggan Shopee dan Storefront sesuai UU PDP.",
+      "Do berikan transisi interaktif lembut (150ms) dengan menghormati preferensi motion-reduce."
+    ],
+    "donts": [
+      "Don't gunakan warna hitam murni (#000000) atau bayangan drop shadow gelap yang pekat.",
+      "Don't gunakan warna Accent Cyan (#2fc1d6) sebagai warna teks biasa di atas latar belakang putih/terang karena kontrasnya tidak memenuhi syarat WCAG AA.",
+      "Don't buat form dengan lebih dari satu tombol aksi primer dalam satu viewport yang sama.",
+      "Don't sembunyikan informasi status koneksi sinkronisasi API Shopee atau webhook error dari pandangan admin."
+    ]
+  }
+}
