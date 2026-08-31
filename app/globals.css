@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+/* ============================================================
+   KARYALO DESIGN SYSTEM — design tokens (Tailwind v4 CSS-first)
+   ============================================================
+   Sumber ASLI: KaryaLo_Project/07_DESIGN/Design_System/Karyalo_Design_System.md
+   §11 (divergensi palet warna produk Store — logo-matched, biru), sama
+   TOKEN yang dipakai Karyalo_Storefront_PWA, disalin persis ke sini
+   supaya Storefront dan Manage konsisten secara visual (satu ekosistem
+   produk, §5 Product Principles G-05 "Unified experience... design
+   system yang konsisten"). Nama token dipertahankan sama persis dengan
+   storefront ("deep-pine", "karyalo-green", dst.) meskipun berarti
+   Brand Navy/Royal Blue, bukan warna hijau — lihat catatan di
+   karyalo-storefront-pwa/app/globals.css untuk rasionalnya.
+   ============================================================ */
+
+@theme {
+  /* --- Color tokens — sama dengan Karyalo_Storefront_PWA --- */
+  --color-deep-pine: #1e2f5c; /* Brand Navy — sidebar/header gelap, heading; vs Warm White = 12.55:1 */
+  --color-karyalo-green: #1e5aa8; /* Brand Royal Blue — CTA utama/link/focus ring/active nav; vs Warm White = 6.58:1 */
+  --color-accent-cyan: #2fc1d6; /* Aksen tercerah dari logo. HANYA dekoratif/ikon/badge-bg, JANGAN teks di atas latar terang */
+  --color-ink: #1c2430; /* Body / heading on light — vs Warm White = 15.09:1 */
+  --color-muted: #5b6472; /* Secondary copy — vs Warm White = 5.78:1 */
+  --color-warm-white: #fcfbf7; /* Primary page background */
+  --color-soft-sand: #f4f1ea; /* Alternate section background */
+  --color-soft-sage: #e8f1fa; /* Card / hover surface tint biru muda */
+  --color-terracotta: #a5482d; /* Accent / severity-warning badge */
+  --color-terracotta-soft: #f2d9c8; /* Subtle accent background */
+  --color-border: #dce2ea; /* Dividers / card border */
+
+  /* --- Status/severity tokens (BARU untuk Manage — dashboard Action
+     Required §10.2 butuh severity, storefront tidak punya konsep ini) --- */
+  --color-status-critical: #b3261e; /* payment exception, out-of-stock — vs Warm White cukup untuk teks kecil+ikon, bukan body copy panjang */
+  --color-status-warning: #a5482d; /* low stock, fulfillment overdue — pakai terracotta yang sudah ada, konsisten */
+  --color-status-info: #1e5aa8; /* new order, informational — pakai karyalo-green (Royal Blue) yang sudah ada */
+  --color-status-success: #1c7a4d; /* completed / published — BARU, belum ada padanan di storefront */
+
+  /* --- Typography --- */
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  /* --- Layout & spacing ---
+     Admin desktop butuh container lebih lebar dari storefront (data
+     table, side navigation) — 1240px storefront terlalu sempit untuk
+     tabel order/produk. Nilai ini BUKAN dari Design System sumber
+     (yang tidak membahas admin/dashboard secara spesifik) — keputusan
+     praktis prototype, dicatat sebagai INFERENCE di README. */
+  --container-content: 1240px; /* dipakai layar sempit (form, detail) */
+  --container-wide: 1440px; /* dipakai layar lebar (dashboard, tabel) */
+  --radius-card: 18px;
+  --sidebar-width: 264px;
+}
+
+html body {
+  background-color: var(--color-soft-sand);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 15px;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-karyalo-green);
+  outline-offset: 2px;
+}
+
+.tap-target {
+  min-height: 44px;
+  min-width: 44px;
+}

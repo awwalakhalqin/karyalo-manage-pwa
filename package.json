@@ -1,0 +1,30 @@
+{
+  "name": "karyalo-manage-pwa",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Karyalo Commerce Admin / CMS (PWA) — Fase 1: Foundation. Dibangun dari nol sesuai Karyalo_Commerce_Admin_CMS_PRD_v1.0 (bukan fork admin_dashboard Alina) — keputusan pemilik proyek 16 Agustus 2026, konsisten dengan pendekatan Karyalo_Storefront_PWA.",
+  "scripts": {
+    "dev": "next dev -p 3001 --webpack",
+    "dev:turbo": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "convex": "^1.42.1",
+    "lucide-react": "^1.23.0",
+    "next": "16.2.10",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.10",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
