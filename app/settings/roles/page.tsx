@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Shield } from "lucide-react";
+import { Check, Shield, X } from "lucide-react";
 import { BASELINE_ROLES, ROLE_LABEL, CAPABILITY_MATRIX, CapabilitySet } from "@/lib/auth/session-context";
 import { SampleDataBanner } from "@/components/system/SampleDataBanner";
 
@@ -18,26 +18,61 @@ const ROWS: { key: keyof CapabilitySet; label: string; desc: string }[] = [
 ];
 
 /**
- * Matriks Hak Akses Skala UMKM — 3 Role Inti (Owner, Admin Dashboard, Admin Warehouse).
+ * Matriks Hak Akses Skala UMKM — Responsif Mobile & Desktop.
  */
 export default function RolesSettingsPage() {
   return (
-    <div className="mx-auto max-w-(--container-wide) px-4 py-6 md:px-6 md:py-8">
+    <div className="mx-auto max-w-(--container-wide) px-3.5 py-5 sm:px-6 sm:py-8">
       <div className="mb-4">
         <div className="flex items-center gap-2">
           <Shield size={22} className="text-karyalo-green" aria-hidden="true" />
-          <h1 className="text-xl font-bold text-ink md:text-2xl">Hak Akses & Role UMKM</h1>
+          <h1 className="text-lg font-bold text-ink sm:text-2xl">Hak Akses & Role UMKM</h1>
         </div>
-        <p className="mt-1 text-sm text-muted">
+        <p className="mt-1 text-xs text-muted sm:text-sm">
           Struktur hak akses ramping disesuaikan untuk operasional toko UMKM (Owner, Admin Toko, dan Staf Gudang).
         </p>
       </div>
 
       <SampleDataBanner note="Tabel ini mengatur batasan permission secara real-time pada Mode Demo Role Switcher di bilah atas." />
 
-      <div className="overflow-hidden rounded-(--radius-card) border border-border bg-warm-white shadow-xs">
+      {/* Mobile Card View (sm:hidden) */}
+      <div className="flex flex-col gap-3 sm:hidden">
+        {ROWS.map((row) => (
+          <div key={row.key} className="rounded-xl border border-border bg-warm-white p-3.5 shadow-xs">
+            <h2 className="font-semibold text-xs text-ink">{row.label}</h2>
+            <p className="mt-0.5 text-[11px] text-muted">{row.desc}</p>
+            <div className="mt-3 grid grid-cols-3 gap-1.5 border-t border-border/60 pt-2.5">
+              {BASELINE_ROLES.map((role) => {
+                const hasAccess = CAPABILITY_MATRIX[role][row.key];
+                return (
+                  <div
+                    key={role}
+                    className={`flex flex-col items-center justify-center rounded-lg p-1.5 text-center ${
+                      hasAccess ? "bg-soft-sage text-deep-pine" : "bg-soft-sand/60 text-muted/60"
+                    }`}
+                  >
+                    <span className="text-[10px] font-medium leading-tight">
+                      {role === "Owner" ? "Owner" : role === "AdminDashboard" ? "Admin" : "Gudang"}
+                    </span>
+                    <span className="mt-0.5">
+                      {hasAccess ? (
+                        <Check size={12} className="text-karyalo-green stroke-[3]" aria-hidden="true" />
+                      ) : (
+                        <X size={12} className="text-muted/40" aria-hidden="true" />
+                      )}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop Table View (hidden sm:block) */}
+      <div className="hidden overflow-hidden rounded-(--radius-card) border border-border bg-warm-white shadow-xs sm:block">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[640px] text-left text-xs">
+          <table className="w-full text-left text-xs">
             <thead className="border-b border-border bg-soft-sand text-muted">
               <tr>
                 <th className="w-1/2 px-4 py-3.5 font-semibold text-ink">Fitur & Modul</th>

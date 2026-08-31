@@ -121,7 +121,7 @@ export default function IntegrationsSettingsPage() {
               {item.href ? (
                 <Link
                   href={item.href}
-                  className="tap-target inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-deep-pine px-4 py-2 text-xs font-semibold text-warm-white shadow-xs hover:bg-deep-pine/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-karyalo-green sm:self-center"
+                  className="tap-target inline-flex w-full shrink-0 items-center justify-center gap-1.5 rounded-lg bg-deep-pine px-4 py-2.5 text-xs font-semibold text-warm-white shadow-xs hover:bg-deep-pine/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-karyalo-green sm:w-auto sm:self-center sm:py-2"
                 >
                   <span>Kelola Integrasi</span>
                   <ArrowRight size={14} aria-hidden="true" />
@@ -130,7 +130,7 @@ export default function IntegrationsSettingsPage() {
                 <button
                   type="button"
                   disabled
-                  className="inline-flex shrink-0 cursor-not-allowed items-center rounded-lg border border-border bg-soft-sand px-3.5 py-1.5 text-xs font-medium text-muted opacity-70 sm:self-center"
+                  className="inline-flex w-full shrink-0 cursor-not-allowed items-center justify-center rounded-lg border border-border bg-soft-sand px-3.5 py-2 text-xs font-medium text-muted opacity-70 sm:w-auto sm:self-center sm:py-1.5"
                 >
                   Konfigurasi
                 </button>

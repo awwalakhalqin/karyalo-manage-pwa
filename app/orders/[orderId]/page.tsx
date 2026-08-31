@@ -1,6 +1,9 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
+import { ArrowLeft, Truck, CreditCard } from "lucide-react";
 import { getOrderById, getAllOrders } from "@/lib/data/orders";
 import { OrderStatusBadge } from "@/components/orders/OrderStatusBadge";
+import { ChannelBadge } from "@/components/orders/ChannelBadge";
 import { OrderTimeline } from "@/components/orders/OrderTimeline";
 import { OrderCommandBar } from "@/components/orders/OrderCommandBar";
 import { SampleDataBanner } from "@/components/system/SampleDataBanner";
@@ -11,7 +14,7 @@ export async function generateStaticParams() {
   return orders.map((o) => ({ orderId: o.id }));
 }
 
-/** PRD §14.3 Order Detail. */
+/** PRD §14.3 Order Detail — Responsif Mobile & Desktop. */
 export default async function OrderDetailPage({
   params,
 }: {
@@ -22,68 +25,113 @@ export default async function OrderDetailPage({
   if (!order) notFound();
 
   return (
-    <div className="mx-auto flex max-w-(--container-content) flex-col gap-6 px-4 py-6 md:px-6 md:py-8">
+    <div className="mx-auto flex max-w-(--container-content) flex-col gap-5 px-3.5 py-5 sm:px-6 sm:py-8">
+      <div className="flex items-center gap-2">
+        <Link
+          href="/orders"
+          className="inline-flex items-center gap-1.5 text-xs font-medium text-muted hover:text-ink"
+        >
+          <ArrowLeft size={14} aria-hidden="true" />
+          <span>Kembali ke Daftar Order</span>
+        </Link>
+      </div>
+
       <SampleDataBanner />
 
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h1 className="text-xl font-semibold text-ink md:text-2xl">{order.orderNumber}</h1>
-          <p className="text-sm text-muted">{order.customerName} — {order.city} · {order.createdAtLabel}</p>
+      {/* Header Order */}
+      <div className="flex flex-col gap-2 rounded-xl border border-border bg-warm-white p-4 shadow-xs sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-2">
+            <h1 className="text-lg font-bold text-ink sm:text-2xl">{order.orderNumber}</h1>
+            <ChannelBadge channel={order.channel} />
+          </div>
+          {order.channelOrderNumber && (
+            <span className="font-mono text-xs text-muted">
+              No. Pesanan Shopee: <strong>{order.channelOrderNumber}</strong>
+            </span>
+          )}
+          <p className="text-xs text-muted">
+            {order.customerName} • {order.city} · {order.createdAtLabel}
+          </p>
         </div>
-        <OrderStatusBadge status={order.status} />
+        <div className="self-start sm:self-center">
+          <OrderStatusBadge status={order.status} />
+        </div>
       </div>
 
       <OrderCommandBar />
 
-      <div className="grid gap-6 md:grid-cols-[2fr_1fr]">
-        <div className="flex flex-col gap-6">
-          <section className="rounded-(--radius-card) border border-border bg-warm-white p-4">
-            <h2 className="mb-3 text-sm font-semibold text-ink">Item Order</h2>
+      <div className="grid gap-5 md:grid-cols-[2fr_1fr]">
+        <div className="flex flex-col gap-5">
+          {/* Item Order */}
+          <section className="rounded-(--radius-card) border border-border bg-warm-white p-4 shadow-xs">
+            <h2 className="mb-3 text-sm font-semibold text-ink">Item Order ({order.items.length} Produk)</h2>
             <div className="flex flex-col divide-y divide-border">
               {order.items.map((item, i) => (
-                <div key={i} className="flex items-center justify-between gap-3 py-3">
+                <div key={i} className="flex items-start justify-between gap-3 py-3">
                   <div>
-                    <p className="text-sm font-medium text-ink">{item.productName}</p>
+                    <p className="text-sm font-semibold text-ink">{item.productName}</p>
                     <p className="text-xs text-muted">
-                      {item.sku}
-                      {item.variantLabel ? ` · ${item.variantLabel}` : ""} · {item.quantity}x
+                      SKU: <span className="font-mono">{item.sku}</span>
+                      {item.variantLabel ? ` · Varian: ${item.variantLabel}` : ""}
                     </p>
+                    <p className="text-xs text-ink/80 mt-0.5">{item.quantity} × {formatRupiah(item.unitPrice)}</p>
                   </div>
-                  <span className="text-sm font-medium text-ink">{formatRupiah(item.unitPrice * item.quantity)}</span>
+                  <span className="text-sm font-bold text-ink">{formatRupiah(item.unitPrice * item.quantity)}</span>
                 </div>
               ))}
             </div>
-            <div className="mt-3 flex flex-col gap-1 border-t border-border pt-3 text-sm">
+            <div className="mt-3 flex flex-col gap-1.5 border-t border-border pt-3 text-xs sm:text-sm">
               <div className="flex justify-between text-muted">
-                <span>Subtotal</span>
+                <span>Subtotal Produk</span>
                 <span>{formatRupiah(order.subtotal)}</span>
               </div>
               <div className="flex justify-between text-muted">
-                <span>Ongkir</span>
+                <span>Biaya Pengiriman ({order.shippingLabel})</span>
                 <span>{formatRupiah(order.shippingCost)}</span>
               </div>
-              <div className="flex justify-between font-semibold text-ink">
-                <span>Total</span>
-                <span>{formatRupiah(order.total)}</span>
+              <div className="flex justify-between border-t border-border/60 pt-2 text-base font-bold text-ink">
+                <span>Total Pembayaran</span>
+                <span className="text-karyalo-green">{formatRupiah(order.total)}</span>
               </div>
             </div>
           </section>
 
-          <section className="rounded-(--radius-card) border border-border bg-warm-white p-4">
-            <h2 className="mb-3 text-sm font-semibold text-ink">Fulfillment Timeline</h2>
+          {/* Fulfillment Timeline */}
+          <section className="rounded-(--radius-card) border border-border bg-warm-white p-4 shadow-xs">
+            <h2 className="mb-3 text-sm font-semibold text-ink">Timeline Pemrosesan & Logistik</h2>
             <OrderTimeline status={order.status} />
           </section>
         </div>
 
         <div className="flex flex-col gap-4">
-          <section className="rounded-(--radius-card) border border-border bg-warm-white p-4">
-            <h2 className="mb-2 text-sm font-semibold text-ink">Pembayaran</h2>
-            <p className="text-sm text-ink">{order.paymentLabel}</p>
+          {/* Info Pembayaran */}
+          <section className="rounded-(--radius-card) border border-border bg-warm-white p-4 shadow-xs">
+            <div className="flex items-center gap-2 text-deep-pine mb-2">
+              <CreditCard size={16} aria-hidden="true" />
+              <h2 className="text-sm font-semibold text-ink">Metode Pembayaran</h2>
+            </div>
+            <p className="text-xs font-medium text-ink">{order.paymentLabel}</p>
           </section>
-          <section className="rounded-(--radius-card) border border-border bg-warm-white p-4">
-            <h2 className="mb-2 text-sm font-semibold text-ink">Pengiriman</h2>
-            <p className="text-sm text-ink">{order.shippingLabel}</p>
-            <p className="mt-1 text-xs text-muted">{order.city}</p>
+
+          {/* Info Pengiriman & Resi */}
+          <section className="rounded-(--radius-card) border border-border bg-warm-white p-4 shadow-xs">
+            <div className="flex items-center gap-2 text-deep-pine mb-2">
+              <Truck size={16} aria-hidden="true" />
+              <h2 className="text-sm font-semibold text-ink">Informasi Pengiriman</h2>
+            </div>
+            <p className="text-xs font-semibold text-ink">{order.shippingLabel}</p>
+            {order.trackingNumber ? (
+              <div className="mt-2 rounded-lg bg-soft-sand p-2.5">
+                <span className="text-[11px] text-muted block">Nomor Resi Pelacakan:</span>
+                <code className="font-mono text-xs font-bold text-karyalo-green select-all">
+                  {order.trackingNumber}
+                </code>
+              </div>
+            ) : (
+              <p className="mt-1 text-xs text-muted">Belum ada nomor resi diterbitkan.</p>
+            )}
+            <p className="mt-2 text-xs text-muted">Tujuan: <strong>{order.city}</strong></p>
           </section>
         </div>
       </div>

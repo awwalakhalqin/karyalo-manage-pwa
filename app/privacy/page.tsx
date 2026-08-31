@@ -89,7 +89,7 @@ export default function PrivacyPolicyPage() {
               <Server size={18} className="mt-0.5 shrink-0 text-karyalo-green" aria-hidden="true" />
               <div>
                 <strong className="block font-medium text-ink">Kontrol Akses Berbasis Peran (RBAC)</strong>
-                <span className="text-xs text-muted">Akses ke data pelanggan dibatasi ketat melalui capability matrix (9 baseline roles) dan pencatatan audit log.</span>
+                <span className="text-xs text-muted">Akses ke data pelanggan dibatasi ketat melalui capability matrix (3 role inti UMKM) dan pencatatan audit log.</span>
               </div>
             </div>
           </div>
