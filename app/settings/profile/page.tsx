@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useSession, ROLE_LABEL, BaselineRole } from "@/lib/auth/session-context";
+import { useSession, BaselineRole } from "@/lib/auth/session-context";
 import {
   User,
   Mail,
@@ -14,13 +14,12 @@ import {
   Save,
   Laptop,
   Clock,
-  Sparkles,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { userName, userEmail, storeName, role, setRole, logout } = useSession();
+  const { userName, userEmail, storeName, role, logout } = useSession();
 
   const [nameInput, setNameInput] = useState(userName);
   const [phoneInput, setPhoneInput] = useState("+62 812-9876-5432");
@@ -133,35 +132,15 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Kartu Uji Coba Cepat Role (Simulator Demo) */}
-          <div className="rounded-2xl border border-border bg-soft-sand/60 p-4 text-xs">
-            <div className="flex items-center gap-1.5 font-bold text-ink mb-2">
-              <Sparkles size={14} className="text-karyalo-green" aria-hidden="true" />
-              <span>Ganti Role Akun (Demo Simulator)</span>
+          {/* Kartu Deskripsi Wewenang Akun */}
+          <div className="rounded-2xl border border-border bg-warm-white p-4 shadow-2xs text-xs">
+            <div className="flex items-center gap-1.5 font-bold text-ink mb-1.5">
+              <Shield size={15} className="text-karyalo-green" aria-hidden="true" />
+              <span>Deskripsi Wewenang Akun</span>
             </div>
-            <p className="text-muted text-xs leading-relaxed mb-3">
-              Pilih peran di bawah ini untuk mensimulasikan izin akses staf toko secara instan:
+            <p className="text-muted text-xs leading-relaxed">
+              {roleInfo.desc}
             </p>
-            <div className="grid grid-cols-1 gap-1.5">
-              {(["Owner", "AdminDashboard", "AdminWarehouse"] as const).map((r) => {
-                const isCurrent = role === r;
-                return (
-                  <button
-                    key={r}
-                    type="button"
-                    onClick={() => setRole(r)}
-                    className={`tap-target flex items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold transition-colors ${
-                      isCurrent
-                        ? "bg-deep-pine text-warm-white shadow-xs"
-                        : "bg-warm-white border border-border text-ink hover:bg-soft-sage hover:border-karyalo-green"
-                    }`}
-                  >
-                    <span>{ROLE_LABEL[r]}</span>
-                    {isCurrent && <CheckCircle2 size={13} className="text-karyalo-green" />}
-                  </button>
-                );
-              })}
-            </div>
           </div>
         </div>
 
