@@ -15,6 +15,7 @@ import {
   Laptop,
   Clock,
 } from "lucide-react";
+import { SettingsSubNav } from "@/components/settings/SettingsSubNav";
 import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
@@ -67,7 +68,10 @@ export default function ProfilePage() {
   const roleInfo = getRoleBadge(role);
 
   return (
-    <div className="mx-auto max-w-(--container-content) px-3.5 py-5 sm:px-6 sm:py-8">
+    <div className="mx-auto max-w-(--container-content) px-3.5 py-5 pb-24 sm:px-6 sm:py-8 sm:pb-12">
+      {/* Sub-Navigasi Pengaturan Mobile & Desktop */}
+      <SettingsSubNav />
+
       {/* Header Halaman */}
       <div className="mb-6 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
         <div>

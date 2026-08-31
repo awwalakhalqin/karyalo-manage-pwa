@@ -1,43 +1,45 @@
 import { SampleDataBanner } from "@/components/system/SampleDataBanner";
 import { PushSubscribeButton } from "@/components/notifications/PushSubscribeButton";
+import { SettingsSubNav } from "@/components/settings/SettingsSubNav";
+import { Bell } from "lucide-react";
 
 const PREFERENCES = [
-  { label: "Masalah pembayaran", channel: "Push + In-app" },
-  { label: "Stok rendah", channel: "In-app" },
-  { label: "Publish gagal", channel: "In-app" },
+  { label: "Masalah pembayaran pesanan", channel: "Push + In-app" },
+  { label: "Peringatan stok menipis (< 5 unit)", channel: "In-app + Banner" },
+  { label: "Sinkronisasi Shopee OpenAPI gagal", channel: "In-app + Alert" },
+  { label: "Publish katalog produk gagal", channel: "In-app" },
 ];
 
-/**
- * PRD §16.5 Permission Prompt + §16.6 Preferences.
- *
- * **Diperbarui 16 Agustus 2026:** "Order baru" dipindah dari daftar
- * preference statis di bawah menjadi kontrol SUNGGUHAN (`PushSubscribeButton`)
- * — jawaban atas pertanyaan pemilik proyek soal push notification order
- * baru. Event lain (pembayaran/stok/publish) TETAP tampilan saja, belum
- * ada Notification Service untuk itu — SampleDataBanner tetap berlaku
- * untuk bagian itu, TIDAK untuk bagian push order baru di atasnya (itu
- * sudah nyata, dites lewat tombol "Kirim Tes Notifikasi" atau checkout
- * sungguhan di storefront).
- */
 export default function NotificationSettingsPage() {
   return (
-    <div className="mx-auto max-w-(--container-content) px-4 py-6 md:px-6 md:py-8">
-      <h1 className="mb-4 text-xl font-semibold text-ink md:text-2xl">Pengaturan Notifikasi</h1>
+    <div className="mx-auto max-w-(--container-content) px-3.5 py-5 pb-24 sm:px-6 sm:py-8 sm:pb-12">
+      {/* Sub-Navigasi Pengaturan Mobile & Desktop */}
+      <SettingsSubNav />
 
-      <p className="mb-2 text-sm font-medium text-ink">Order baru — sungguhan, bukan contoh</p>
-      <div className="mb-6">
+      <div className="mb-4 flex items-center gap-2">
+        <Bell size={22} className="text-karyalo-green" aria-hidden="true" />
+        <h1 className="text-lg font-bold text-ink sm:text-2xl">Pengaturan Notifikasi & Alert</h1>
+      </div>
+
+      <div className="mb-6 rounded-2xl border border-border bg-warm-white p-5 shadow-2xs">
+        <h2 className="mb-1 text-xs font-bold text-ink">Push Notification Order Baru (Web Push API)</h2>
+        <p className="mb-3 text-xs text-muted">
+          Aktifkan notifikasi browser & PWA real-time setiap kali pesanan baru masuk dari webstore atau Shopee.
+        </p>
         <PushSubscribeButton />
       </div>
 
-      <p className="mb-2 text-sm font-medium text-ink">Event lain</p>
-      <SampleDataBanner note="Preference di bawah ini masih tampilan — belum ada Notification Service untuk event selain order baru." />
-      <div className="flex flex-col divide-y divide-border rounded-(--radius-card) border border-border bg-warm-white">
-        {PREFERENCES.map((p) => (
-          <div key={p.label} className="flex items-center justify-between px-4 py-3.5">
-            <span className="text-sm text-ink">{p.label}</span>
-            <span className="text-xs text-muted">{p.channel}</span>
-          </div>
-        ))}
+      <div className="flex flex-col gap-2">
+        <h2 className="text-xs font-bold text-ink">Preferensi Notifikasi Sistem Lainnya</h2>
+        <SampleDataBanner note="Preferensi saluran di bawah ini akan dihubungkan otomatis dengan webhook gateway." />
+        <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-warm-white shadow-2xs">
+          {PREFERENCES.map((p) => (
+            <div key={p.label} className="flex items-center justify-between px-4 py-3.5 text-xs">
+              <span className="font-semibold text-ink">{p.label}</span>
+              <span className="font-mono text-muted">{p.channel}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

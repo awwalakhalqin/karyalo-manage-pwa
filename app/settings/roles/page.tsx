@@ -3,6 +3,7 @@
 import { Check, Shield, X } from "lucide-react";
 import { BASELINE_ROLES, ROLE_LABEL, CAPABILITY_MATRIX, CapabilitySet } from "@/lib/auth/session-context";
 import { SampleDataBanner } from "@/components/system/SampleDataBanner";
+import { SettingsSubNav } from "@/components/settings/SettingsSubNav";
 
 const ROWS: { key: keyof CapabilitySet; label: string; desc: string }[] = [
   { key: "dashboardRead", label: "Lihat Dashboard", desc: "Akses metrik penjualan, grafik, dan ringkasan harian" },
@@ -22,7 +23,10 @@ const ROWS: { key: keyof CapabilitySet; label: string; desc: string }[] = [
  */
 export default function RolesSettingsPage() {
   return (
-    <div className="mx-auto max-w-(--container-wide) px-3.5 py-5 sm:px-6 sm:py-8">
+    <div className="mx-auto max-w-(--container-wide) px-3.5 py-5 pb-24 sm:px-6 sm:py-8 sm:pb-12">
+      {/* Sub-Navigasi Pengaturan Mobile & Desktop */}
+      <SettingsSubNav />
+
       <div className="mb-4">
         <div className="flex items-center gap-2">
           <Shield size={22} className="text-karyalo-green" aria-hidden="true" />

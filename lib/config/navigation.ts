@@ -121,7 +121,7 @@ export const MENU_NAV: NavItem[] = [
     phaseLabel: "Fase 5 — Notifications & Customers",
   },
   {
-    href: "/settings/store",
+    href: "/settings",
     label: "Settings",
     icon: Settings,
     phaseLabel: "Fase 6-7 — Team, Settings & Hardening",

@@ -16,8 +16,8 @@ export default function MenuPage() {
   );
 
   return (
-    <div className="mx-auto max-w-(--container-content) px-4 py-6 md:px-6 md:py-8">
-      <h1 className="mb-4 text-xl font-semibold text-ink">Menu Layanan</h1>
+    <div className="mx-auto max-w-(--container-content) px-3.5 py-5 pb-24 sm:px-6 sm:py-8 sm:pb-12">
+      <h1 className="mb-4 text-lg font-bold text-ink sm:text-2xl">Menu Layanan</h1>
       <div className="flex flex-col divide-y divide-border rounded-2xl border border-border bg-warm-white shadow-2xs">
         {visibleMenuNav.map((item) => (
           <Link

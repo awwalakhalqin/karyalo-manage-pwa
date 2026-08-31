@@ -3,6 +3,7 @@ import { getTeamMembers } from "@/lib/data/team";
 import { ROLE_LABEL, BaselineRole } from "@/lib/auth/session-context";
 import { SampleDataBanner } from "@/components/system/SampleDataBanner";
 import { PermissionGate } from "@/components/system/PermissionGate";
+import { SettingsSubNav } from "@/components/settings/SettingsSubNav";
 import { Users, Shield, Mail, User } from "lucide-react";
 
 /**
@@ -41,7 +42,10 @@ export default async function TeamSettingsPage() {
   const members = await getTeamMembers();
 
   return (
-    <div className="mx-auto max-w-(--container-content) px-3.5 py-5 sm:px-6 sm:py-8">
+    <div className="mx-auto max-w-(--container-content) px-3.5 py-5 pb-24 sm:px-6 sm:py-8 sm:pb-12">
+      {/* Sub-Navigasi Pengaturan Mobile & Desktop */}
+      <SettingsSubNav />
+
       {/* Header Halaman */}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div>

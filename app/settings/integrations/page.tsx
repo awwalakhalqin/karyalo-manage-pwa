@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, ShoppingBag, CreditCard, Truck, Mail, Database } from "lucide-react";
+import { ArrowRight, CheckCircle2, ShoppingBag, CreditCard, Truck, Mail, Database, Plug } from "lucide-react";
 import { SampleDataBanner } from "@/components/system/SampleDataBanner";
+import { SettingsSubNav } from "@/components/settings/SettingsSubNav";
 
 interface IntegrationItem {
   id: string;
@@ -67,10 +68,16 @@ const INTEGRATIONS: IntegrationItem[] = [
 /** PRD §19.4 Integrations — Multi-channel & External Services Manager */
 export default function IntegrationsSettingsPage() {
   return (
-    <div className="mx-auto max-w-(--container-wide) px-4 py-6 md:px-6 md:py-8">
+    <div className="mx-auto max-w-(--container-wide) px-3.5 py-5 pb-24 sm:px-6 sm:py-8 sm:pb-12">
+      {/* Sub-Navigasi Pengaturan Mobile & Desktop */}
+      <SettingsSubNav />
+
       <div className="mb-4">
-        <h1 className="text-xl font-semibold text-ink md:text-2xl">Integrasi & Channel API</h1>
-        <p className="mt-1 text-sm text-muted">
+        <div className="flex items-center gap-2">
+          <Plug size={22} className="text-karyalo-green" aria-hidden="true" />
+          <h1 className="text-lg font-bold text-ink sm:text-2xl">Integrasi & Channel API</h1>
+        </div>
+        <p className="mt-1 text-xs text-muted sm:text-sm">
           Kelola koneksi marketplace, gateway pembayaran, logistik, dan layanan pihak ketiga.
         </p>
       </div>
