@@ -45,6 +45,7 @@ export default function DashboardPage() {
       color: "text-deep-pine bg-deep-pine/10",
       links: [
         { label: "Semua Order", href: "/orders" },
+        { label: "Pesanan Webstore", href: "/orders/webstore" },
         { label: "Pesanan Shopee", href: "/orders/shopee" },
         { label: "Fulfillment & Resi", href: "/orders/fulfillment" },
       ],

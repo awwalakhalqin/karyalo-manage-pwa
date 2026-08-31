@@ -49,10 +49,11 @@ export const PRIMARY_NAV: NavItem[] = [
     capability: "orderRead",
     children: [
       { href: "/orders", label: "Semua Order", phaseLabel: "Fase 4 — OMS Operations" },
+      { href: "/orders/webstore", label: "Pesanan Webstore", phaseLabel: "Web Storefront PWA" },
       { href: "/orders/shopee", label: "Pesanan Shopee", phaseLabel: "Shopee Open Platform API" },
       { href: "/orders/action-required", label: "Perlu Tindakan", phaseLabel: "Fase 4 — OMS Operations" },
       { href: "/orders/payment-issues", label: "Masalah Pembayaran", phaseLabel: "Fase 4 — OMS Operations" },
-      { href: "/orders/fulfillment", label: "Fulfillment", phaseLabel: "Fase 4 — OMS Operations" },
+      { href: "/orders/fulfillment", label: "Fulfillment & Resi", phaseLabel: "Fase 4 — OMS Operations" },
       { href: "/orders/returns", label: "Retur / Refund", phaseLabel: "Fase 4 — OMS Operations" },
     ],
   },

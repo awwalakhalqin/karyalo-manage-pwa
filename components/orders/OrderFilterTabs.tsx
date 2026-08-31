@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 const TABS = [
   { href: "/orders", label: "Semua" },
+  { href: "/orders/webstore", label: "🌐 Web Storefront" },
   { href: "/orders/shopee", label: "🛒 Shopee" },
   { href: "/orders/action-required", label: "Perlu Tindakan" },
   { href: "/orders/payment-issues", label: "Masalah Bayar" },
@@ -17,7 +18,9 @@ export function OrderFilterTabs() {
   return (
     <div className="mb-4 flex w-full max-w-full min-w-0 items-center gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:pb-0 overscroll-x-contain">
       {TABS.map((tab) => {
-        const isActive = pathname === tab.href;
+        const isActive =
+          pathname === tab.href ||
+          (tab.href === "/orders/webstore" && pathname === "/orders/storefront");
         return (
           <Link
             key={tab.href}

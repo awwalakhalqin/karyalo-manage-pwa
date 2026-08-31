@@ -56,7 +56,7 @@ export default function LoginPage() {
         <p className="mt-1 text-xs text-[#ee4d2d]/80 leading-relaxed">
           Akun uji coba untuk tim audit Shopee Partner. Kredensial telah terisi otomatis di bawah.
         </p>
-        <div className="mt-2.5 rounded-xl bg-warm-white/90 p-2.5 font-mono text-[11px] text-ink border border-[#ee4d2d]/20 space-y-1">
+        <div className="mt-2.5 rounded-xl bg-warm-white/90 p-2.5 font-mono text-xs text-ink border border-[#ee4d2d]/20 space-y-1">
           <div>Username: <strong>shopee.reviewer@karyalo.id</strong></div>
           <div>Password: <strong>ShopeeKaryalo2026!</strong></div>
         </div>
@@ -113,21 +113,21 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={() => handleQuickLogin("Owner")}
-            className="tap-target rounded-xl border border-border bg-soft-sand px-2 py-2 text-center text-[11px] font-semibold text-ink hover:border-karyalo-green hover:bg-soft-sage"
+            className="tap-target rounded-xl border border-border bg-soft-sand px-2 py-2 text-center text-xs font-semibold text-ink hover:border-karyalo-green hover:bg-soft-sage"
           >
             👑 Owner (Full)
           </button>
           <button
             type="button"
             onClick={() => handleQuickLogin("AdminDashboard")}
-            className="tap-target rounded-xl border border-border bg-soft-sand px-2 py-2 text-center text-[11px] font-semibold text-ink hover:border-karyalo-green hover:bg-soft-sage"
+            className="tap-target rounded-xl border border-border bg-soft-sand px-2 py-2 text-center text-xs font-semibold text-ink hover:border-karyalo-green hover:bg-soft-sage"
           >
             💻 Admin Toko
           </button>
           <button
             type="button"
             onClick={() => handleQuickLogin("AdminWarehouse")}
-            className="tap-target rounded-xl border border-border bg-soft-sand px-2 py-2 text-center text-[11px] font-semibold text-ink hover:border-karyalo-green hover:bg-soft-sage"
+            className="tap-target rounded-xl border border-border bg-soft-sand px-2 py-2 text-center text-xs font-semibold text-ink hover:border-karyalo-green hover:bg-soft-sage"
           >
             📦 Gudang
           </button>
