@@ -101,8 +101,8 @@ interface SessionContextValue extends SessionState {
   logout: () => void;
 }
 
-const STORAGE_SESSION_KEY = "karyalo-manage.session.v2";
-const STORAGE_AUTH_KEY = "karyalo-manage.auth.v2";
+const STORAGE_SESSION_KEY = "karyalo-manage.session.v3";
+const STORAGE_AUTH_KEY = "karyalo-manage.auth.v3";
 
 const SessionContext = createContext<SessionContextValue | null>(null);
 
@@ -152,6 +152,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     setUserEmail(email);
     setIsAuthenticated(true);
     try {
+      document.cookie = "karyalo_auth=true; path=/; max-age=604800; SameSite=Lax";
       window.localStorage.setItem(STORAGE_AUTH_KEY, "true");
       window.localStorage.setItem(
         STORAGE_SESSION_KEY,
@@ -165,6 +166,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const logout = useCallback(() => {
     setIsAuthenticated(false);
     try {
+      document.cookie = "karyalo_auth=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
       window.localStorage.removeItem(STORAGE_AUTH_KEY);
     } catch {
       // no-op
