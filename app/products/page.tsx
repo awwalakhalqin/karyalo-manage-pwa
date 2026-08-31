@@ -10,11 +10,11 @@ export default async function ProductsPage() {
   const products = await getAllProducts();
 
   return (
-    <div className="mx-auto max-w-(--container-wide) px-3.5 py-5 sm:px-6 sm:py-8">
+    <div className="mx-auto w-full max-w-(--container-wide) min-w-0 px-3.5 py-5 sm:px-6 sm:py-8 box-border">
       {/* Header Halaman dengan alignment presisi */}
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <div>
-          <h1 className="text-xl font-bold tracking-tight text-ink sm:text-2xl">Katalog Produk</h1>
+      <div className="mb-4 flex items-center justify-between gap-3 min-w-0">
+        <div className="min-w-0">
+          <h1 className="text-xl font-bold tracking-tight text-ink sm:text-2xl truncate">Katalog Produk</h1>
           <p className="mt-0.5 text-xs text-muted sm:text-sm">{products.length} produk terdaftar</p>
         </div>
         <PermissionGate capability="catalogWrite">
@@ -30,8 +30,8 @@ export default async function ProductsPage() {
 
       <SampleDataBanner />
 
-      {/* Filter Tabs Scrollable dengan tinggi seragam h-8 */}
-      <div className="mb-4 flex items-center gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:pb-0">
+      {/* Filter Tabs Scrollable dengan tinggi seragam h-8 & containment */}
+      <div className="mb-4 flex w-full max-w-full min-w-0 items-center gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:pb-0 overscroll-x-contain">
         <Link
           href="/products"
           className="inline-flex h-8 shrink-0 items-center justify-center rounded-full bg-deep-pine px-4 text-xs font-semibold text-warm-white shadow-xs"

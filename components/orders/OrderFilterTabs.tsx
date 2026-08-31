@@ -15,7 +15,7 @@ const TABS = [
 export function OrderFilterTabs() {
   const pathname = usePathname();
   return (
-    <div className="mb-4 flex items-center gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:pb-0">
+    <div className="mb-4 flex w-full max-w-full min-w-0 items-center gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:pb-0 overscroll-x-contain">
       {TABS.map((tab) => {
         const isActive = pathname === tab.href;
         return (

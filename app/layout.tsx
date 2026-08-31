@@ -54,9 +54,9 @@ export default function RootLayout({
             </a>
             <TopBar />
             <ConnectivityBanner />
-            <div className="flex">
+            <div className="flex w-full min-w-0 max-w-full overflow-x-hidden">
               <DesktopSideNavigation />
-              <main id="main-content" className="min-h-[calc(100vh-3.5rem)] flex-1 pb-20 md:pb-0">
+              <main id="main-content" className="min-h-[calc(100vh-3.5rem)] w-full min-w-0 max-w-full flex-1 overflow-x-hidden pb-20 md:pb-0">
                 {children}
               </main>
             </div>

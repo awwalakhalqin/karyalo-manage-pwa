@@ -6,38 +6,38 @@ import { formatRupiah } from "@/lib/utils/currency";
 import { ChevronRight, Truck, User, Calendar } from "lucide-react";
 
 /**
- * PRD §14.2 Order List — Responsif Mobile (Full-width Vertical Cards) & Desktop (Table View).
+ * PRD §14.2 Order List — Responsif Mobile (Full-width Vertical Cards, Zero Overflow) & Desktop (Table View).
  */
 export function OrderList({ orders }: { orders: AdminOrder[] }) {
   if (orders.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-border bg-soft-sand p-8 text-center text-sm text-muted">
+      <div className="w-full rounded-2xl border border-dashed border-border bg-soft-sand p-8 text-center text-sm text-muted">
         Tidak ada order pada tampilan ini.
       </div>
     );
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full min-w-0 max-w-full">
       {/* Mobile Full-width Vertical Card List (md:hidden) */}
-      <div className="flex flex-col gap-3.5 md:hidden">
+      <div className="flex w-full min-w-0 max-w-full flex-col gap-3.5 md:hidden">
         {orders.map((order) => (
           <Link
             key={order.id}
             href={`/orders/${order.id}`}
-            className="group flex flex-col gap-3 rounded-2xl border border-border bg-warm-white p-4 shadow-xs transition-all hover:border-karyalo-green/40 active:scale-[0.99]"
+            className="group box-border flex w-full min-w-0 max-w-full flex-col gap-3 rounded-2xl border border-border bg-warm-white p-4 shadow-xs transition-all hover:border-karyalo-green/40 active:scale-[0.99]"
           >
             {/* Row 1: Order ID + Channel Badge & Status Badge */}
             <div className="flex items-start justify-between gap-2">
-              <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-1.5">
-                  <span className="font-bold text-sm text-ink transition-colors group-hover:text-karyalo-green">
+              <div className="flex flex-col gap-1 min-w-0">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="font-bold text-sm text-ink truncate transition-colors group-hover:text-karyalo-green">
                     {order.orderNumber}
                   </span>
                   <ChannelBadge channel={order.channel} />
                 </div>
                 {order.channelOrderNumber && (
-                  <span className="font-mono text-[11px] text-muted">
+                  <span className="font-mono text-[11px] text-muted truncate">
                     Shopee: {order.channelOrderNumber}
                   </span>
                 )}
@@ -46,32 +46,32 @@ export function OrderList({ orders }: { orders: AdminOrder[] }) {
             </div>
 
             {/* Row 2: Customer & Date Info */}
-            <div className="flex flex-col gap-1 rounded-xl bg-soft-sand/50 p-2.5 text-xs">
-              <div className="flex items-center justify-between text-ink">
-                <div className="flex items-center gap-1.5 font-medium">
-                  <User size={13} className="text-muted" aria-hidden="true" />
-                  <span>{order.customerName}</span>
-                  <span className="text-muted">({order.city})</span>
+            <div className="flex flex-col gap-1 rounded-xl bg-soft-sand/50 p-2.5 text-xs min-w-0">
+              <div className="flex items-center justify-between text-ink min-w-0">
+                <div className="flex items-center gap-1.5 font-medium truncate">
+                  <User size={13} className="text-muted shrink-0" aria-hidden="true" />
+                  <span className="truncate">{order.customerName}</span>
+                  <span className="text-muted shrink-0">({order.city})</span>
                 </div>
               </div>
               <div className="flex items-center gap-1.5 text-[11px] text-muted">
-                <Calendar size={12} aria-hidden="true" />
-                <span>{order.createdAtLabel}</span>
+                <Calendar size={12} className="shrink-0" aria-hidden="true" />
+                <span className="truncate">{order.createdAtLabel}</span>
               </div>
             </div>
 
             {/* Row 3: Courier & Tracking */}
-            <div className="flex items-center justify-between text-xs">
-              <div className="flex items-center gap-1.5 text-muted">
-                <Truck size={13} className="text-karyalo-green" aria-hidden="true" />
-                <span className="font-medium text-ink">{order.shippingLabel}</span>
+            <div className="flex items-center justify-between gap-2 text-xs min-w-0">
+              <div className="flex items-center gap-1.5 text-muted min-w-0 truncate">
+                <Truck size={13} className="text-karyalo-green shrink-0" aria-hidden="true" />
+                <span className="font-medium text-ink truncate">{order.shippingLabel}</span>
               </div>
               {order.trackingNumber ? (
-                <code className="rounded bg-soft-sand px-1.5 py-0.5 font-mono text-[11px] text-muted">
+                <code className="rounded bg-soft-sand px-1.5 py-0.5 font-mono text-[11px] text-muted shrink-0">
                   {order.trackingNumber}
                 </code>
               ) : (
-                <span className="text-[11px] text-muted/60">Belum ada resi</span>
+                <span className="text-[11px] text-muted/60 shrink-0">Belum ada resi</span>
               )}
             </div>
 

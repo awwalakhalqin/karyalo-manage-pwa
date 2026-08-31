@@ -8,10 +8,10 @@ export default async function OrdersPage() {
   const orders = await getAllOrders();
 
   return (
-    <div className="mx-auto max-w-(--container-wide) px-3.5 py-5 sm:px-6 sm:py-8">
+    <div className="mx-auto w-full max-w-(--container-wide) min-w-0 px-3.5 py-5 sm:px-6 sm:py-8 box-border">
       <div className="mb-4">
-        <h1 className="text-lg font-bold text-ink sm:text-2xl">Daftar Pesanan</h1>
-        <p className="text-xs text-muted sm:text-sm">{orders.length} total transaksi masuk</p>
+        <h1 className="text-xl font-bold tracking-tight text-ink sm:text-2xl">Daftar Pesanan</h1>
+        <p className="mt-0.5 text-xs text-muted sm:text-sm">{orders.length} total transaksi masuk</p>
       </div>
       <SampleDataBanner />
       <OrderFilterTabs />
