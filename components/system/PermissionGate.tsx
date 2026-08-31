@@ -5,10 +5,7 @@ import { ShieldAlert } from "lucide-react";
 import { useSession, CapabilitySet } from "@/lib/auth/session-context";
 
 /**
- * PRD §39 Suggested Components — `PermissionGate`. §20.3: "UI hiding
- * bukan security boundary" — komponen ini HANYA menyembunyikan/memberi
- * tahu di sisi tampilan untuk demo perilaku per role; enforcement
- * sungguhan wajib di server/BFF begitu backend ada (belum ada di Fase 1).
+ * PermissionGate — Mengontrol akses fitur berdasarkan capability role aktif
  */
 export function PermissionGate({
   capability,
@@ -21,15 +18,18 @@ export function PermissionGate({
   showDenied?: boolean;
   children: ReactNode;
 }) {
-  const { capabilities, hydrated } = useSession();
+  const { capabilities } = useSession();
 
-  if (!hydrated) return null;
-  if (capabilities[capability]) return <>{children}</>;
+  // Aman di SSR dan Client tanpa menghasilkan hydration mismatch
+  if (capabilities && capabilities[capability]) {
+    return <>{children}</>;
+  }
+
   if (showDenied) {
     return (
-      <div className="flex items-center gap-2 rounded-(--radius-card) border border-border bg-warm-white px-4 py-3 text-sm text-muted">
-        <ShieldAlert size={16} className="shrink-0 text-terracotta" aria-hidden="true" />
-        Role Anda saat ini tidak memiliki akses ke bagian ini.
+      <div className="flex items-center gap-2 rounded-2xl border border-border bg-warm-white px-4 py-3 text-xs text-muted">
+        <ShieldAlert size={16} className="shrink-0 text-status-warning" aria-hidden="true" />
+        <span>Role Anda saat ini tidak memiliki akses ke bagian ini.</span>
       </div>
     );
   }

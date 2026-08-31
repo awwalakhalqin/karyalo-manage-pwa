@@ -44,7 +44,7 @@ export function TopBar() {
             <User size={14} aria-hidden="true" />
           </span>
           <span className="hidden max-w-[8rem] truncate text-xs font-medium lg:inline">
-            {hydrated ? userName : "—"}
+            {userName}
           </span>
         </Link>
       </div>

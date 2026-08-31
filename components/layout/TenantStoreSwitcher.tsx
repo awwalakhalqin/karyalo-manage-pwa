@@ -4,13 +4,10 @@ import { Store, ChevronDown } from "lucide-react";
 import { useSession } from "@/lib/auth/session-context";
 
 /**
- * PRD §8.4 / §39 `TenantStoreSwitcher` — "jika user memiliki akses >1
- * store". Prototype ini hanya 1 store mock, jadi switcher ditampilkan
- * non-interaktif (bukan dropdown kosong yang menyesatkan) — §22
- * Multi-Tenant Isolation belum relevan sampai ada >1 tenant sungguhan.
+ * TenantStoreSwitcher — Menampilkan store aktif secara stabil tanpa mismatch hydration.
  */
 export function TenantStoreSwitcher() {
-  const { storeName, hydrated } = useSession();
+  const { storeName } = useSession();
 
   return (
     <div
@@ -18,7 +15,7 @@ export function TenantStoreSwitcher() {
       title="Hanya satu store pada prototype ini — switcher multi-store belum relevan"
     >
       <Store size={14} aria-hidden="true" />
-      <span className="max-w-[9rem] truncate">{hydrated ? storeName : "—"}</span>
+      <span className="max-w-[9rem] truncate">{storeName}</span>
       <ChevronDown size={12} className="text-muted" aria-hidden="true" />
     </div>
   );
