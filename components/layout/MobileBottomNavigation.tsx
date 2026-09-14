@@ -20,7 +20,7 @@ export function MobileBottomNavigation() {
   return (
     <nav
       aria-label="Navigasi bawah"
-      className="mobile-bottom-nav fixed inset-x-0 bottom-0 z-40 flex border-t border-border bg-warm-white pb-[env(safe-area-inset-bottom)] xl:hidden"
+      className="mobile-bottom-nav fixed inset-x-0 bottom-0 z-40 flex border-t border-border bg-warm-white pb-[env(safe-area-inset-bottom)] lg:hidden"
     >
       {visiblePrimaryNav.map((item) => {
         const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
