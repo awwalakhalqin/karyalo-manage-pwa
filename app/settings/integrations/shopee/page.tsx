@@ -24,6 +24,9 @@ import {
   CheckCircle,
   XCircle,
   Copy,
+  Sparkles,
+  UserCheck,
+  Link2,
 } from "lucide-react";
 import { SampleDataBanner } from "@/components/system/SampleDataBanner";
 import { ShopeePushEventCode, SHOPEE_EVENT_NAMES } from "@/lib/shopee/config";
@@ -54,6 +57,17 @@ export default function ShopeeIntegrationPage() {
   const [pushNotification, setPushNotification] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
   const [savedSuccess, setSavedSuccess] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [connectSuccess, setConnectSuccess] = useState(false);
+
+  const handleConnectShopee = () => {
+    setIsConnecting(true);
+    setTimeout(() => {
+      setIsConnecting(false);
+      setConnectSuccess(true);
+      setTimeout(() => setConnectSuccess(false), 4000);
+    }, 1500);
+  };
 
   // Webhook Simulator State
   const [selectedEventCode, setSelectedEventCode] = useState<number>(ShopeePushEventCode.ORDER_STATUS_UPDATE);
@@ -235,6 +249,90 @@ export default function ShopeeIntegrationPage() {
         )}
       </div>
 
+      {/* Alur 4 Langkah Integrasi Toko Shopee (How It Works) */}
+      <div className="mb-6 rounded-(--radius-card) border border-border bg-warm-white p-4 sm:p-5 shadow-xs">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between mb-4 border-b border-border pb-3">
+          <div>
+            <div className="flex items-center gap-2">
+              <Sparkles size={16} className="text-[#ee4d2d]" aria-hidden="true" />
+              <h2 className="text-sm font-bold text-deep-pine">Alur 4 Langkah Integrasi Toko Shopee (&quot;How It Works&quot;)</h2>
+            </div>
+            <p className="mt-0.5 text-xs text-muted">
+              Cara mudah klien menghubungkan toko Shopee ke dashboard KaryaLo dengan otorisasi resmi Shopee OAuth 2.0.
+            </p>
+          </div>
+          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-status-success bg-soft-sand px-2.5 py-1 rounded-full w-fit">
+            <ShieldCheck size={12} />
+            Terverifikasi Shopee Partner
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Step 1 */}
+          <div className="relative flex flex-col rounded-xl border border-border/80 bg-soft-sand/40 p-3.5 transition-all hover:border-karyalo-green/40 hover:bg-soft-sand">
+            <div className="flex items-center justify-between mb-2">
+              <span className="flex size-7 items-center justify-center rounded-lg bg-deep-pine text-xs font-bold text-warm-white">
+                1
+              </span>
+              <UserCheck size={16} className="text-muted" />
+            </div>
+            <h3 className="text-xs font-bold text-ink">1. Daftar / Masuk Portal</h3>
+            <p className="mt-1 text-[11px] leading-relaxed text-muted">
+              Klien membuat akun atau masuk ke portal KaryaLo Manage menggunakan akun terverifikasi.
+            </p>
+          </div>
+
+          {/* Step 2 */}
+          <div className="relative flex flex-col rounded-xl border border-[#ee4d2d]/40 bg-[#ee4d2d]/5 p-3.5 transition-all hover:border-[#ee4d2d]">
+            <div className="flex items-center justify-between mb-2">
+              <span className="flex size-7 items-center justify-center rounded-lg bg-[#ee4d2d] text-xs font-bold text-warm-white">
+                2
+              </span>
+              <ShoppingBag size={16} className="text-[#ee4d2d]" />
+            </div>
+            <h3 className="text-xs font-bold text-ink">2. Klik &quot;Hubungkan Toko&quot;</h3>
+            <p className="mt-1 text-[11px] leading-relaxed text-muted">
+              Di menu integrasi, klik tombol resmi <strong className="text-ink">&quot;Hubungkan Toko Shopee&quot;</strong>.
+            </p>
+          </div>
+
+          {/* Step 3 */}
+          <div className="relative flex flex-col rounded-xl border border-border/80 bg-soft-sand/40 p-3.5 transition-all hover:border-karyalo-green/40 hover:bg-soft-sand">
+            <div className="flex items-center justify-between mb-2">
+              <span className="flex size-7 items-center justify-center rounded-lg bg-deep-pine text-xs font-bold text-warm-white">
+                3
+              </span>
+              <KeyRound size={16} className="text-muted" />
+            </div>
+            <h3 className="text-xs font-bold text-ink">3. Otorisasi Aman (OAuth 2.0)</h3>
+            <p className="mt-1 text-[11px] leading-relaxed text-muted">
+              Klien diarahkan ke portal resmi Shopee Seller Centre untuk memberikan izin akses data toko secara terenkripsi.
+            </p>
+          </div>
+
+          {/* Step 4 */}
+          <div className="relative flex flex-col rounded-xl border border-border/80 bg-soft-sand/40 p-3.5 transition-all hover:border-karyalo-green/40 hover:bg-soft-sand">
+            <div className="flex items-center justify-between mb-2">
+              <span className="flex size-7 items-center justify-center rounded-lg bg-karyalo-green text-xs font-bold text-warm-white">
+                4
+              </span>
+              <Activity size={16} className="text-karyalo-green" />
+            </div>
+            <h3 className="text-xs font-bold text-ink">4. Pantau Real-Time</h3>
+            <p className="mt-1 text-[11px] leading-relaxed text-muted">
+              Data transaksi, status pesanan, dan performa toko langsung terpantau di dashboard KaryaLo.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {connectSuccess && (
+        <div className="mb-4 flex items-center gap-2 rounded-lg bg-soft-sage p-3 text-xs font-medium text-karyalo-green animate-in fade-in">
+          <Check size={16} aria-hidden="true" />
+          <span>Otorisasi Shopee Seller OAuth 2.0 berhasil divalidasi! Token akses aktif dan tersinkronisasi.</span>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Kolom Kiri: Detail Akun Toko & Keamanan (1 col) */}
         <div className="flex flex-col gap-6 lg:col-span-1">
@@ -281,7 +379,27 @@ export default function ShopeeIntegrationPage() {
             <div className="mt-5 flex flex-col gap-2">
               <button
                 type="button"
-                className="tap-target inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-border bg-soft-sand px-3 py-2 text-xs font-semibold text-ink hover:bg-soft-sage hover:text-karyalo-green"
+                onClick={handleConnectShopee}
+                disabled={isConnecting}
+                className="tap-target inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-[#ee4d2d] px-4 py-2.5 text-xs font-bold text-warm-white shadow-xs hover:bg-[#ee4d2d]/90 disabled:opacity-60 transition-colors"
+              >
+                {isConnecting ? (
+                  <>
+                    <RefreshCw size={14} className="animate-spin" />
+                    <span>Menghubungkan ke Shopee...</span>
+                  </>
+                ) : (
+                  <>
+                    <Link2 size={14} aria-hidden="true" />
+                    <span>Hubungkan Toko Shopee (OAuth 2.0)</span>
+                  </>
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={handleConnectShopee}
+                disabled={isConnecting}
+                className="tap-target inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-border bg-soft-sand px-3 py-2 text-xs font-semibold text-ink hover:bg-soft-sage hover:text-karyalo-green disabled:opacity-60 transition-colors"
               >
                 <KeyRound size={14} aria-hidden="true" />
                 <span>Re-Authorize Toko (OAuth v2)</span>

@@ -17,7 +17,9 @@ export function middleware(request: NextRequest) {
     pathname === "/favicon.ico" ||
     pathname === "/manifest.json" ||
     pathname === "/logo.png" ||
-    pathname === "/login"
+    pathname === "/login" ||
+    pathname === "/privacy" ||
+    pathname === "/terms"
   ) {
     return NextResponse.next();
   }

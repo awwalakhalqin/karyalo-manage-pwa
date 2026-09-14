@@ -17,9 +17,13 @@ const VALID_ACCOUNTS: {
 }[] = [
   {
     emails: [
+      "shopee_reviewer@karyalo.com",
+      "shopee_reviewer@karyalo.id",
+      "shopee_reviewer",
       "shopee.reviewer@karyalo.com",
       "shopee.reviewer@karyalo.id",
       "shopee.reviewer",
+      "shopee-reviewer@karyalo.com",
       "reviewer@karyalo.com",
     ],
     passwords: ["ShopeeKaryalo2026!"],

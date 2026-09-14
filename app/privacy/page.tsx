@@ -60,9 +60,51 @@ export default function PrivacyPolicyPage() {
           </ul>
         </section>
 
+        {/* Integrasi Marketplace Pihak Ketiga (Shopee Open Platform) */}
+        <section className="rounded-(--radius-card) border border-[#ee4d2d]/30 bg-gradient-to-br from-warm-white to-[#ee4d2d]/5 p-6 shadow-xs">
+          <div className="flex items-center gap-2 text-[#ee4d2d]">
+            <ShieldCheck size={20} aria-hidden="true" />
+            <h2 className="text-base font-bold text-deep-pine">
+              3. Integrasi Marketplace Pihak Ketiga (Shopee Open Platform)
+            </h2>
+          </div>
+          <p className="mt-2 text-muted">
+            Dalam memfasilitasi sinkronisasi pesanan, katalog produk, dan logistik melalui Shopee Open Platform OpenAPI v2, Karyalo menetapkan standar perlindungan data yang ketat:
+          </p>
+          <div className="mt-4 flex flex-col gap-3">
+            <div className="flex items-start gap-3 rounded-xl border border-border bg-warm-white p-4">
+              <Lock size={18} className="mt-0.5 shrink-0 text-[#ee4d2d]" aria-hidden="true" />
+              <div>
+                <strong className="block font-medium text-ink">Enkripsi Token Standar Industri (AES-256)</strong>
+                <span className="text-xs text-muted">
+                  Token otorisasi akses toko seller (access token & refresh token) disimpan secara aman menggunakan enkripsi standar industri <strong>AES-256</strong> (<em>encryption at rest</em>) pada infrastruktur tersertifikasi dan tidak pernah disimpan dalam bentuk teks biasa (<em>plaintext</em>).
+                </span>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 rounded-xl border border-border bg-warm-white p-4">
+              <EyeOff size={18} className="mt-0.5 shrink-0 text-[#ee4d2d]" aria-hidden="true" />
+              <div>
+                <strong className="block font-medium text-ink">Larangan Jual-Beli & Monetisasi Data</strong>
+                <span className="text-xs text-muted">
+                  KaryaLo secara tegas <strong>tidak memperjualbelikan, menyewakan, atau mendistribusikan data toko, data transaksi, maupun data pribadi pembeli</strong> ke pihak ketiga manapun untuk tujuan komersial atau periklanan. Seluruh data diproses murni untuk kebutuhan pemenuhan pesanan (<em>order fulfillment</em>) merchant.
+                </span>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 rounded-xl border border-border bg-warm-white p-4">
+              <Server size={18} className="mt-0.5 shrink-0 text-[#ee4d2d]" aria-hidden="true" />
+              <div>
+                <strong className="block font-medium text-ink">Kendali Penuh Pemutusan Integrasi (Revoke / Disconnect)</strong>
+                <span className="text-xs text-muted">
+                  Seller memiliki kontrol penuh untuk memutus integrasi (<em>disconnect / revoke token</em>) kapan saja melalui menu pengaturan integrasi di dashboard KaryaLo maupun secara langsung melalui <strong>Shopee Seller Centre</strong>. Begitu otorisasi diputus, akses token dibatalkan seketika dan penarikan data berhenti secara total.
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Tujuan Pemrosesan */}
         <section className="flex flex-col gap-2">
-          <h2 className="text-base font-semibold text-deep-pine">3. Tujuan Penggunaan Data Shopee API</h2>
+          <h2 className="text-base font-semibold text-deep-pine">4. Tujuan Penggunaan Data Shopee API</h2>
           <p className="text-muted">
             Data yang diterima dari Shopee Open Platform OpenAPI (v2.order, v2.product, v2.logistics) <strong>hanya digunakan untuk</strong>:
           </p>
@@ -76,7 +118,7 @@ export default function PrivacyPolicyPage() {
 
         {/* Keamanan & Enkripsi */}
         <section className="flex flex-col gap-3">
-          <h2 className="text-base font-semibold text-deep-pine">4. Standar Keamanan & Enkripsi</h2>
+          <h2 className="text-base font-semibold text-deep-pine">5. Standar Keamanan Sistem & Enkripsi Jaringan</h2>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div className="flex items-start gap-3 rounded-xl border border-border bg-warm-white p-4">
               <Lock size={18} className="mt-0.5 shrink-0 text-karyalo-green" aria-hidden="true" />
@@ -99,7 +141,7 @@ export default function PrivacyPolicyPage() {
         <section className="rounded-(--radius-card) border border-border bg-soft-sand/60 p-6">
           <div className="flex items-center gap-2 text-deep-pine">
             <FileText size={18} aria-hidden="true" />
-            <h2 className="text-base font-semibold">5. Permintaan Penghapusan Data & Kontak</h2>
+            <h2 className="text-base font-semibold">6. Permintaan Penghapusan Data & Kontak</h2>
           </div>
           <p className="mt-2 text-xs leading-relaxed text-muted">
             Merchant dan pengguna berhak mencabut otorisasi toko (*de-authorize*) sewaktu-waktu melalui dashboard atau Shopee Seller Center. Saat token dicabut, sistem otomatis menghentikan penarikan data. Untuk pertanyaan privasi data, hubungi tim perlindungan data Karyalo di <code className="font-mono text-karyalo-green">privacy@karyalo.com</code>.
