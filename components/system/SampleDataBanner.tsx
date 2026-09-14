@@ -13,15 +13,10 @@ import { FlaskConical } from "lucide-react";
  * data mock apa pun (lihat MetricCard) — itu satu-satunya halaman yang
  * benar-benar dilarang PRD menampilkan angka sales/order/stock contoh.
  */
+/**
+ * SampleDataBanner — Dinonaktifkan agar antarmuka bersih dan seragam dengan standar halaman Home.
+ */
 export function SampleDataBanner({ note }: { note?: string }) {
-  return (
-    <div className="mb-4 flex items-start gap-2 rounded-lg border border-dashed border-accent-cyan bg-soft-sage px-3.5 py-2.5 text-xs text-deep-pine">
-      <FlaskConical size={14} className="mt-0.5 shrink-0" aria-hidden="true" />
-      <span>
-        <strong className="font-semibold">Data contoh (demo)</strong> — bukan
-        data produksi sungguhan, belum tersambung backend apa pun.
-        {note ? ` ${note}` : ""}
-      </span>
-    </div>
-  );
+  // Return null to keep interface clean without noisy disclaimer boxes
+  return null;
 }
