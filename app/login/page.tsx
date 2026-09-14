@@ -120,7 +120,7 @@ export default function LoginPage() {
         </div>
         <h1 className="mt-4 text-xl font-bold text-ink">Masuk ke Karyalo Manage</h1>
         <p className="mt-1 text-xs text-muted">
-          Platform Operasional Toko & Integrasi Shopee OpenAPI v2
+          Sistem Operasional Toko & Integrasi Marketplace
         </p>
       </div>
 
@@ -212,8 +212,8 @@ export default function LoginPage() {
 
       {/* Quick Role Tester */}
       <div className="w-full border-t border-border pt-4">
-        <span className="block text-center text-xs text-muted mb-2.5">
-          Atau isi otomatis & masuk cepat sebagai:
+        <span className="block text-center text-xs text-muted mb-2">
+          Akun uji coba / demo:
         </span>
         <div className="grid grid-cols-3 gap-2">
           <button
@@ -222,7 +222,7 @@ export default function LoginPage() {
             aria-label="Masuk cepat sebagai Owner"
             className="tap-target rounded-xl border border-border bg-soft-sand px-2 py-2 text-center text-xs font-semibold text-ink hover:border-karyalo-green hover:bg-soft-sage transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-karyalo-green"
           >
-            👑 Owner (Full)
+            Owner
           </button>
           <button
             type="button"
@@ -230,7 +230,7 @@ export default function LoginPage() {
             aria-label="Masuk cepat sebagai Admin Toko"
             className="tap-target rounded-xl border border-border bg-soft-sand px-2 py-2 text-center text-xs font-semibold text-ink hover:border-karyalo-green hover:bg-soft-sage transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-karyalo-green"
           >
-            💻 Admin Toko
+            Admin Toko
           </button>
           <button
             type="button"
@@ -238,7 +238,7 @@ export default function LoginPage() {
             aria-label="Masuk cepat sebagai Gudang"
             className="tap-target rounded-xl border border-border bg-soft-sand px-2 py-2 text-center text-xs font-semibold text-ink hover:border-karyalo-green hover:bg-soft-sage transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-karyalo-green"
           >
-            📦 Gudang
+            Gudang
           </button>
         </div>
       </div>

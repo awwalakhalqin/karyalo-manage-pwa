@@ -5,31 +5,19 @@ import { TrendingUp, ShoppingBag, Layers, Globe, PackageCheck, Package } from "l
 import { MetricCard } from "@/components/dashboard/MetricCard";
 import { SalesTrendChart } from "@/components/dashboard/SalesTrendChart";
 import { ORDERS, OrderChannel } from "@/lib/data/orders";
-
-function formatRupiah(amount: number): string {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
+import { formatRupiah } from "@/lib/utils/currency";
 
 export function SalesSummarySection() {
   const [selectedChannel, setSelectedChannel] = useState<"all" | OrderChannel>("all");
 
-  // Filter pesanan berdasarkan kanal yang dipilih
   const filteredOrders = ORDERS.filter((order) => {
     if (selectedChannel === "all") return true;
     return order.channel === selectedChannel;
   });
 
-  // Pesanan aktif (tidak dibatalkan)
   const activeOrders = filteredOrders.filter((o) => o.status !== "cancelled");
-
-  // Total omzet penjualan kotor (GMV)
   const totalSales = activeOrders.reduce((sum, order) => sum + order.total, 0);
 
-  // Breakdown kanal untuk hint
   const shopeeSales = ORDERS.filter(
     (o) => o.channel === "shopee" && o.status !== "cancelled"
   ).reduce((sum, o) => sum + o.total, 0);
@@ -38,87 +26,70 @@ export function SalesSummarySection() {
     (o) => o.channel === "storefront" && o.status !== "cancelled"
   ).reduce((sum, o) => sum + o.total, 0);
 
-  // Hitung status pesanan
   const newCount = filteredOrders.filter((o) => o.status === "new").length;
   const packingCount = filteredOrders.filter(
     (o) => o.status === "processing" || o.status === "fulfillment"
   ).length;
   const readyToShipCount = newCount + packingCount;
 
-  // Total kuantitas produk terjual
   const totalItemsSold = activeOrders.reduce(
     (sum, order) => sum + order.items.reduce((iSum, item) => iSum + item.quantity, 0),
     0
   );
 
   const getSalesHint = () => {
-    if (selectedChannel === "shopee") {
-      return `Omzet real-time via Shopee OpenAPI v2 (${activeOrders.length} pesanan)`;
-    }
-    if (selectedChannel === "storefront") {
-      return `Omzet real-time via Web Storefront PWA (${activeOrders.length} pesanan)`;
-    }
+    if (selectedChannel === "shopee") return `Dari ${activeOrders.length} pesanan Shopee`;
+    if (selectedChannel === "storefront") return `Dari ${activeOrders.length} pesanan Web`;
     return `Shopee: ${formatRupiah(shopeeSales)} • Web: ${formatRupiah(webstoreSales)}`;
   };
 
-  const getOrderHint = () => {
-    return `${newCount} Baru • ${packingCount} Dipacking • ${filteredOrders.filter(o => o.status === "shipped").length} Dikirim`;
-  };
-
   return (
-    <section aria-labelledby="heading-sales-summary" className="flex flex-col gap-4 min-w-0">
+    <section aria-label="Ringkasan Penjualan" className="flex flex-col gap-3 min-w-0">
+      {/* Title & Channel Filter */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h2 id="heading-sales-summary" className="text-xs font-semibold uppercase tracking-wider text-muted">
-            Ikhtisar Penjualan Toko (Cockpit Monitoring)
-          </h2>
-          <p className="text-xs text-muted/80">
-            Metrik operasional real-time terintegrasi Shopee OpenAPI v2 & Storefront PWA.
-          </p>
-        </div>
+        <h2 className="text-xs font-semibold uppercase tracking-wider text-muted">
+          Ringkasan Penjualan Hari Ini
+        </h2>
 
         {/* Channel Filter Chips */}
-        <div className="flex items-center gap-1.5 rounded-xl border border-border bg-warm-white p-1 shadow-2xs">
+        <div className="flex items-center gap-1 rounded-xl border border-border bg-soft-sand p-0.5 text-xs">
           <button
             type="button"
             onClick={() => setSelectedChannel("all")}
-            className={`tap-target flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition-colors ${
+            className={`tap-target rounded-lg px-2.5 py-1 font-medium transition-colors ${
               selectedChannel === "all"
-                ? "bg-deep-pine text-warm-white shadow-2xs"
-                : "text-muted hover:text-ink hover:bg-soft-sand"
+                ? "bg-warm-white text-ink shadow-2xs"
+                : "text-muted hover:text-ink"
             }`}
           >
-            <Layers size={13} aria-hidden="true" />
-            <span>Semua Kanal</span>
+            Semua Kanal
           </button>
           <button
             type="button"
             onClick={() => setSelectedChannel("shopee")}
-            className={`tap-target flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition-colors ${
+            className={`tap-target rounded-lg px-2.5 py-1 font-medium transition-colors ${
               selectedChannel === "shopee"
                 ? "bg-[#ee4d2d] text-warm-white shadow-2xs"
-                : "text-muted hover:text-ink hover:bg-soft-sand"
+                : "text-muted hover:text-ink"
             }`}
           >
-            <ShoppingBag size={13} aria-hidden="true" />
-            <span>Shopee</span>
+            Shopee
           </button>
           <button
             type="button"
             onClick={() => setSelectedChannel("storefront")}
-            className={`tap-target flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition-colors ${
+            className={`tap-target rounded-lg px-2.5 py-1 font-medium transition-colors ${
               selectedChannel === "storefront"
-                ? "bg-karyalo-green text-warm-white shadow-2xs"
-                : "text-muted hover:text-ink hover:bg-soft-sand"
+                ? "bg-deep-pine text-warm-white shadow-2xs"
+                : "text-muted hover:text-ink"
             }`}
           >
-            <Globe size={13} aria-hidden="true" />
-            <span>Webstore</span>
+            Webstore
           </button>
         </div>
       </div>
 
-      {/* 4 Kartu Metrik Monitoring Toko */}
+      {/* 4 Cards */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 min-w-0">
         <MetricCard
           label="Total Omset (GMV)"
@@ -126,38 +97,32 @@ export function SalesSummarySection() {
           hint={getSalesHint()}
           icon={TrendingUp}
           variant="primary"
-          statusBadge={selectedChannel === "all" ? "Multi-Channel" : selectedChannel === "shopee" ? "Shopee API" : "Web PWA"}
         />
         <MetricCard
-          label="Jumlah Pesanan Masuk"
+          label="Pesanan Masuk"
           value={`${filteredOrders.length} Pesanan`}
-          hint={getOrderHint()}
+          hint={`${activeOrders.length} aktif • ${filteredOrders.length - activeOrders.length} batal`}
           icon={ShoppingBag}
-          variant="standard"
           href={selectedChannel === "shopee" ? "/orders/shopee" : "/orders"}
-          statusBadge={`${activeOrders.length} Aktif`}
         />
         <MetricCard
-          label="Pesanan Perlu Dikirim"
+          label="Perlu Dikirim"
           value={`${readyToShipCount} Pesanan`}
-          hint="Siap dipacking & perlu serah terima kurir"
+          hint={`${newCount} baru • ${packingCount} siap packing`}
           icon={PackageCheck}
           variant={readyToShipCount > 0 ? "warning" : "standard"}
           href="/orders/fulfillment"
-          statusBadge="Fulfillment"
         />
         <MetricCard
-          label="Total Produk Terjual"
+          label="Produk Terjual"
           value={`${totalItemsSold} Unit`}
-          hint="Kuantitas item produk dari pesanan aktif"
+          hint="Dari 18 SKU katalog"
           icon={Package}
-          variant="standard"
           href="/products"
-          statusBadge="Katalog Terjual"
         />
       </div>
 
-      {/* Grafik Tren Penjualan Harian & Mingguan */}
+      {/* Chart */}
       <SalesTrendChart />
     </section>
   );
