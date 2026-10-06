@@ -141,3 +141,56 @@ export const MENU_NAV: NavItem[] = [
 ];
 
 export const ALL_NAV: NavItem[] = [...PRIMARY_NAV, ...MENU_NAV];
+
+/**
+ * Rail sections (desktop): satu tombol rail per bagian kerja, panel di
+ * sebelahnya berisi menu bagian itu. Item diambil dari PRIMARY_NAV/MENU_NAV
+ * di atas — tidak ada daftar kedua yang bisa berbeda nama atau capability.
+ */
+export interface NavSection {
+  id: string;
+  label: string;
+  icon: LucideIcon;
+  items: NavItem[];
+}
+
+const byHref = (href: string) => ALL_NAV.find((item) => item.href === href)!;
+
+export const NAV_SECTIONS: NavSection[] = [
+  { id: "home", label: "Beranda", icon: LayoutDashboard, items: [byHref("/"), byHref("/notifications"), byHref("/analytics")] },
+  { id: "orders", label: "Pesanan", icon: ShoppingBag, items: [byHref("/orders"), byHref("/customers")] },
+  { id: "catalog", label: "Katalog", icon: Package, items: [byHref("/products"), byHref("/marketing")] },
+  { id: "storefront", label: "Storefront", icon: LayoutTemplate, items: [byHref("/storefront")] },
+  { id: "settings", label: "Pengaturan", icon: Settings, items: [byHref("/settings")] },
+];
+
+/** Section that owns a path: the deepest matching item wins. */
+export function sectionForPath(pathname: string): NavSection {
+  let best: { section: NavSection; length: number } | null = null;
+  for (const section of NAV_SECTIONS) {
+    for (const item of section.items) {
+      const hrefs = [item.href, ...(item.children ?? []).map((c) => c.href)];
+      for (const href of hrefs) {
+        const match = href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(href + "/");
+        if (match && (!best || href.length > best.length)) best = { section, length: href.length };
+      }
+    }
+  }
+  return best?.section ?? NAV_SECTIONS[0];
+}
+
+/** Human label for a route, used by page tabs and search. */
+export function labelForPath(pathname: string): { label: string; icon: LucideIcon } {
+  let best: { label: string; icon: LucideIcon; length: number } | null = null;
+  for (const item of ALL_NAV) {
+    const candidates = [{ href: item.href, label: item.label }, ...(item.children ?? []).map((c) => ({ href: c.href, label: c.label }))];
+    for (const c of candidates) {
+      const match = c.href === "/" ? pathname === "/" : pathname === c.href || pathname.startsWith(c.href + "/");
+      if (match && (!best || c.href.length > best.length)) best = { label: c.label, icon: item.icon, length: c.href.length };
+    }
+  }
+  if (!best) return { label: pathname, icon: LayoutDashboard };
+  // Detail pages (/orders/ord-2101) read as "<section> · detail".
+  const exact = ALL_NAV.some((i) => i.href === pathname || i.children?.some((c) => c.href === pathname));
+  return { label: exact ? best.label : `${best.label} · Detail`, icon: best.icon };
+}

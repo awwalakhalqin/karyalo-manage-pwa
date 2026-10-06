@@ -1,113 +1,129 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronRight, ShoppingBag } from "lucide-react";
-import { PRIMARY_NAV, MENU_NAV } from "@/lib/config/navigation";
+import { ShoppingBag, Star } from "lucide-react";
+import { NAV_SECTIONS, sectionForPath, labelForPath, type NavItem } from "@/lib/config/navigation";
 import { useSession } from "@/lib/auth/session-context";
+import { ORDERS } from "@/lib/data/orders";
+import { useFavorites } from "@/components/layout/useFavorites";
 
+/**
+ * Desktop navigation in two columns: a rail of work areas and a panel listing
+ * the chosen area's menus. The rail follows the open page; picking another rail
+ * button previews that area's menus without leaving the page.
+ *
+ * Still `.desktop-sidebar`, so the installed PWA (standalone) keeps hiding it in
+ * favour of the bottom navigation — see globals.css.
+ */
 export function DesktopSideNavigation() {
   const pathname = usePathname();
   const { capabilities, role } = useSession();
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const { favorites } = useFavorites();
+  const [sectionId, setSectionId] = useState(() => sectionForPath(pathname).id);
 
-  const toggleSection = (href: string, defaultOpen: boolean) => {
-    setExpanded((prev) => ({
-      ...prev,
-      [href]: prev[href] !== undefined ? !prev[href] : !defaultOpen,
-    }));
-  };
+  useEffect(() => {
+    setSectionId(sectionForPath(pathname).id);
+  }, [pathname]);
 
-  const visiblePrimaryNav = PRIMARY_NAV.filter(
-    (item) => !item.capability || (capabilities && capabilities[item.capability])
+  const allowed = (cap?: string) => !cap || !!(capabilities && capabilities[cap as keyof typeof capabilities]);
+
+  const sections = useMemo(
+    () =>
+      NAV_SECTIONS.map((s) => ({ ...s, items: s.items.filter((i) => allowed(i.capability)) })).filter(
+        (s) => s.items.length > 0
+      ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [capabilities]
   );
+  const section = sections.find((s) => s.id === sectionId) ?? sections[0];
 
-  const visibleMenuNav = MENU_NAV.filter(
-    (item) => !item.capability || (capabilities && capabilities[item.capability])
-  );
+  // Orders still waiting on someone; same flag the Orders page filters on.
+  const actionCount = ORDERS.filter((o) => o.actionRequired).length;
+  const badgeFor = (href: string) => (href === "/orders" && allowed("orderRead") ? actionCount : 0);
+  const sectionBadge = (items: NavItem[]) => items.reduce((n, i) => n + badgeFor(i.href), 0);
 
-  const renderNavSection = (items: typeof visiblePrimaryNav) => (
-    <nav className="flex flex-col gap-0.5">
-      {items.map((item) => {
-        const isExactActive = pathname === item.href;
-        const isParentOfActive = item.href !== "/" && pathname.startsWith(item.href + "/");
-        const isSectionActive = isExactActive || isParentOfActive;
+  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname === href);
+  const isWithin = (href: string) => href !== "/" && pathname.startsWith(href + "/");
 
-        const visibleChildren = item.children?.filter(
-          (child) => !child.capability || (capabilities && capabilities[child.capability])
-        );
-        const hasChildren = visibleChildren && visibleChildren.length > 0;
-        const isExpanded = expanded[item.href] !== undefined ? expanded[item.href] : isSectionActive;
-
-        return (
-          <div key={item.href} className="flex flex-col">
-            <div
-              className={`group flex items-center justify-between rounded-xl px-2.5 py-2 text-[13px] transition-colors ${
-                isExactActive
-                  ? "bg-deep-pine text-warm-white font-semibold shadow-xs"
-                  : isParentOfActive
-                  ? "bg-soft-sand/90 text-deep-pine font-semibold"
-                  : "text-ink/80 hover:bg-soft-sand hover:text-ink font-medium"
+  return (
+    <aside
+      aria-label="Navigasi Utama Admin"
+      className="desktop-sidebar sticky top-14 hidden h-[calc(100vh-3.5rem-2rem)] shrink-0 border-r border-border bg-warm-white lg:flex"
+    >
+      {/* Rail */}
+      <nav aria-label="Bagian kerja" className="flex w-[76px] shrink-0 flex-col items-center gap-1 border-r border-border py-3">
+        {sections.map((s) => {
+          const Icon = s.icon;
+          const selected = s.id === section?.id;
+          const count = sectionBadge(s.items);
+          return (
+            <button
+              key={s.id}
+              type="button"
+              onClick={() => setSectionId(s.id)}
+              aria-pressed={selected}
+              title={s.label}
+              className={`relative flex w-16 flex-col items-center gap-1 rounded-xl px-0.5 py-2 text-[10.5px] font-semibold transition-colors ${
+                selected ? "bg-soft-sage text-karyalo-green" : "text-muted hover:bg-soft-sand hover:text-ink"
               }`}
             >
-              <Link
-                href={item.href}
-                aria-current={isExactActive ? "page" : undefined}
-                className="flex flex-1 items-center gap-2.5 min-w-0"
-              >
-                <item.icon
-                  size={16}
-                  className={`shrink-0 ${
-                    isExactActive
-                      ? "text-warm-white"
-                      : isParentOfActive
-                      ? "text-karyalo-green"
-                      : "text-muted group-hover:text-ink"
-                  }`}
-                  aria-hidden="true"
-                />
-                <span className="truncate">{item.label}</span>
-              </Link>
+              {selected && <span aria-hidden="true" className="absolute -left-1.5 top-2 bottom-2 w-1 rounded-r-full bg-karyalo-green" />}
+              <Icon size={19} aria-hidden="true" />
+              <span className="w-full truncate text-center leading-tight">{s.label}</span>
+              {count > 0 && (
+                <span className="absolute right-2 top-1.5 size-2 rounded-full bg-status-critical ring-2 ring-warm-white" aria-label={`${count} perlu tindakan`} />
+              )}
+            </button>
+          );
+        })}
+      </nav>
 
-              {hasChildren && (
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    toggleSection(item.href, isSectionActive);
-                  }}
-                  aria-label={`Toggle sub-menu ${item.label}`}
-                  className={`ml-1 flex size-6 items-center justify-center rounded-md transition-all ${
-                    isExactActive
-                      ? "hover:bg-white/10 text-warm-white/80"
-                      : "hover:bg-border/60 text-muted group-hover:text-ink"
+      {/* Section panel */}
+      <div className="flex w-56 flex-col overflow-y-auto">
+        <div className="px-4 pb-2 pt-4">
+          <div className="text-[11px] font-bold uppercase tracking-wider text-karyalo-green">Bagian</div>
+          <div className="text-[15px] font-bold text-ink">{section?.label}</div>
+        </div>
+
+        <nav aria-label={`Menu ${section?.label ?? ""}`} className="flex flex-col gap-3 px-2.5 pb-4">
+          {section?.items.map((item) => {
+            const children = (item.children ?? []).filter((c) => allowed(c.capability));
+            const Icon = item.icon;
+            if (children.length === 0) {
+              const active = isActive(item.href) || isWithin(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[13px] transition-colors ${
+                    active ? "bg-soft-sage font-semibold text-ink" : "font-medium text-ink/80 hover:bg-soft-sand"
                   }`}
                 >
-                  <ChevronRight
-                    size={13}
-                    className={`transition-transform duration-200 ${
-                      isExpanded ? "rotate-90" : ""
-                    }`}
-                    aria-hidden="true"
-                  />
-                </button>
-              )}
-            </div>
-
-            {hasChildren && isExpanded && (
-              <div className="my-1 ml-4 flex flex-col gap-0.5 border-l border-border/70 pl-2.5">
-                {visibleChildren.map((child) => {
-                  const isChildActive = pathname === child.href;
+                  <Icon size={15} aria-hidden="true" className={active ? "text-karyalo-green" : "text-muted"} />
+                  <span className="flex-1 truncate">{item.label}</span>
+                  {badgeFor(item.href) > 0 && <CountBadge count={badgeFor(item.href)} />}
+                </Link>
+              );
+            }
+            return (
+              <div key={item.href} className="flex flex-col gap-0.5">
+                <div className="flex items-center gap-2 px-2.5 pb-0.5 text-[11px] font-bold uppercase tracking-wider text-muted">
+                  <Icon size={13} aria-hidden="true" />
+                  <span className="flex-1 truncate">{item.label}</span>
+                  {badgeFor(item.href) > 0 && <CountBadge count={badgeFor(item.href)} />}
+                </div>
+                {children.map((child) => {
+                  const active = pathname === child.href;
                   return (
                     <Link
                       key={child.href}
                       href={child.href}
-                      className={`rounded-lg px-2 py-1.5 text-xs transition-colors ${
-                        isChildActive
-                          ? "bg-soft-sage text-karyalo-green font-semibold shadow-2xs"
-                          : "text-muted hover:bg-soft-sand/70 hover:text-ink font-medium"
+                      aria-current={active ? "page" : undefined}
+                      className={`rounded-lg px-2.5 py-1.5 text-[13px] transition-colors ${
+                        active ? "bg-soft-sage font-semibold text-ink" : "font-medium text-ink/75 hover:bg-soft-sand hover:text-ink"
                       }`}
                     >
                       {child.label}
@@ -115,62 +131,69 @@ export function DesktopSideNavigation() {
                   );
                 })}
               </div>
+            );
+          })}
+
+          <div className="border-t border-border/70 pt-3">
+            <div className="flex items-center gap-1.5 px-2.5 pb-1 text-[11px] font-bold uppercase tracking-wider text-muted">
+              <Star size={12} aria-hidden="true" className="fill-accent-cyan text-accent-cyan" /> Favorit
+            </div>
+            {favorites.length === 0 ? (
+              <p className="px-2.5 text-xs leading-relaxed text-muted">
+                Klik bintang di samping tab halaman untuk menyimpan halaman yang sering dibuka.
+              </p>
+            ) : (
+              favorites.map((href) => {
+                const { label, icon: Icon } = labelForPath(href);
+                const active = pathname === href;
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    aria-current={active ? "page" : undefined}
+                    className={`flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-[13px] transition-colors ${
+                      active ? "bg-soft-sage font-semibold text-ink" : "font-medium text-ink/75 hover:bg-soft-sand"
+                    }`}
+                  >
+                    <Icon size={14} aria-hidden="true" className="text-muted" />
+                    <span className="truncate">{label}</span>
+                  </Link>
+                );
+              })
             )}
           </div>
-        );
-      })}
-    </nav>
-  );
+        </nav>
 
-  return (
-    <aside
-      aria-label="Navigasi Utama Admin"
-      className="desktop-sidebar sticky top-14 hidden h-[calc(100vh-3.5rem)] w-64 shrink-0 flex-col justify-between overflow-y-auto border-r border-border bg-warm-white p-3 lg:flex"
-    >
-      <div className="flex flex-col gap-5">
-        {visiblePrimaryNav.length > 0 && (
-          <div className="flex flex-col gap-1">
-            <span className="px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-muted/70">
-              Menu Utama
-            </span>
-            {renderNavSection(visiblePrimaryNav)}
-          </div>
-        )}
-
-        {visibleMenuNav.length > 0 && (
-          <div className="flex flex-col gap-1 border-t border-border/70 pt-4">
-            <span className="px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-muted/70">
-              Layanan & Pengaturan
-            </span>
-            {renderNavSection(visibleMenuNav)}
+        {role === "Owner" && (
+          <div className="mt-auto border-t border-border/70 p-2.5">
+            <div className="flex items-center justify-between rounded-xl border border-border/80 bg-soft-sand/40 p-2.5">
+              <div className="flex min-w-0 items-center gap-2">
+                <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-[#ee4d2d]/10 text-[#ee4d2d]">
+                  <ShoppingBag size={14} aria-hidden="true" />
+                </span>
+                <div className="flex min-w-0 flex-col">
+                  <span className="truncate text-xs font-semibold text-ink">Shopee Store</span>
+                  <span className="flex items-center gap-1.5 text-[10px] text-muted">
+                    <span className="inline-block size-1.5 rounded-full bg-status-success" />
+                    Terhubung
+                  </span>
+                </div>
+              </div>
+              <Link href="/settings/integrations/shopee" className="shrink-0 rounded-lg px-2 py-1 text-xs font-semibold text-karyalo-green hover:bg-soft-sage/60">
+                Kelola
+              </Link>
+            </div>
           </div>
         )}
       </div>
-
-      {role === "Owner" && (
-        <div className="mt-6 border-t border-border/70 pt-3">
-          <div className="flex items-center justify-between rounded-xl border border-border/80 bg-soft-sand/40 p-2.5">
-            <div className="flex items-center gap-2 min-w-0">
-              <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-[#ee4d2d]/10 text-[#ee4d2d]">
-                <ShoppingBag size={14} aria-hidden="true" />
-              </span>
-              <div className="flex flex-col min-w-0">
-                <span className="truncate text-xs font-semibold text-ink">Shopee Store</span>
-                <span className="flex items-center gap-1.5 text-[10px] text-muted">
-                  <span className="size-1.5 rounded-full bg-status-success inline-block"></span>
-                  Terhubung
-                </span>
-              </div>
-            </div>
-            <Link
-              href="/settings/integrations/shopee"
-              className="shrink-0 rounded-lg px-2 py-1 text-xs font-semibold text-karyalo-green hover:bg-soft-sage/60 transition-colors"
-            >
-              Kelola
-            </Link>
-          </div>
-        </div>
-      )}
     </aside>
+  );
+}
+
+function CountBadge({ count }: { count: number }) {
+  return (
+    <span className="inline-flex min-w-5 items-center justify-center rounded-full bg-status-critical px-1.5 text-[10px] font-bold leading-5 text-warm-white tabular-nums">
+      {count > 99 ? "99+" : count}
+    </span>
   );
 }

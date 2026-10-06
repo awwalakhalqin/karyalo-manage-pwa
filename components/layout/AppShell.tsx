@@ -8,6 +8,9 @@ import { TopBar } from "@/components/layout/TopBar";
 import { DesktopSideNavigation } from "@/components/layout/DesktopSideNavigation";
 import { MobileBottomNavigation } from "@/components/layout/MobileBottomNavigation";
 import { ConnectivityBanner } from "@/components/layout/ConnectivityBanner";
+import { PageTabs } from "@/components/layout/PageTabs";
+import { StatusBar } from "@/components/layout/StatusBar";
+import { CommandPalette } from "@/components/layout/CommandPalette";
 import { ServiceWorkerRegister } from "@/components/system/ServiceWorkerRegister";
 import { Loader2, ShieldAlert, ArrowLeft } from "lucide-react";
 
@@ -73,11 +76,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </a>
       <TopBar />
       <ConnectivityBanner />
-      <div className="flex w-full min-w-0 max-w-full overflow-x-hidden">
+      <div className="flex w-full min-w-0 max-w-full overflow-x-clip">
         <DesktopSideNavigation />
+        <div className="flex min-w-0 flex-1 flex-col">
+        <PageTabs />
         <main
           id="main-content"
-          className="pwa-main-content min-h-[calc(100vh-3.5rem)] w-full min-w-0 max-w-full flex-1 overflow-x-hidden pb-20 lg:pb-0"
+          className="pwa-main-content min-h-[calc(100vh-3.5rem)] w-full min-w-0 max-w-full flex-1 overflow-x-hidden pb-20 lg:min-h-[calc(100vh-3.5rem-2.75rem-2rem)] lg:pb-8"
         >
           {isDenied ? (
             <div className="mx-auto flex max-w-lg flex-col items-center justify-center gap-4 px-4 py-20 text-center">
@@ -105,8 +110,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             children
           )}
         </main>
+        </div>
       </div>
+      <StatusBar />
       <MobileBottomNavigation />
+      <CommandPalette />
       <ServiceWorkerRegister />
     </>
   );
